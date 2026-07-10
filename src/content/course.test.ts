@@ -8,11 +8,28 @@ import {
 } from './courses/payroll/course'
 import type { RegisteredLessonContent } from './courses/payroll/lesson-content'
 import { lessonContentRegistry } from './courses/payroll/lesson-content'
+import { payrollPurposeContent } from './courses/payroll/lesson-content/payroll-foundations/payroll-purpose'
 import { outlineLessons, payrollOutline } from './courses/payroll/outline'
 import { courseOutlineSchema } from './outline-schema'
 import { courseSchema } from './schema'
 
 const cloneOutline = () => structuredClone(payrollOutline) as CourseOutline
+const availableLessonIds = [
+  'payroll-purpose',
+  'payroll-roles',
+  'payroll-inputs',
+  'payroll-month-cycle',
+  'payroll-control-trail',
+]
+
+const outlineWithOnlyFirstAvailable = () => {
+  const outline = cloneOutline()
+  for (const module of outline.modules) {
+    for (const lesson of module.lessons) lesson.status = 'planned'
+  }
+  outline.modules[0].lessons[0].status = 'available'
+  return outline
+}
 
 const createCompleteContent = (moduleId: string): RegisteredLessonContent => {
   const exercises: Exercise[] = Array.from({ length: 5 }, (_, index) => ({
@@ -85,22 +102,103 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje pouze payroll-purpose a ostatní lekce ponechává planned', () => {
-    expect(Object.keys(lessonContentRegistry)).toEqual(['payroll-purpose'])
-    expect(availableLessons.map((lesson) => lesson.id)).toEqual([
-      'payroll-purpose',
-    ])
+  it('publikuje právě pět lekcí prvního modulu', () => {
+    expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
+    expect(availableLessons.map((lesson) => lesson.id)).toEqual(
+      availableLessonIds,
+    )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(1)
+    ).toHaveLength(5)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(193)
+    ).toHaveLength(189)
+    expect(
+      availableLessons.every(
+        (lesson) => lesson.moduleId === 'payroll-foundations',
+      ),
+    ).toBe(true)
+    expect(
+      payrollCourse.modules
+        .slice(1)
+        .every((module) => module.status === 'planned'),
+    ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
-    expect(availableLessons[0].flashcards).toHaveLength(4)
-    expect(availableLessons[0].exercises).toHaveLength(6)
-    expect(availableLessons[0].sources).toHaveLength(5)
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
+  })
+
+  it('dává každé dostupné lekci úplný obsah a správné moduleId', () => {
+    for (const lesson of availableLessons) {
+      const content = lessonContentRegistry[lesson.id]
+      expect(content).toBeDefined()
+      expect(content.moduleId).toBe('payroll-foundations')
+      expect(content.blocks.length).toBeGreaterThanOrEqual(1)
+      expect(content.flashcards.length).toBeGreaterThanOrEqual(3)
+      expect(content.exercises.length).toBeGreaterThanOrEqual(5)
+      expect(content.sources.some((source) => source.kind === 'official')).toBe(
+        true,
+      )
+    }
+  })
+
+  it('má globálně unikátní ID kartiček a cvičení', () => {
+    const contents = Object.values(lessonContentRegistry)
+    const flashcardIds = contents.flatMap((content) =>
+      content.flashcards.map((card) => card.id),
+    )
+    const exerciseIds = contents.flatMap((content) =>
+      content.exercises.map((exercise) => exercise.id),
+    )
+    expect(new Set(flashcardIds).size).toBe(flashcardIds.length)
+    expect(new Set(exerciseIds).size).toBe(exerciseIds.length)
+  })
+
+  it('validuje odkazy správných odpovědí a pořadí kroků', () => {
+    for (const content of Object.values(lessonContentRegistry)) {
+      for (const exercise of content.exercises) {
+        if (exercise.type === 'single_choice') {
+          expect(exercise.options.map((option) => option.id)).toContain(
+            exercise.correctOptionId,
+          )
+        }
+        if (exercise.type === 'multiple_choice') {
+          const optionIds = new Set(exercise.options.map((option) => option.id))
+          expect(
+            exercise.correctOptionIds.every((id) => optionIds.has(id)),
+          ).toBe(true)
+        }
+        if (exercise.type === 'ordering') {
+          const stepIds = exercise.steps.map((step) => step.id).sort()
+          expect([...exercise.correctOrder].sort()).toEqual(stepIds)
+          expect(new Set(exercise.correctOrder).size).toBe(stepIds.length)
+        }
+      }
+    }
+  })
+
+  it('má u všech čtyř nových lekcí legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(1)) {
+      expect(lessonContentRegistry[lessonId].legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: '2026-04-01',
+        verifiedAt: '2026-07-10',
+      })
+    }
+  })
+
+  it('zachovává základní strukturu původní lekce payroll-purpose', () => {
+    expect(payrollPurposeContent.skillIds).toEqual([
+      'payroll-scope',
+      'payroll-input-output',
+      'payroll-control-trail',
+    ])
+    expect(payrollPurposeContent.flashcards).toHaveLength(4)
+    expect(payrollPurposeContent.exercises).toHaveLength(6)
+    expect(payrollPurposeContent.sources).toHaveLength(5)
+    expect(payrollPurposeContent.blocks[0]).toEqual({
+      type: 'heading',
+      text: 'Co je mzdové účetnictví',
+    })
   })
 
   it('odmítne obsah s neznámým lesson ID', () => {
@@ -121,15 +219,14 @@ describe('registr plného obsahu', () => {
   })
 
   it('odmítne available lekci bez registrovaného obsahu', () => {
-    const outline = cloneOutline()
-    outline.modules[0].lessons[0].status = 'available'
+    const outline = outlineWithOnlyFirstAvailable()
     expect(() => buildPayrollCourse(outline, {})).toThrow(
       /nemá registrovaný plný obsah/,
     )
   })
 
   it('spojí available lekci s úplným obsahem a validuje výsledný kurz', () => {
-    const outline = cloneOutline()
+    const outline = outlineWithOnlyFirstAvailable()
     const module = outline.modules[0]
     const lesson = module.lessons[0]
     lesson.status = 'available'

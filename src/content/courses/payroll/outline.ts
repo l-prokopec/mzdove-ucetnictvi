@@ -93,29 +93,41 @@ const modules: OutlineModule[] = [
         ),
         status: 'available',
       },
-      lesson(
-        'payroll-roles',
-        'Role a odpovědnosti',
-        'rozlišit role osob zapojených do zpracování mezd',
-      ),
-      lesson(
-        'payroll-inputs',
-        'Vstupní mzdové podklady',
-        'roztřídit pravidelné a mimořádné mzdové podklady',
-        'process',
-      ),
-      lesson(
-        'payroll-month-cycle',
-        'Průběh mzdového měsíce',
-        'seřadit kroky od uzávěrky vstupů po archivaci',
-        'process',
-      ),
-      lesson(
-        'payroll-control-trail',
-        'Kontrolní stopa a čtyři oči',
-        'navrhnout základní kontrolu zpracované mzdy',
-        'practice',
-      ),
+      {
+        ...lesson(
+          'payroll-roles',
+          'Role a odpovědnosti',
+          'rozlišit role osob zapojených do zpracování mezd',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'payroll-inputs',
+          'Vstupní mzdové podklady',
+          'roztřídit pravidelné a mimořádné mzdové podklady',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'payroll-month-cycle',
+          'Průběh mzdového měsíce',
+          'seřadit kroky od uzávěrky vstupů po archivaci',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'payroll-control-trail',
+          'Kontrolní stopa a čtyři oči',
+          'navrhnout základní kontrolu zpracované mzdy',
+          'practice',
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Převzetí neúplné docházky před uzávěrkou.',
