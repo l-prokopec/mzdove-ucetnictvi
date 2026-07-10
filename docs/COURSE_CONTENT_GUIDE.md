@@ -1,28 +1,25 @@
 # Průvodce obsahem kurzu
 
-## Modul a lekce
+## Jeden zdroj pravdy
 
-Modul přidejte do `src/content/courses/payroll-cz/course.ts` se stabilním, anglickým kebab-case `id`, pořadím, referencí k osnově a stavem `planned` nebo `available`. Lekce musí mít trvale stejné `id`, `moduleId`, cíle, `skillIds`, bloky, nejméně tři kartičky, pět cvičení a zdroj. Jednou publikované ID neměňte: je součástí databázového klíče uživatelského pokroku.
+Master osnova je v `src/content/courses/payroll/outline.ts`. Obsahuje pořadí modulů, prerequisites, plánované lekce, praktické situace, výpočtové příklady a modulové testy. `course.ts` ve stejné složce je pouze technický adapter pro současné UI; ručně do něj obsah nepřidávejte.
 
-Bloky jsou diskriminovaná union podle `type`: `paragraph`, `heading`, `definition`, `list`, `notice`, `example` a `summary`. Nepoužívá se HTML ani Markdown.
+Strukturu osnovy popisuje `src/types/course-outline.ts` a při importu ji validuje `src/content/outline-schema.ts`. Validace kontroluje také unikátní ID a to, že návaznosti odkazují pouze na dříve zařazené moduly a lekce.
 
-## Dovednosti, kartičky a otázky
+## Modul
 
-Každá dovednost má stabilní `skillId`, který sdílí lekce, kartička a cvičení. Kartička vyžaduje `id`, přední a zadní stranu, vysvětlení a dovednosti.
+Nový modul přidejte do pole `modules` se stabilním kebab-case `id`. Vyplňte název, popis, obtížnost, odhad času, prerequisites, learning objectives, kategorii `core` nebo `advanced`, praktické situace, plánované výpočty a tematické zdroje. Modulový test vytváří helper z těchto metadat.
 
-Podporované typy cvičení:
+Kategorie `core` označuje hlavní cestu k samostatnému měsíčnímu zpracování. `advanced` je méně častá nebo specializovaná agenda. Obtížnost je nezávislá na kategorii: i jádrový závěrečný modul může být obtížností pokročilý.
 
-- `single_choice`: možnosti a `correctOptionId`.
-- `multiple_choice`: možnosti a množina `correctOptionIds`; pořadí odpovědí se ignoruje.
-- `numeric`: desetinná očekávaná hodnota a tolerance jako řetězce, jednotka, zaokrouhlení a postup.
-- `short_text`: pole povolených variant a volitelné ignorování diakritiky.
-- `ordering`: kroky a pole ID ve správném pořadí.
-- `self_assessed`: modelové řešení; aplikace vyžádá vlastní sebehodnocení.
+## Plánovaná lekce
 
-Každá otázka musí mít původní vysvětlení správné odpovědi i konkrétní popis časté chyby. Správnou odpověď vždy definujte explicitně, nikdy ji neodvozujte jazykovým modelem.
+Každá lekce má stabilní ID, konkrétní název a popis, čas, learning objectives, návaznosti, typ, stav a příznaky výpočtového příkladu a cvičení. Helper v osnově automaticky nastavuje návaznost na předchozí lekci modulu. Jednou publikované ID neměňte: `lesson_id` je součástí uživatelského pokroku.
 
-## Platnost a zdroje
+Dokud lekce nemá odborně zkontrolované bloky, nejméně tři kartičky, pět cvičení a zdroje, ponechte `status: 'planned'`. Adapter pro UI v takovém případě vytváří prázdné obsahové kolekce a Zod je dovolí pouze plánované lekci. U `available` lekce původní minimální požadavky zůstávají povinné.
 
-U tématu závislého na právní úpravě vyplňte `legalValidity` s rokem a omezením. Zdroj má druh `official`, `didactic` nebo `outline`. Konkrétní sazbu přidejte do `src/content/legal-parameters/cz-2026.ts` pouze s oficiálním zdrojem, datem platnosti a datem ověření. Po změně obsahu spusťte `npm run test` — Zod test zachytí neúplnou strukturu.
+## Tvorba plného obsahu
 
-Nový typ otázky vyžaduje současnou změnu TypeScript union, Zod schématu, validátoru, komponenty formuláře, databázového check constraintu a testů.
+Při zpřístupnění lekce je potřeba doplnit plný objekt podle `src/types/course.ts`: cíle, skill IDs, bloky, kartičky, cvičení, zdroje a případnou legislativní platnost. Správná odpověď a zpětná vazba musí být explicitní a deterministická.
+
+Konkrétní sazbu nebo limit přidejte do `src/content/legal-parameters/cz-2026.ts` pouze s oficiálním zdrojem, dobou platnosti a datem ověření. Po každé změně spusťte `npm run lint`, `npm run typecheck`, `npm run test` a `npm run build`.

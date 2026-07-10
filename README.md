@@ -1,6 +1,6 @@
 # Mzdová akademie
 
-Osobní česká webová aplikace pro systematickou výuku mzdového účetnictví od základních pojmů. První verze obsahuje kompletní technickou aplikaci, 39oblastní osnovu, sedm hotových úvodních lekcí a demonstrační měsíc fiktivní firmy. Nevyužívá AI ani placené runtime služby.
+Osobní česká webová aplikace pro systematickou výuku mzdového účetnictví od základních pojmů. Obsahová vrstva nyní obsahuje novou master osnovu s 30 moduly a 184 konkrétními plánovanými lekcemi. Plné texty lekcí budou vznikat postupně; připravované lekce proto aplikace neprezentuje jako hotový obsah. Nevyužívá AI ani placené runtime služby.
 
 ## Stack a architektura
 

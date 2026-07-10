@@ -17,4 +17,4 @@ Z lokálního souboru `docs/source/mzdy-3-17.pdf` bylo automaticky přečteno 15
 13. Jednotné měsíční hlášení zaměstnavatele
 14. Povinný příspěvek při rizikové práci
 
-Podrobnější tematické větvení je v aplikaci pedagogicky rozděleno do 39 oblastí požadovaných zadáním. Zdrojové PDF je ignorováno Gitem a nevstupuje do buildu.
+Podrobnější tematické větvení je v nové master osnově pedagogicky rozděleno do 30 navazujících modulů. Zdrojové PDF je ignorováno Gitem a nevstupuje do buildu.

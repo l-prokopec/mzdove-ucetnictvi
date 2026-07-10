@@ -88,20 +88,20 @@ const exerciseSchema = z.discriminatedUnion('type', [
   }),
 ])
 
-const lessonSchema = z.object({
-  id: z.string().min(1),
-  moduleId: z.string().min(1),
-  title: z.string().min(1),
-  order: z.number().int().positive(),
-  status: z.enum(['available', 'planned']),
-  objectives: z.array(z.string()).min(1),
-  skillIds: z.array(z.string()).min(1),
-  legalValidity: z
-    .object({ year: z.number().int(), note: z.string() })
-    .optional(),
-  blocks: z.array(blockSchema).min(1),
-  flashcards: z
-    .array(
+const lessonSchema = z
+  .object({
+    id: z.string().min(1),
+    moduleId: z.string().min(1),
+    title: z.string().min(1),
+    order: z.number().int().positive(),
+    status: z.enum(['available', 'planned']),
+    objectives: z.array(z.string()).min(1),
+    skillIds: z.array(z.string()).min(1),
+    legalValidity: z
+      .object({ year: z.number().int(), note: z.string() })
+      .optional(),
+    blocks: z.array(blockSchema),
+    flashcards: z.array(
       z.object({
         id: z.string(),
         front: z.string(),
@@ -109,11 +109,28 @@ const lessonSchema = z.object({
         explanation: z.string(),
         skillIds: z.array(z.string()).min(1),
       }),
-    )
-    .min(3),
-  exercises: z.array(exerciseSchema).min(5),
-  sources: z.array(sourceSchema).min(1),
-})
+    ),
+    exercises: z.array(exerciseSchema),
+    sources: z.array(sourceSchema),
+  })
+  .superRefine((lesson, context) => {
+    if (lesson.status === 'planned') return
+    const requirements = [
+      ['blocks', lesson.blocks.length, 1],
+      ['flashcards', lesson.flashcards.length, 3],
+      ['exercises', lesson.exercises.length, 5],
+      ['sources', lesson.sources.length, 1],
+    ] as const
+    for (const [field, count, minimum] of requirements) {
+      if (count < minimum) {
+        context.addIssue({
+          code: 'custom',
+          path: [field],
+          message: `Dostupná lekce vyžaduje alespoň ${minimum} položek.`,
+        })
+      }
+    }
+  })
 
 export const courseSchema = z.object({
   id: z.string().min(1),

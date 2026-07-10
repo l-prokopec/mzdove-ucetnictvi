@@ -480,7 +480,8 @@ code {
   display: grid;
   gap: 0.7rem;
 }
-.lesson-cards > a {
+.lesson-cards > a,
+.lesson-cards > .planned-lesson-card {
   background: var(--cream);
   border: 1px solid var(--line);
   padding: 1.5rem;
@@ -491,6 +492,10 @@ code {
   text-decoration: none;
   border-radius: 7px;
   transition: 0.2s;
+}
+.lesson-cards > .planned-lesson-card {
+  color: var(--ink);
+  background: #efede6;
 }
 .lesson-cards > a:hover {
   transform: translateX(4px);
@@ -1159,7 +1164,8 @@ summary {
   .module__meta span:not(.status) {
     display: none;
   }
-  .lesson-cards > a {
+  .lesson-cards > a,
+  .lesson-cards > .planned-lesson-card {
     grid-template-columns: 35px 1fr;
   }
   .lesson-cards > a > div:last-child {

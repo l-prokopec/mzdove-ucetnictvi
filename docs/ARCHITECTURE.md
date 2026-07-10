@@ -4,7 +4,9 @@ Aplikace je statický Vite/React klient vhodný pro GitHub Pages. `HashRouter` z
 
 ## Vrstvy
 
-- `src/content`: osnova, lekce, kartičky a předem definovaná zpětná vazba.
+- `src/content/courses/payroll/outline.ts`: jediný zdroj pravdy pro pořadí modulů a plánovaných lekcí.
+- `src/content/courses/payroll/course.ts`: odvozený kompatibilní pohled pro současné UI; neobsahuje vlastní osnovu.
+- `src/content`: Zod validace osnovy, hotových lekcí, kartiček a předem definované zpětné vazby.
 - `src/lib`: konfigurace a čisté deterministické výpočty.
 - `src/services`: malé funkce pro Supabase; UI neobsahuje SQL ani dotazy.
 - `src/features`: autentizace, query hooks a obrazovky.

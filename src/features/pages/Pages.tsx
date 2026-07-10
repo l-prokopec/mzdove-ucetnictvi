@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import {
   availableLessons,
   payrollCourse,
-} from '../../content/courses/payroll-cz/course'
+} from '../../content/courses/payroll/course'
 import { checklistStatus, scoreBand } from '../../lib/exercises'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress } from '../progress/useProgress'
@@ -24,7 +24,10 @@ function useUserProgress() {
 
 export function DashboardPage() {
   const { progress } = useUserProgress()
-  const rows = progress.data ?? []
+  const currentLessonIds = new Set(availableLessons.map((lesson) => lesson.id))
+  const rows = (progress.data ?? []).filter((row) =>
+    currentLessonIds.has(row.lesson_id),
+  )
   const completed = rows.filter((row) => row.status === 'completed').length
   const average = rows.filter((row) => row.last_score != null).length
     ? Math.round(
@@ -32,13 +35,15 @@ export function DashboardPage() {
           rows.filter((row) => row.last_score != null).length,
       )
     : 0
-  const next =
-    availableLessons.find(
-      (lesson) =>
-        !rows.some(
-          (row) => row.lesson_id === lesson.id && row.status === 'completed',
-        ),
-    ) ?? availableLessons[0]
+  const next = availableLessons.find(
+    (lesson) =>
+      !rows.some(
+        (row) => row.lesson_id === lesson.id && row.status === 'completed',
+      ),
+  )
+  const progressPercent = availableLessons.length
+    ? Math.round((completed / availableLessons.length) * 100)
+    : 0
   const recent = [...rows]
     .sort((a, b) => b.last_opened_at.localeCompare(a.last_opened_at))
     .slice(0, 3)
@@ -52,26 +57,30 @@ export function DashboardPage() {
             Pokračujte doporučenou lekcí nebo se vraťte k tématu, které
             potřebuje upevnit.
           </p>
-          <Link
-            className="button button--primary"
-            to={`/course/lesson/${next.id}`}
-          >
-            Pokračovat: {next.title}
-          </Link>
+          {next ? (
+            <Link
+              className="button button--primary"
+              to={`/course/lesson/${next.id}`}
+            >
+              Pokračovat: {next.title}
+            </Link>
+          ) : (
+            <Link className="button button--primary" to="/course">
+              Prohlédnout novou osnovu
+            </Link>
+          )}
         </div>
         <div className="hero__progress">
           <div
             className="ring"
             style={
               {
-                '--progress': `${Math.round((completed / availableLessons.length) * 100)}%`,
+                '--progress': `${progressPercent}%`,
               } as React.CSSProperties
             }
           >
-            <strong>
-              {Math.round((completed / availableLessons.length) * 100)} %
-            </strong>
-            <span>úvodního modulu</span>
+            <strong>{progressPercent} %</strong>
+            <span>dostupného obsahu</span>
           </div>
         </div>
       </div>
@@ -110,9 +119,9 @@ export function DashboardPage() {
           <div className="section-heading">
             <div>
               <div className="eyebrow">Aktuální modul</div>
-              <h2>Úvod do mzdového účetnictví</h2>
+              <h2>Nová master osnova</h2>
             </div>
-            <Link to="/course/module/introduction">Zobrazit modul</Link>
+            <Link to="/course">Zobrazit osnovu</Link>
           </div>
           <div className="lesson-mini-list">
             {availableLessons.slice(0, 4).map((lesson, index) => {
@@ -134,6 +143,11 @@ export function DashboardPage() {
                 </Link>
               )
             })}
+            {availableLessons.length === 0 && (
+              <p className="empty">
+                Všechny nové lekce jsou zatím označené jako připravované.
+              </p>
+            )}
           </div>
         </section>
         <section className="panel">
@@ -171,8 +185,6 @@ export function DashboardPage() {
 }
 
 export function CoursePage() {
-  const { progress } = useUserProgress()
-  const rows = progress.data ?? []
   return (
     <div className="page">
       <div className="page-header">
@@ -185,12 +197,6 @@ export function CoursePage() {
       </div>
       <div className="module-list">
         {payrollCourse.modules.map((module) => {
-          const done = module.lessons.filter((lesson) =>
-            rows.some(
-              (row) =>
-                row.lesson_id === lesson.id && row.status === 'completed',
-            ),
-          ).length
           return (
             <article
               key={module.id}
@@ -211,19 +217,13 @@ export function CoursePage() {
                 </div>
                 <div className="module__meta">
                   <StatusBadge status={module.status} />
-                  {module.status === 'available' && (
-                    <>
-                      <span>
-                        {done} / {module.lessons.length} lekcí
-                      </span>
-                      <Link
-                        className="button button--secondary"
-                        to={`/course/module/${module.id}`}
-                      >
-                        Otevřít modul
-                      </Link>
-                    </>
-                  )}
+                  <span>{module.lessons.length} plánovaných lekcí</span>
+                  <Link
+                    className="button button--secondary"
+                    to={`/course/module/${module.id}`}
+                  >
+                    Zobrazit osnovu
+                  </Link>
                 </div>
               </div>
             </article>
@@ -260,42 +260,44 @@ export function ModulePage() {
         </div>
         <StatusBadge status={module.status} />
       </div>
-      {module.status === 'planned' ? (
-        <div className="empty-state">
-          <h2>Obsah odborně připravujeme</h2>
-          <p>
-            Téma je součástí kompletní osnovy, ale zatím není prezentováno jako
-            hotová lekce.
-          </p>
-        </div>
-      ) : (
-        <div className="lesson-cards">
-          {module.lessons.map((lesson) => {
-            const row = rows.find((item) => item.lesson_id === lesson.id)
+      <div className="lesson-cards">
+        {module.lessons.map((lesson) => {
+          if (lesson.status === 'planned') {
             return (
-              <Link key={lesson.id} to={`/course/lesson/${lesson.id}`}>
+              <article className="planned-lesson-card" key={lesson.id}>
                 <span className="number">
                   {String(lesson.order).padStart(2, '0')}
                 </span>
                 <div>
                   <h2>{lesson.title}</h2>
                   <p>{lesson.objectives.join(' · ')}</p>
-                  <small>
-                    {lesson.flashcards.length} kartičky ·{' '}
-                    {lesson.exercises.length} cvičení
-                  </small>
                 </div>
-                <div>
-                  <StatusBadge status={row?.status ?? 'not_started'} />
-                  {row?.best_score != null && (
-                    <strong>{row.best_score} %</strong>
-                  )}
-                </div>
-              </Link>
+                <StatusBadge status="planned" />
+              </article>
             )
-          })}
-        </div>
-      )}
+          }
+          const row = rows.find((item) => item.lesson_id === lesson.id)
+          return (
+            <Link key={lesson.id} to={`/course/lesson/${lesson.id}`}>
+              <span className="number">
+                {String(lesson.order).padStart(2, '0')}
+              </span>
+              <div>
+                <h2>{lesson.title}</h2>
+                <p>{lesson.objectives.join(' · ')}</p>
+                <small>
+                  {lesson.flashcards.length} kartičky ·{' '}
+                  {lesson.exercises.length} cvičení
+                </small>
+              </div>
+              <div>
+                <StatusBadge status={row?.status ?? 'not_started'} />
+                {row?.best_score != null && <strong>{row.best_score} %</strong>}
+              </div>
+            </Link>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -303,7 +305,9 @@ export function ModulePage() {
 export function ReviewPage() {
   const { client, user, progress } = useUserProgress()
   const weak = (progress.data ?? []).filter(
-    (row) => (row.best_score ?? 100) < 80,
+    (row) =>
+      availableLessons.some((lesson) => lesson.id === row.lesson_id) &&
+      (row.best_score ?? 100) < 80,
   )
   const reviewItems = useQuery({
     queryKey: ['review-items'],
@@ -326,9 +330,25 @@ export function ReviewPage() {
       ])
       if (attempts.error) throw attempts.error
       if (cards.error) throw cards.error
-      return { attempts: attempts.data ?? [], cards: cards.data ?? [] }
+      const currentLessonIds = new Set(
+        availableLessons.map((lesson) => lesson.id),
+      )
+      const currentFlashcardIds = new Set(
+        availableLessons.flatMap((lesson) =>
+          lesson.flashcards.map((card) => card.id),
+        ),
+      )
+      return {
+        attempts: (attempts.data ?? []).filter((attempt) =>
+          currentLessonIds.has(attempt.lesson_id),
+        ),
+        cards: (cards.data ?? []).filter((card) =>
+          currentFlashcardIds.has(card.flashcard_id),
+        ),
+      }
     },
     retry: 1,
+    enabled: availableLessons.length > 0,
   })
   return (
     <div className="page">
@@ -484,8 +504,14 @@ export function ChecklistPage() {
 
 export function StatisticsPage() {
   const { client, user, progress } = useUserProgress()
-  const rows = progress.data ?? []
+  const currentLessonIds = new Set(availableLessons.map((lesson) => lesson.id))
+  const rows = (progress.data ?? []).filter((row) =>
+    currentLessonIds.has(row.lesson_id),
+  )
   const scored = rows.filter((row) => row.best_score != null)
+  const currentFlashcardIds = availableLessons.flatMap((lesson) =>
+    lesson.flashcards.map((card) => card.id),
+  )
   const dueCards = useQuery({
     queryKey: ['due-flashcards-count'],
     queryFn: async () => {
@@ -493,10 +519,12 @@ export function StatisticsPage() {
         .from('flashcard_progress')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
+        .in('flashcard_id', currentFlashcardIds)
         .lte('next_review_at', new Date().toISOString())
       if (error) throw error
       return count ?? 0
     },
+    enabled: currentFlashcardIds.length > 0,
   })
   return (
     <div className="page">

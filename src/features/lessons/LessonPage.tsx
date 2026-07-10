@@ -4,7 +4,7 @@ import {
   availableLessons,
   findLesson,
   payrollCourse,
-} from '../../content/courses/payroll-cz/course'
+} from '../../content/courses/payroll/course'
 import {
   calculateScore,
   evaluateExercise,
@@ -363,6 +363,9 @@ export function LessonPage() {
   const currentIndex = availableLessons.findIndex(
     (item) => item.id === lesson.id,
   )
+  const currentModule = payrollCourse.modules.find(
+    (item) => item.id === lesson.moduleId,
+  )
   const score = calculateScore(evaluations.map((item) => item.score))
   const submit = async (event: FormEvent) => {
     event.preventDefault()
@@ -435,7 +438,9 @@ export function LessonPage() {
         <div className="breadcrumbs">
           <Link to="/course">Kurz</Link>
           <span>/</span>
-          <Link to="/course/module/introduction">Úvodní modul</Link>
+          <Link to={`/course/module/${lesson.moduleId}`}>
+            {currentModule?.title ?? 'Modul'}
+          </Link>
           <span>/</span>Lekce {lesson.order}
         </div>
         <div className="eyebrow">
