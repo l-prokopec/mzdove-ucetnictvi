@@ -1,12 +1,12 @@
 import { z } from 'zod'
 
-const sourceSchema = z.object({
+export const sourceSchema = z.object({
   title: z.string().min(1),
   url: z.url().optional(),
   kind: z.enum(['official', 'didactic', 'outline']),
 })
 
-const blockSchema = z.discriminatedUnion('type', [
+export const blockSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('paragraph'), text: z.string().min(1) }),
   z.object({ type: z.literal('heading'), text: z.string().min(1) }),
   z.object({
@@ -47,7 +47,7 @@ const optionSchema = z.object({
   id: z.string().min(1),
   text: z.string().min(1),
 })
-const exerciseSchema = z.discriminatedUnion('type', [
+export const exerciseSchema = z.discriminatedUnion('type', [
   z.object({
     ...exerciseBase,
     type: z.literal('single_choice'),
@@ -88,6 +88,47 @@ const exerciseSchema = z.discriminatedUnion('type', [
   }),
 ])
 
+export const flashcardSchema = z.object({
+  id: z.string().min(1),
+  front: z.string().min(1),
+  back: z.string().min(1),
+  explanation: z.string().min(1),
+  skillIds: z.array(z.string().min(1)).min(1),
+})
+
+export const legalValiditySchema = z
+  .object({
+    jurisdiction: z.string().min(2),
+    validFrom: z.iso.date(),
+    validTo: z.iso.date().optional(),
+    verifiedAt: z.iso.date(),
+    note: z.string().min(1),
+  })
+  .refine(
+    (validity) => !validity.validTo || validity.validTo >= validity.validFrom,
+    { path: ['validTo'], message: 'Konec platnosti nesmí předcházet počátku.' },
+  )
+
+export const lessonContentSchema = z
+  .object({
+    moduleId: z.string().min(1),
+    skillIds: z.array(z.string().min(1)).min(1),
+    legalValidity: legalValiditySchema,
+    blocks: z.array(blockSchema).min(1),
+    flashcards: z.array(flashcardSchema).min(3),
+    exercises: z.array(exerciseSchema).min(5),
+    sources: z.array(sourceSchema).min(1),
+  })
+  .superRefine((content, context) => {
+    if (!content.sources.some((source) => source.kind === 'official')) {
+      context.addIssue({
+        code: 'custom',
+        path: ['sources'],
+        message: 'Plný obsah lekce vyžaduje alespoň jeden oficiální zdroj.',
+      })
+    }
+  })
+
 const lessonSchema = z
   .object({
     id: z.string().min(1),
@@ -97,19 +138,9 @@ const lessonSchema = z
     status: z.enum(['available', 'planned']),
     objectives: z.array(z.string()).min(1),
     skillIds: z.array(z.string()).min(1),
-    legalValidity: z
-      .object({ year: z.number().int(), note: z.string() })
-      .optional(),
+    legalValidity: legalValiditySchema.optional(),
     blocks: z.array(blockSchema),
-    flashcards: z.array(
-      z.object({
-        id: z.string(),
-        front: z.string(),
-        back: z.string(),
-        explanation: z.string(),
-        skillIds: z.array(z.string()).min(1),
-      }),
-    ),
+    flashcards: z.array(flashcardSchema),
     exercises: z.array(exerciseSchema),
     sources: z.array(sourceSchema),
   })
@@ -129,6 +160,20 @@ const lessonSchema = z
           message: `Dostupná lekce vyžaduje alespoň ${minimum} položek.`,
         })
       }
+    }
+    if (!lesson.legalValidity) {
+      context.addIssue({
+        code: 'custom',
+        path: ['legalValidity'],
+        message: 'Dostupná lekce vyžaduje legislativní metadata.',
+      })
+    }
+    if (!lesson.sources.some((source) => source.kind === 'official')) {
+      context.addIssue({
+        code: 'custom',
+        path: ['sources'],
+        message: 'Dostupná lekce vyžaduje alespoň jeden oficiální zdroj.',
+      })
     }
   })
 

@@ -3,7 +3,10 @@ export type MasteryStatus = 'not_started' | 'partial' | 'mastered'
 export type LessonProgressStatus = 'not_started' | 'in_progress' | 'completed'
 
 export interface LegalValidity {
-  year: number
+  jurisdiction: string
+  validFrom: string
+  validTo?: string
+  verifiedAt: string
   note: string
 }
 

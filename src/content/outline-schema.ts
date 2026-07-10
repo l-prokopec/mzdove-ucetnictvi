@@ -50,7 +50,7 @@ export const courseOutlineSchema = z
     title: z.string().min(3),
     version: z.string().min(1),
     targetOutcome: z.string().min(20),
-    modules: z.array(outlineModuleSchema).min(25).max(30),
+    modules: z.array(outlineModuleSchema).min(1),
   })
   .superRefine((outline, context) => {
     const moduleIds = new Set<string>()

@@ -583,10 +583,24 @@ export function LessonPage() {
           </section>
           <section className="lesson-section lesson-meta">
             <h2>Zdroje a platnost</h2>
-            <p>
-              <strong>Legislativní stav:</strong> {lesson.legalValidity?.year} ·{' '}
-              {lesson.legalValidity?.note}
-            </p>
+            {lesson.legalValidity && (
+              <p>
+                <strong>Legislativní stav:</strong>{' '}
+                {lesson.legalValidity.jurisdiction} · platnost od{' '}
+                <time dateTime={lesson.legalValidity.validFrom}>
+                  {new Intl.DateTimeFormat('cs-CZ').format(
+                    new Date(`${lesson.legalValidity.validFrom}T00:00:00`),
+                  )}
+                </time>{' '}
+                · odborně ověřeno{' '}
+                <time dateTime={lesson.legalValidity.verifiedAt}>
+                  {new Intl.DateTimeFormat('cs-CZ').format(
+                    new Date(`${lesson.legalValidity.verifiedAt}T00:00:00`),
+                  )}
+                </time>
+                . {lesson.legalValidity.note}
+              </p>
+            )}
             <ul>
               {lesson.sources.map((source) => (
                 <li key={source.title}>{source.title}</li>

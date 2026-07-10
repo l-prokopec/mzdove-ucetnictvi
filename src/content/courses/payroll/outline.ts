@@ -450,6 +450,13 @@ const modules: OutlineModule[] = [
         'roztřídit základní, výkonové a mimořádné složky',
       ),
       lesson(
+        'minimum-wage-guaranteed-salary',
+        'Minimální mzda a zaručený plat',
+        'rozlišit minimální mzdu a zaručený plat a promítnout je do kontroly odměny',
+        'worked_example',
+        true,
+      ),
+      lesson(
         'non-wage-benefits',
         'Plnění nemzdové povahy',
         'rozpoznat položky, které nelze automaticky zahrnout do mzdy',
@@ -469,6 +476,74 @@ const modules: OutlineModule[] = [
       'Součet pevné a pohyblivé složky mzdy z explicitně zadaných částek.',
     ],
     sourceTopics: ['PDF kapitola 2 - Základy odměňování'],
+  }),
+  module({
+    id: 'employee-benefits-other-payments',
+    title: 'Zaměstnanecké benefity a ostatní plnění',
+    description:
+      'Klasifikace, ocenění a základní mzdové posouzení peněžních i nepeněžních benefitů a dalších plnění zaměstnavatele.',
+    difficulty: 'intermediate',
+    estimatedMinutes: 220,
+    prerequisites: ['remuneration-basics'],
+    learningObjectives: [
+      'Rozlišit zdanitelná, osvobozená a daňově neutrální plnění zaměstnavatele.',
+      'Určit údaje potřebné pro ocenění a mzdové zpracování nepeněžního benefitu.',
+      'Posoudit vazbu benefitu na daňový a pojistný základ pomocí verzovaných pravidel.',
+    ],
+    category: 'core',
+    lessons: [
+      lesson(
+        'benefit-classification',
+        'Klasifikace zaměstnaneckých benefitů',
+        'rozlišit zdanitelné příjmy, osvobozené příjmy a příjmy, které nejsou předmětem daně',
+      ),
+      lesson(
+        'non-cash-benefits',
+        'Nepeněžní benefity',
+        'určit způsob ocenění a základní mzdové zpracování nepeněžního plnění',
+        'worked_example',
+        true,
+      ),
+      lesson(
+        'benefit-tax-insurance-impact',
+        'Dopad benefitů na daň a pojistné',
+        'propojit benefit se základem daně a vyměřovacími základy zdravotního a sociálního pojištění',
+        'worked_example',
+        true,
+      ),
+      lesson(
+        'employer-retirement-contributions',
+        'Příspěvky zaměstnavatele na produkty spoření na stáří',
+        'rozpoznat potřebné podklady a použít aktuální verzované podmínky pro mzdové posouzení',
+      ),
+      lesson(
+        'hazardous-work-mandatory-contribution',
+        'Povinný příspěvek při rizikové práci',
+        'rozpoznat nárok, evidenční vstupy a vazbu příspěvku na mzdové zpracování bez použití neověřených limitů',
+      ),
+      lesson(
+        'benefits-payroll-case',
+        'Praktický případ zpracování benefitů',
+        'zpracovat kombinaci peněžního a nepeněžního plnění a zdokumentovat daňové a pojistné posouzení',
+        'case_study',
+        true,
+        true,
+        45,
+      ),
+    ],
+    practicalScenarios: [
+      'Kombinace peněžního příspěvku a nepeněžního benefitu v jednom období.',
+      'Povinný příspěvek zaměstnanci vykonávajícímu rizikovou práci.',
+    ],
+    plannedExamples: [
+      'Ocenění nepeněžního benefitu podle explicitně zadaných vstupů.',
+      'Rozdělení benefitů podle dopadu na daň a pojistné při použití verzovaných pravidel.',
+      'Mzdové zpracování příspěvku zaměstnavatele na produkt spoření na stáří.',
+    ],
+    sourceTopics: [
+      'PDF kapitola 2 - Plnění nemzdové povahy',
+      'PDF kapitola 14 - Povinný příspěvek při rizikové práci',
+    ],
   }),
   module({
     id: 'overtime-supplements',
@@ -740,6 +815,7 @@ const modules: OutlineModule[] = [
       'work-obstacles',
       'annual-leave',
       'average-earnings',
+      'employee-benefits-other-payments',
     ],
     learningObjectives: [
       'Přiřadit mzdové podklady ke správnému období a zaměstnanci.',
@@ -806,7 +882,7 @@ const modules: OutlineModule[] = [
       'Základní daňové pojmy, podepsané Prohlášení poplatníka a volba režimu zdanění příjmu.',
     difficulty: 'intermediate',
     estimatedMinutes: 190,
-    prerequisites: ['gross-wage'],
+    prerequisites: ['gross-wage', 'employee-benefits-other-payments'],
     learningObjectives: [
       'Rozpoznat příjem ze závislé činnosti a základní daňové vstupy.',
       'Zkontrolovat použití Prohlášení poplatníka v daném období.',
@@ -932,7 +1008,7 @@ const modules: OutlineModule[] = [
       'Účast, vyměřovací základ, odvody a komunikace se zdravotními pojišťovnami.',
     difficulty: 'intermediate',
     estimatedMinutes: 230,
-    prerequisites: ['gross-wage'],
+    prerequisites: ['gross-wage', 'employee-benefits-other-payments'],
     learningObjectives: [
       'Určit pojistný vztah a příslušnou zdravotní pojišťovnu.',
       'Sestavit vyměřovací základ a použít verzované sazby.',
@@ -995,14 +1071,18 @@ const modules: OutlineModule[] = [
     id: 'social-security',
     title: 'Sociální zabezpečení a komunikace s ČSSZ',
     description:
-      'Účast na pojištění, vyměřovací základ, pojistné a základní formuláře zaměstnavatele vůči ČSSZ.',
+      'Účast na pojištění, evidence zaměstnavatele, registrace zaměstnance přes REGZEC, výpočet pojistného a vykázání údajů prostřednictvím JMHZ.',
     difficulty: 'intermediate',
     estimatedMinutes: 230,
-    prerequisites: ['gross-wage', 'work-agreements'],
+    prerequisites: [
+      'gross-wage',
+      'work-agreements',
+      'employee-benefits-other-payments',
+    ],
     learningObjectives: [
       'Rozpoznat účast zaměstnance na sociálním zabezpečení.',
       'Vypočítat pojistné z explicitně zadaného základu a sazeb.',
-      'Sladit evidenci zaměstnanců, měsíční přehled a platbu ČSSZ.',
+      'Sladit evidenci zaměstnavatele a zaměstnanců, výpočet pojistného, platbu a údaje JMHZ.',
     ],
     category: 'core',
     lessons: [
@@ -1023,23 +1103,42 @@ const modules: OutlineModule[] = [
       ),
       lesson(
         'social-contribution',
-        'Výpočet sociálního pojistného',
-        'vypočítat podíly ze zadaného základu a sazeb',
+        'Výpočet a platba sociálního pojistného',
+        'vypočítat podíly ze zadaného základu a sazeb a připravit kontrolu platby',
         'worked_example',
         true,
       ),
       lesson(
-        'cssz-registration',
-        'Registrace a změny vůči ČSSZ',
-        'sestavit posloupnost registračních a změnových kroků',
+        'social-contribution-discounts',
+        'Slevy na pojistném',
+        'rozpoznat možný nárok zaměstnavatele nebo zaměstnance na slevu a určit potřebné verzované parametry',
+        'worked_example',
+        true,
+      ),
+      lesson(
+        'social-employer-evidence',
+        'Evidence zaměstnavatele v systému JMHZ',
+        'rozlišit přihlášení, doplnění, změnu a odhlášení údajů evidence zaměstnavatele',
         'process',
       ),
       lesson(
-        'social-monthly-report',
-        'Měsíční přehled a platba',
-        'zkontrolovat vazbu souhrnu pojistného a mzdové rekapitulace',
+        'jmhz-employee-registration',
+        'Registrace zaměstnance: JMHZ a REGZEC',
+        'sestavit postup přihlášení, změny a odhlášení zaměstnance v evidenci zaměstnanců přes REGZEC',
+        'process',
+      ),
+      lesson(
+        'social-jmhz-reporting',
+        'Vykázání pojistných údajů prostřednictvím JMHZ',
+        'zkontrolovat vazbu vypočteného pojistného, platby a údajů vykazovaných v měsíčním hlášení',
         'case_study',
         true,
+      ),
+      lesson(
+        'social-preserved-forms',
+        'Zachované formuláře ČSSZ',
+        'odlišit údaje začleněné do JMHZ od formulářů a podání, které zůstávají samostatné',
+        'process',
       ),
     ],
     practicalScenarios: [
@@ -1349,8 +1448,8 @@ const modules: OutlineModule[] = [
       ),
       lesson(
         'event-notifications',
-        'Událostní hlášení zaměstnavatele',
-        'vybrat hlášení vyvolané nástupem, změnou nebo skončením',
+        'Událostní registrace a změny v systému JMHZ',
+        'vybrat registrační nebo změnový krok v REGZEC a odlišit jej od zachovaných událostních podání',
         'process',
       ),
       lesson(
@@ -1791,14 +1890,14 @@ const modules: OutlineModule[] = [
     id: 'pension-insurance-records',
     title: 'Důchodové pojištění a evidenční výstupy',
     description:
-      'Doby pojištění, součinnost zaměstnavatele a ELDP nebo jeho aktuální nástupnická evidence.',
+      'Doby pojištění, vykazování důchodových údajů přes JMHZ od roku 2026 a zachované případy použití ELDP.',
     difficulty: 'advanced',
     estimatedMinutes: 230,
     prerequisites: ['social-security', 'payroll-records-reporting'],
     learningObjectives: [
       'Rozlišit dobu pojištění a vyloučené či náhradní doby relevantní pro evidenci.',
-      'Připravit údaje pro ELDP nebo aktuální nástupnický výstup.',
-      'Provést kontrolu evidenčního výstupu proti mzdovým podkladům.',
+      'Připravit důchodové údaje standardně vykazované prostřednictvím JMHZ od roku 2026.',
+      'Rozpoznat starší, přechodný, opravný nebo vyžádaný případ použití ELDP.',
     ],
     category: 'advanced',
     lessons: [
@@ -1814,18 +1913,24 @@ const modules: OutlineModule[] = [
       ),
       lesson(
         'eldp-purpose',
-        'ELDP a nástupnická evidence',
-        'popsat účel, datové zdroje a aktuální formu evidenčního výstupu',
+        'Důchodová evidence od roku 2026: JMHZ a případy ELDP',
+        'rozlišit standardní vykazování důchodových údajů přes JMHZ a zachované použití ELDP',
       ),
       lesson(
         'eldp-fields',
-        'Identifikační a pojistné údaje',
-        'propojit pole výstupu s personální a mzdovou evidencí',
+        'Údaje důchodového pojištění v JMHZ',
+        'propojit identifikační, pojistné a vyloučené doby s měsíčními daty vykazovanými od roku 2026',
+      ),
+      lesson(
+        'eldp-transitional-cases',
+        'Starší, přechodné a vyžádané případy ELDP',
+        'rozlišit ELDP pro starší období, přechodné situace, opravy a podání na výzvu orgánu sociálního zabezpečení',
+        'process',
       ),
       lesson(
         'eldp-validation',
-        'Kontrola a oprava evidenčního výstupu',
-        'odhalit nesoulad dnů, příjmů a vyloučených dob',
+        'Kontrola důchodových údajů v JMHZ a ELDP',
+        'odhalit nesoulad dnů, příjmů a vyloučených dob podle typu evidenčního výstupu',
         'practice',
         true,
       ),
@@ -1889,11 +1994,6 @@ const modules: OutlineModule[] = [
         'process',
       ),
       lesson(
-        'hazardous-work-contribution',
-        'Povinný příspěvek při rizikové práci',
-        'rozpoznat evidenční vstupy a oddělit je od náhrady za úraz',
-      ),
-      lesson(
         'injury-payroll-case',
         'Mzdový případ pracovního úrazu',
         'sladit nemoc, náhradu mzdy a podklady pro odškodnění',
@@ -1911,10 +2011,7 @@ const modules: OutlineModule[] = [
       'Ztráta na výdělku během pracovní neschopnosti z explicitně zadaných částek.',
       'Kontrola průměrného výdělku použitého pro odškodnění.',
     ],
-    sourceTopics: [
-      'PDF kapitoly 11 a 12 - Náhrada újmy a pracovní úrazy',
-      'PDF kapitola 14 - Povinný příspěvek při rizikové práci',
-    ],
+    sourceTopics: ['PDF kapitoly 11 a 12 - Náhrada újmy a pracovní úrazy'],
   }),
   module({
     id: 'payroll-controls-corrections',

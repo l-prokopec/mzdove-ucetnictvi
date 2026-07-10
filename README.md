@@ -1,6 +1,6 @@
 # Mzdová akademie
 
-Osobní česká webová aplikace pro systematickou výuku mzdového účetnictví od základních pojmů. Obsahová vrstva nyní obsahuje novou master osnovu s 30 moduly a 184 konkrétními plánovanými lekcemi. Plné texty lekcí budou vznikat postupně; připravované lekce proto aplikace neprezentuje jako hotový obsah. Nevyužívá AI ani placené runtime služby.
+Osobní česká webová aplikace pro systematickou výuku mzdového účetnictví od základních pojmů. Obsahová vrstva nyní obsahuje stabilizovanou master osnovu s 31 moduly a 194 konkrétními plánovanými lekcemi. Plné texty lekcí budou vznikat postupně; připravované lekce proto aplikace neprezentuje jako hotový obsah. Nevyužívá AI ani placené runtime služby.
 
 ## Stack a architektura
 
@@ -34,7 +34,7 @@ Push do `master` spustí lint, typecheck, testy, build a oficiální Pages deplo
 
 ## Obsah a legislativa
 
-Obsah verze 2026.1 je studijní pomůcka a nenahrazuje aktuální právní, daňové ani mzdové poradenství. První verze záměrně neobsahuje neověřené sazby, limity ani univerzální kalkulačku čisté mzdy. Postup přidávání lekcí, otázkových typů a legislativních parametrů je v [průvodci obsahem](docs/COURSE_CONTENT_GUIDE.md).
+Obsah verze 2026.2 je studijní pomůcka a nenahrazuje aktuální právní, daňové ani mzdové poradenství. První verze záměrně neobsahuje neověřené sazby, limity ani univerzální kalkulačku čisté mzdy. Postup přidávání lekcí, otázkových typů a legislativních parametrů je v [průvodci obsahem](docs/COURSE_CONTENT_GUIDE.md).
 
 Lokální PDF posloužilo pouze k osnově. Je autorsky chráněným zdrojem, nesmí se publikovat, je ignorováno Gitem a nevstupuje do buildu. Normalizované názvy hlavních kapitol jsou v [PDF osnově](docs/PDF_OUTLINE.md).
 

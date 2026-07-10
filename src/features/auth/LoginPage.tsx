@@ -34,7 +34,7 @@ export function LoginPage({ allowSignUp }: { allowSignUp: boolean }) {
           co už skutečně ovládáte.
         </p>
         <div className="auth-features">
-          <span>30 modulů v nové osnově</span>
+          <span>31 modulů v nové osnově</span>
           <span>Okamžitá zpětná vazba</span>
           <span>Synchronizace pokroku</span>
         </div>

@@ -52,7 +52,7 @@ export function Layout() {
           <Outlet />
         </main>
         <footer>
-          <strong>Studijní obsah: verze 2026.1</strong>
+          <strong>Studijní obsah: verze 2026.2</strong>
           <span>
             Aplikace je studijní pomůcka. Nenahrazuje aktuální právní, daňové
             ani mzdové poradenství.
