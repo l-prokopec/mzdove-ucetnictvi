@@ -14,6 +14,7 @@ type LessonSeed = {
   estimatedMinutes?: number
   hasWorkedExample?: boolean
   hasExercise?: boolean
+  status?: 'planned' | 'available'
 }
 
 type ModuleSeed = Omit<OutlineModule, 'lessons' | 'finalTest'> & {
@@ -54,7 +55,7 @@ const module = (seed: ModuleSeed): OutlineModule => ({
     ],
     prerequisites: index === 0 ? [] : [lessons[index - 1].id],
     lessonType: item.lessonType ?? 'theory',
-    status: 'planned',
+    status: item.status ?? 'planned',
     hasWorkedExample: item.hasWorkedExample ?? false,
     hasExercise: item.hasExercise ?? true,
   })),
@@ -84,11 +85,14 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'payroll-purpose',
-        'Co řeší mzdové účetnictví',
-        'vymezit účel a hranice mzdové agendy',
-      ),
+      {
+        ...lesson(
+          'payroll-purpose',
+          'Co řeší mzdové účetnictví',
+          'vymezit účel a hranice mzdové agendy',
+        ),
+        status: 'available',
+      },
       lesson(
         'payroll-roles',
         'Role a odpovědnosti',

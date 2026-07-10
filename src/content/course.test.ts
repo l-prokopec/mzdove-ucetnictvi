@@ -85,9 +85,21 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('je zatím prázdný a planned lekce bez obsahu jsou platné', () => {
-    expect(lessonContentRegistry).toEqual({})
-    expect(availableLessons).toHaveLength(0)
+  it('publikuje pouze payroll-purpose a ostatní lekce ponechává planned', () => {
+    expect(Object.keys(lessonContentRegistry)).toEqual(['payroll-purpose'])
+    expect(availableLessons.map((lesson) => lesson.id)).toEqual([
+      'payroll-purpose',
+    ])
+    expect(
+      outlineLessons.filter((lesson) => lesson.status === 'available'),
+    ).toHaveLength(1)
+    expect(
+      outlineLessons.filter((lesson) => lesson.status === 'planned'),
+    ).toHaveLength(193)
+    expect(payrollCourse.modules[0].status).toBe('available')
+    expect(availableLessons[0].flashcards).toHaveLength(4)
+    expect(availableLessons[0].exercises).toHaveLength(6)
+    expect(availableLessons[0].sources).toHaveLength(5)
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 

@@ -1,5 +1,8 @@
 import type { LessonContentRegistry } from './types'
+import { payrollFoundationsContent } from './payroll-foundations'
 
 // Obsah se přidává po modulech a explicitně se registruje pod stabilním ID lekce.
 // Registr zůstává prázdný, dokud nevznikne první odborně dokončená lekce.
-export const lessonContentRegistry: LessonContentRegistry = {}
+export const lessonContentRegistry: LessonContentRegistry = {
+  ...payrollFoundationsContent,
+}
