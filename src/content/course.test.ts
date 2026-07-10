@@ -20,6 +20,11 @@ const availableLessonIds = [
   'payroll-inputs',
   'payroll-month-cycle',
   'payroll-control-trail',
+  'dependent-work',
+  'employment-parties',
+  'labour-relations',
+  'equal-treatment',
+  'legal-acts-form',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -102,28 +107,34 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě pět lekcí prvního modulu', () => {
+  it('publikuje právě deset lekcí prvních dvou modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(5)
+    ).toHaveLength(10)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(189)
+    ).toHaveLength(184)
     expect(
-      availableLessons.every(
-        (lesson) => lesson.moduleId === 'payroll-foundations',
-      ),
+      availableLessons
+        .slice(0, 5)
+        .every((lesson) => lesson.moduleId === 'payroll-foundations'),
+    ).toBe(true)
+    expect(
+      availableLessons
+        .slice(5)
+        .every((lesson) => lesson.moduleId === 'labour-law-basics'),
     ).toBe(true)
     expect(
       payrollCourse.modules
-        .slice(1)
+        .slice(2)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
+    expect(payrollCourse.modules[1].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -131,13 +142,23 @@ describe('registr plného obsahu', () => {
     for (const lesson of availableLessons) {
       const content = lessonContentRegistry[lesson.id]
       expect(content).toBeDefined()
-      expect(content.moduleId).toBe('payroll-foundations')
+      expect(content.moduleId).toBe(lesson.moduleId)
       expect(content.blocks.length).toBeGreaterThanOrEqual(1)
       expect(content.flashcards.length).toBeGreaterThanOrEqual(3)
       expect(content.exercises.length).toBeGreaterThanOrEqual(5)
       expect(content.sources.some((source) => source.kind === 'official')).toBe(
         true,
       )
+    }
+  })
+
+  it('má u všech oficiálních zdrojů syntakticky platné URL', () => {
+    for (const content of Object.values(lessonContentRegistry)) {
+      for (const source of content.sources.filter(
+        (candidate) => candidate.kind === 'official' && candidate.url,
+      )) {
+        expect(() => new URL(source.url!)).not.toThrow()
+      }
     }
   })
 
@@ -176,11 +197,11 @@ describe('registr plného obsahu', () => {
     }
   })
 
-  it('má u všech čtyř nových lekcí legislativní metadata', () => {
-    for (const lessonId of availableLessonIds.slice(1)) {
+  it('má u všech lekcí druhého modulu legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(5)) {
       expect(lessonContentRegistry[lessonId].legalValidity).toMatchObject({
         jurisdiction: 'CZ',
-        validFrom: '2026-04-01',
+        validFrom: '2026-01-01',
         verifiedAt: '2026-07-10',
       })
     }

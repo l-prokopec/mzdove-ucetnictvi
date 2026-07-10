@@ -154,32 +154,47 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'dependent-work',
-        'Závislá práce',
-        'rozpoznat charakteristické znaky závislé práce',
-      ),
-      lesson(
-        'employment-parties',
-        'Zaměstnanec a zaměstnavatel',
-        'určit práva a základní povinnosti obou stran',
-      ),
-      lesson(
-        'labour-relations',
-        'Druhy pracovněprávních vztahů',
-        'odlišit pracovní poměr od dohod mimo pracovní poměr',
-      ),
-      lesson(
-        'equal-treatment',
-        'Rovné zacházení a zákaz diskriminace',
-        'identifikovat rizikové rozdíly v zacházení a odměňování',
-      ),
-      lesson(
-        'legal-acts-form',
-        'Forma pracovněprávního jednání',
-        'určit význam písemné formy, lhůt a doručování',
-        'process',
-      ),
+      {
+        ...lesson(
+          'dependent-work',
+          'Závislá práce',
+          'rozpoznat charakteristické znaky závislé práce',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'employment-parties',
+          'Zaměstnanec a zaměstnavatel',
+          'určit práva a základní povinnosti obou stran',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'labour-relations',
+          'Druhy pracovněprávních vztahů',
+          'odlišit pracovní poměr od dohod mimo pracovní poměr',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'equal-treatment',
+          'Rovné zacházení a zákaz diskriminace',
+          'identifikovat rizikové rozdíly v zacházení a odměňování',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'legal-acts-form',
+          'Forma pracovněprávního jednání',
+          'určit význam písemné formy, lhůt a doručování',
+          'process',
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Posouzení znaků závislé práce u modelové spolupráce.',
