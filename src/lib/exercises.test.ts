@@ -8,6 +8,7 @@ import {
   normalizeText,
   roundMoney,
   scoreBand,
+  shuffleOrderingOptions,
 } from './exercises'
 
 const base = {
@@ -95,5 +96,58 @@ describe('deterministické vyhodnocení', () => {
     expect(nextReviewDate('mastered', 2, from).toISOString()).toBe(
       '2026-08-07T10:00:00.000Z',
     )
+  })
+})
+
+describe('prezentační pořadí ordering cvičení', () => {
+  it('zachová všechny kroky a data, ale nikdy nenabídne správné pořadí', () => {
+    const steps = [
+      { id: 'a', text: 'A' },
+      { id: 'b', text: 'B' },
+      { id: 'c', text: 'C' },
+    ]
+    const original = structuredClone(steps)
+    const correctOrder = ['a', 'b', 'c']
+    const shuffled = shuffleOrderingOptions(steps, correctOrder, () => 0.999)
+
+    expect(shuffled.map((step) => step.id)).not.toEqual(correctOrder)
+    expect([...shuffled.map((step) => step.id)].sort()).toEqual(
+      [...correctOrder].sort(),
+    )
+    expect(new Set(shuffled.map((step) => step.id)).size).toBe(3)
+    expect(steps).toEqual(original)
+    expect(correctOrder).toEqual(['a', 'b', 'c'])
+  })
+
+  it('bezpečně obslouží nula, jeden i dva kroky', () => {
+    expect(shuffleOrderingOptions([], [], () => 0)).toEqual([])
+    expect(
+      shuffleOrderingOptions([{ id: 'a', text: 'A' }], ['a'], () => 0),
+    ).toEqual([{ id: 'a', text: 'A' }])
+    expect(
+      shuffleOrderingOptions(
+        [
+          { id: 'a', text: 'A' },
+          { id: 'b', text: 'B' },
+        ],
+        ['a', 'b'],
+        () => 0.999,
+      ).map((step) => step.id),
+    ).toEqual(['b', 'a'])
+  })
+
+  it('vyhodnocuje výhradně zvolená ID proti correctOrder', () => {
+    const exercise: Exercise = {
+      ...base,
+      type: 'ordering',
+      steps: [
+        { id: 'c', text: 'C' },
+        { id: 'a', text: 'A' },
+        { id: 'b', text: 'B' },
+      ],
+      correctOrder: ['a', 'b', 'c'],
+    }
+    expect(evaluateExercise(exercise, ['a', 'b', 'c']).correct).toBe(true)
+    expect(evaluateExercise(exercise, ['c', 'b', 'a']).correct).toBe(false)
   })
 })

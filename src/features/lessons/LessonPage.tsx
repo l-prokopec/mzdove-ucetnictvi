@@ -10,6 +10,7 @@ import {
   evaluateExercise,
   scoreBand,
   scoreLabel,
+  shuffleOrderingOptions,
   type ExerciseAnswer,
 } from '../../lib/exercises'
 import type {
@@ -205,12 +206,16 @@ export function ExerciseField({
   onChange,
   revealed,
   locked = revealed,
+  attemptId = 0,
+  orderingRandom = Math.random,
 }: {
   exercise: Exercise
   value: ExerciseAnswer | undefined
   onChange: (value: ExerciseAnswer) => void
   revealed: boolean
   locked?: boolean
+  attemptId?: number
+  orderingRandom?: () => number
 }) {
   const optionClass = (correct: boolean, selected: boolean) => {
     if (!revealed) return 'option'
@@ -302,48 +307,18 @@ export function ExerciseField({
         />
       </label>
     )
-  if (exercise.type === 'ordering') {
-    const current = Array.isArray(value)
-      ? value
-      : exercise.steps.map((step) => step.id).reverse()
+  if (exercise.type === 'ordering')
     return (
-      <fieldset>
-        <legend>{exercise.prompt}</legend>
-        {exercise.correctOrder.map((_id, index) => (
-          <label key={index}>
-            Krok {index + 1}
-            <select
-              disabled={locked}
-              value={current[index]}
-              onChange={(event) => {
-                const next = [...current]
-                next[index] = event.target.value
-                onChange(next)
-              }}
-            >
-              {exercise.steps.map((step) => (
-                <option key={step.id} value={step.id}>
-                  {step.text}
-                </option>
-              ))}
-            </select>
-          </label>
-        ))}
-        {revealed && (
-          <div className="correct-solution">
-            <strong>Správné pořadí</strong>
-            <ol>
-              {exercise.correctOrder.map((id) => (
-                <li key={id}>
-                  {exercise.steps.find((step) => step.id === id)?.text}
-                </li>
-              ))}
-            </ol>
-          </div>
-        )}
-      </fieldset>
+      <OrderingField
+        exercise={exercise}
+        value={value}
+        onChange={onChange}
+        revealed={revealed}
+        locked={locked}
+        attemptId={attemptId}
+        random={orderingRandom}
+      />
     )
-  }
   const objectValue =
     typeof value === 'object' && !Array.isArray(value) ? value : { text: '' }
   return (
@@ -394,6 +369,72 @@ export function ExerciseField({
   )
 }
 
+export function OrderingField({
+  exercise,
+  value,
+  onChange,
+  revealed,
+  locked,
+  attemptId,
+  random = Math.random,
+}: {
+  exercise: Extract<Exercise, { type: 'ordering' }>
+  value: ExerciseAnswer | undefined
+  onChange: (value: ExerciseAnswer) => void
+  revealed: boolean
+  locked: boolean
+  attemptId: number
+  random?: () => number
+}) {
+  const shuffledSteps = useMemo(() => {
+    void attemptId
+    void exercise.id
+    return shuffleOrderingOptions(exercise.steps, exercise.correctOrder, random)
+  }, [attemptId, exercise.correctOrder, exercise.id, exercise.steps, random])
+  const current = Array.isArray(value)
+    ? value
+    : exercise.correctOrder.map(() => '')
+
+  return (
+    <fieldset>
+      <legend>{exercise.prompt}</legend>
+      {exercise.correctOrder.map((_id, index) => (
+        <label key={`${exercise.id}-position-${index}`}>
+          Krok {index + 1}
+          <select
+            disabled={locked}
+            value={current[index] ?? ''}
+            onChange={(event) => {
+              const next = [...current]
+              next[index] = event.target.value
+              onChange(next)
+            }}
+          >
+            <option value="">Vyberte krok</option>
+            {shuffledSteps.map((step) => (
+              <option key={step.id} value={step.id}>
+                {step.text}
+              </option>
+            ))}
+          </select>
+        </label>
+      ))}
+      {revealed && (
+        <div className="correct-solution">
+          <strong>Správné pořadí</strong>
+          <ol>
+            {exercise.correctOrder.map((id) => (
+              <li key={id}>
+                {exercise.steps.find((step) => step.id === id)?.text}
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+    </fieldset>
+  )
+}
+
 function createProgress(
   lessonId: string,
   existing: LessonProgress | undefined,
@@ -426,6 +467,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
   const saveProgress = useSaveProgress(client, user!.id)
   const existing = progress.data?.find((row) => row.lesson_id === lessonId)
   const [answers, setAnswers] = useState<Record<string, ExerciseAnswer>>({})
+  const [attemptId, setAttemptId] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [noteOverride, setNoteOverride] = useState<string | null>(null)
   const [noteState, setNoteState] = useState('')
@@ -483,6 +525,11 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
       return (
         answer == null ||
         answer === '' ||
+        ((exercise.type === 'multiple_choice' ||
+          exercise.type === 'ordering') &&
+          (!Array.isArray(answer) ||
+            answer.length === 0 ||
+            answer.some((item) => item === ''))) ||
         (exercise.type === 'self_assessed' &&
           typeof answer === 'object' &&
           !Array.isArray(answer) &&
@@ -547,6 +594,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
     setAnswers({})
     setSubmitted(false)
     setError('')
+    setAttemptId((current) => current + 1)
   }
   return (
     <div className="lesson-page">
@@ -642,6 +690,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
                         exercise.type === 'self_assessed')
                     }
                     locked={submitted}
+                    attemptId={attemptId}
                   />
                   {submitted && (
                     <div className="feedback" role="status">

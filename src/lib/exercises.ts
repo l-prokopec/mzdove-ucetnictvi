@@ -7,6 +7,38 @@ export type ExerciseAnswer =
   | { text: string; selfRating?: 'failed' | 'partial' | 'mastered' }
 export type Evaluation = { correct: boolean; score: number; feedback: string }
 
+type OrderingStep = Extract<Exercise, { type: 'ordering' }>['steps'][number]
+
+export function shuffleOrderingOptions(
+  steps: readonly OrderingStep[],
+  correctOrder: readonly string[],
+  random: () => number = Math.random,
+) {
+  const shuffled = steps.map((step) => ({ ...step }))
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const target = Math.floor(random() * (index + 1))
+    const current = shuffled[index]
+    shuffled[index] = shuffled[target]
+    shuffled[target] = current
+  }
+
+  const matchesCorrectOrder =
+    shuffled.length > 1 &&
+    shuffled.map((step) => step.id).join('|') === correctOrder.join('|')
+  if (matchesCorrectOrder) {
+    const differentIndex = shuffled.findIndex(
+      (step, index) => index > 0 && step.id !== shuffled[0].id,
+    )
+    if (differentIndex > 0) {
+      const first = shuffled[0]
+      shuffled[0] = shuffled[differentIndex]
+      shuffled[differentIndex] = first
+    }
+  }
+
+  return shuffled
+}
+
 export const normalizeText = (value: string, ignoreDiacritics = false) => {
   const normalized = value
     .trim()

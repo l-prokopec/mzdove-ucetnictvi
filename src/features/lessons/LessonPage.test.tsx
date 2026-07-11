@@ -77,6 +77,76 @@ describe('vyhodnocení cvičení', () => {
         .every((input) => input.hasAttribute('disabled')),
     ).toBe(true)
   })
+
+  it('udrží ordering možnosti stabilní v pokusu a při novém pokusu je promíchá znovu', async () => {
+    const user = userEvent.setup()
+    const exercise = {
+      id: 'ordering',
+      type: 'ordering' as const,
+      prompt: 'Seřaďte kroky',
+      steps: [
+        { id: 'a', text: 'A' },
+        { id: 'b', text: 'B' },
+        { id: 'c', text: 'C' },
+      ],
+      correctOrder: ['a', 'b', 'c'],
+      skillIds: ['test'],
+      explanation: 'Správně',
+      commonMistake: 'Chyba',
+    }
+    const random = vi
+      .fn<() => number>()
+      .mockReturnValueOnce(0.999)
+      .mockReturnValueOnce(0.999)
+      .mockReturnValue(0)
+    const onChange = vi.fn()
+    const view = render(
+      <ExerciseField
+        exercise={exercise}
+        value={undefined}
+        onChange={onChange}
+        revealed={false}
+        attemptId={0}
+        orderingRandom={random}
+      />,
+    )
+    const optionIds = () =>
+      Array.from(screen.getAllByRole('combobox')[0].querySelectorAll('option'))
+        .map((option) => option.value)
+        .filter(Boolean)
+    const firstOrder = optionIds()
+    expect(firstOrder).not.toEqual(exercise.correctOrder)
+    expect(screen.getAllByRole('combobox')).toHaveLength(3)
+
+    await user.selectOptions(screen.getAllByRole('combobox')[0], 'b')
+    view.rerender(
+      <ExerciseField
+        exercise={exercise}
+        value={['b', '', '']}
+        onChange={onChange}
+        revealed
+        locked
+        attemptId={0}
+        orderingRandom={random}
+      />,
+    )
+    expect(optionIds()).toEqual(firstOrder)
+    expect(random).toHaveBeenCalledTimes(2)
+    expect(screen.getByText('Správné pořadí')).toBeInTheDocument()
+
+    view.rerender(
+      <ExerciseField
+        exercise={exercise}
+        value={undefined}
+        onChange={onChange}
+        revealed={false}
+        attemptId={1}
+        orderingRandom={random}
+      />,
+    )
+    expect(optionIds()).not.toEqual(firstOrder)
+    expect(screen.getAllByRole('combobox')[0]).toHaveValue('')
+  })
 })
 
 describe('kartičky', () => {
@@ -118,6 +188,24 @@ describe('kartičky', () => {
 })
 
 describe('izolace pokusu mezi lekcemi', () => {
+  it('Resetovat test vyčistí ordering volbu v aktuální lekci', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={['/course/lesson/payroll-purpose']}>
+        <Routes>
+          <Route path="course/lesson/:lessonId" element={<LessonPage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    const select = screen.getAllByRole('combobox')[0]
+    const selectable = select.querySelectorAll('option')[1].value
+    await user.selectOptions(select, selectable)
+    expect(select).toHaveValue(selectable)
+    await user.click(screen.getByRole('button', { name: 'Resetovat test' }))
+    expect(screen.getAllByRole('combobox')[0]).toHaveValue('')
+  })
+
   it('po přechodu do další lekce nepřenese odpovědi ani vyhodnocení', async () => {
     const user = userEvent.setup()
     render(
@@ -148,7 +236,7 @@ describe('izolace pokusu mezi lekcemi', () => {
       await user.type(input, 'test')
     }
     for (const select of form.querySelectorAll<HTMLSelectElement>('select')) {
-      await user.selectOptions(select, select.options[0].value)
+      await user.selectOptions(select, select.options[1].value)
     }
     const textarea = form.querySelector('textarea')
     if (textarea) {
