@@ -218,43 +218,61 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'employment-contract',
-        'Pracovní smlouva',
-        'zkontrolovat povinné a prakticky důležité údaje pracovní smlouvy',
-      ),
-      lesson(
-        'fixed-term-probation',
-        'Doba určitá a zkušební doba',
-        'rozlišit dobu trvání vztahu a význam zkušební doby',
-      ),
-      lesson(
-        'employee-personal-data',
-        'Vstupní osobní a mzdové údaje',
-        'vybrat údaje nezbytné pro založení zaměstnance v mzdové evidenci',
-        'process',
-      ),
-      lesson(
-        'tax-insurance-onboarding',
-        'Daňové a pojistné podklady při nástupu',
-        'roztřídit podklady pro daň, zdravotní a sociální pojištění',
-        'process',
-      ),
-      lesson(
-        'onboarding-notifications',
-        'Ohlašovací kroky při nástupu',
-        'sestavit posloupnost interních a vnějších oznámení',
-        'process',
-      ),
-      lesson(
-        'onboarding-checklist',
-        'Kontrola nástupu zaměstnance',
-        'provést úplnou kontrolu modelového nástupního spisu',
-        'case_study',
-        false,
-        true,
-        35,
-      ),
+      {
+        ...lesson(
+          'employment-contract',
+          'Pracovní smlouva',
+          'zkontrolovat povinné a prakticky důležité údaje pracovní smlouvy',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'fixed-term-probation',
+          'Doba určitá a zkušební doba',
+          'rozlišit dobu trvání vztahu a význam zkušební doby',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'employee-personal-data',
+          'Vstupní osobní a mzdové údaje',
+          'vybrat údaje nezbytné pro založení zaměstnance v mzdové evidenci',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'tax-insurance-onboarding',
+          'Daňové a pojistné podklady při nástupu',
+          'roztřídit podklady pro daň, zdravotní a sociální pojištění',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'onboarding-notifications',
+          'Ohlašovací kroky při nástupu',
+          'sestavit posloupnost interních a vnějších oznámení',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'onboarding-checklist',
+          'Kontrola nástupu zaměstnance',
+          'provést úplnou kontrolu modelového nástupního spisu',
+          'case_study',
+          false,
+          true,
+          35,
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Nástup zaměstnance v průběhu kalendářního měsíce.',

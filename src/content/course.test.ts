@@ -25,6 +25,12 @@ const availableLessonIds = [
   'labour-relations',
   'equal-treatment',
   'legal-acts-form',
+  'employment-contract',
+  'fixed-term-probation',
+  'employee-personal-data',
+  'tax-insurance-onboarding',
+  'onboarding-notifications',
+  'onboarding-checklist',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -107,17 +113,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě deset lekcí prvních dvou modulů', () => {
+  it('publikuje právě šestnáct lekcí prvních tří modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(10)
+    ).toHaveLength(16)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(184)
+    ).toHaveLength(178)
     expect(
       availableLessons
         .slice(0, 5)
@@ -125,16 +131,22 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(5)
+        .slice(5, 10)
         .every((lesson) => lesson.moduleId === 'labour-law-basics'),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(10)
+        .every((lesson) => lesson.moduleId === 'employee-onboarding'),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(2)
+        .slice(3)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
     expect(payrollCourse.modules[1].status).toBe('available')
+    expect(payrollCourse.modules[2].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -198,11 +210,38 @@ describe('registr plného obsahu', () => {
   })
 
   it('má u všech lekcí druhého modulu legislativní metadata', () => {
-    for (const lessonId of availableLessonIds.slice(5)) {
+    for (const lessonId of availableLessonIds.slice(5, 10)) {
       expect(lessonContentRegistry[lessonId].legalValidity).toMatchObject({
         jurisdiction: 'CZ',
         validFrom: '2026-01-01',
         verifiedAt: '2026-07-10',
+      })
+    }
+  })
+
+  it('má u všech lekcí třetího modulu úplný obsah a legislativní metadata', () => {
+    const expectedValidFrom: Record<string, string> = {
+      'employment-contract': '2025-06-01',
+      'fixed-term-probation': '2025-06-01',
+      'employee-personal-data': '2026-01-01',
+      'tax-insurance-onboarding': '2026-01-01',
+      'onboarding-notifications': '2026-07-01',
+      'onboarding-checklist': '2026-07-01',
+    }
+    for (const lessonId of availableLessonIds.slice(10)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('employee-onboarding')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(18)
+      expect(content.flashcards.length).toBeGreaterThanOrEqual(4)
+      expect(content.exercises.length).toBeGreaterThanOrEqual(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(3)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: expectedValidFrom[lessonId],
+        verifiedAt: '2026-07-11',
       })
     }
   })
