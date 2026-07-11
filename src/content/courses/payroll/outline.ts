@@ -298,43 +298,61 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'employment-data-changes',
-        'Změny pracovních a mzdových údajů',
-        'určit účinnost změny a aktualizovat navazující evidenci',
-        'process',
-      ),
-      lesson(
-        'employment-transfer',
-        'Převedení, přeložení a pracovní cesta',
-        'odlišit změny místa nebo druhu výkonu práce',
-      ),
-      lesson(
-        'termination-methods',
-        'Způsoby skončení pracovního poměru',
-        'rozlišit dohodu, výpověď, okamžité zrušení a další způsoby',
-      ),
-      lesson(
-        'termination-date',
-        'Rozhodný den skončení',
-        'určit datum skončení a jeho dopad na poslední zpracování',
-      ),
-      lesson(
-        'severance-basics',
-        'Odstupné a související plnění',
-        'rozpoznat plnění vyžadující zvláštní mzdové posouzení',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'offboarding-process',
-        'Výstupní mzdový checklist',
-        'připravit potvrzení, odhlášky a archivaci při skončení',
-        'case_study',
-        false,
-        true,
-        35,
-      ),
+      {
+        ...lesson(
+          'employment-data-changes',
+          'Změny pracovních a mzdových údajů',
+          'určit účinnost změny a aktualizovat navazující evidenci',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'employment-transfer',
+          'Převedení, přeložení a pracovní cesta',
+          'odlišit změny místa nebo druhu výkonu práce',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'termination-methods',
+          'Způsoby skončení pracovního poměru',
+          'rozlišit dohodu, výpověď, okamžité zrušení a další způsoby',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'termination-date',
+          'Rozhodný den skončení',
+          'určit datum skončení a jeho dopad na poslední zpracování',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'severance-basics',
+          'Odstupné a související plnění',
+          'rozpoznat plnění vyžadující zvláštní mzdové posouzení',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'offboarding-process',
+          'Výstupní mzdový checklist',
+          'připravit potvrzení, odhlášky a archivaci při skončení',
+          'case_study',
+          false,
+          true,
+          35,
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Skončení pracovního poměru uprostřed měsíce.',
