@@ -787,7 +787,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
                 {availableLessons[currentIndex + 1].title} →
               </Link>
             ) : (
-              <Link to="/simulation">Přejít k simulaci →</Link>
+              <Link to="/course">Zpět na osnovu →</Link>
             )}
           </nav>
         </article>

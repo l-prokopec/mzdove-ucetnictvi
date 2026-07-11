@@ -1,12 +1,12 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../features/auth/AuthProvider'
+import { ScrollToTopButton } from './ScrollToTopButton'
 
 const links = [
   ['/', 'Přehled'],
   ['/course', 'Kurz'],
   ['/review', 'Opakování'],
   ['/checklist', 'Dovednosti'],
-  ['/simulation', 'Simulace'],
   ['/statistics', 'Statistiky'],
   ['/settings', 'Nastavení'],
 ]
@@ -59,6 +59,7 @@ export function Layout() {
           </span>
         </footer>
       </div>
+      <ScrollToTopButton />
     </div>
   )
 }

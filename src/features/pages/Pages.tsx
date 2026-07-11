@@ -1,14 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   availableLessons,
   payrollCourse,
 } from '../../content/courses/payroll/course'
-import { checklistStatus, scoreBand } from '../../lib/exercises'
+import { scoreBand } from '../../lib/exercises'
 import { lessonSectionPath } from '../../lib/lesson-navigation'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress } from '../progress/useProgress'
 import { StatusBadge } from '../../components/StatusBadge'
+import type { LessonProgress, LessonProgressStatus } from '../../types/course'
 
 const formatDate = (value: string | null | undefined) =>
   value
@@ -465,9 +467,39 @@ export function ReviewPage() {
   )
 }
 
-export function ChecklistPage() {
-  const { progress } = useUserProgress()
-  const rows = progress.data ?? []
+const skillStatusOptions: Array<{
+  value: LessonProgressStatus
+  label: string
+}> = [
+  { value: 'not_started', label: 'Nezahájeno' },
+  { value: 'in_progress', label: 'Částečně' },
+  { value: 'completed', label: 'Dokončeno' },
+]
+
+export function SkillsChecklist({ rows }: { rows: LessonProgress[] }) {
+  const [selectedStatuses, setSelectedStatuses] = useState<
+    Set<LessonProgressStatus>
+  >(new Set())
+  const items = availableLessons.map((lesson) => {
+    const progress = rows.find((row) => row.lesson_id === lesson.id)
+    return {
+      lesson,
+      progress,
+      status: progress?.status ?? ('not_started' as const),
+    }
+  })
+  const filteredItems = selectedStatuses.size
+    ? items.filter((item) => selectedStatuses.has(item.status))
+    : items
+  const toggleStatus = (status: LessonProgressStatus) => {
+    setSelectedStatuses((current) => {
+      const next = new Set(current)
+      if (next.has(status)) next.delete(status)
+      else next.add(status)
+      return next
+    })
+  }
+
   return (
     <div className="page">
       <div className="page-header">
@@ -477,30 +509,72 @@ export function ChecklistPage() {
           <p>Stav se odvozuje z výsledků lekcí, není ručně upravitelný.</p>
         </div>
       </div>
+      <fieldset className="skill-filters">
+        <legend>Filtrovat podle stavu lekce</legend>
+        <div>
+          {skillStatusOptions.map((option) => (
+            <label key={option.value}>
+              <input
+                type="checkbox"
+                checked={selectedStatuses.has(option.value)}
+                onChange={() => toggleStatus(option.value)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="button button--quiet"
+          onClick={() => setSelectedStatuses(new Set())}
+          disabled={selectedStatuses.size === 0}
+        >
+          Vyčistit filtr
+        </button>
+      </fieldset>
       <div className="checklist">
-        {availableLessons.map((lesson) => {
-          const scores = rows
-            .filter(
-              (row) => row.lesson_id === lesson.id && row.best_score != null,
-            )
-            .map((row) => row.best_score!)
-          const status = checklistStatus(scores)
+        {filteredItems.map(({ lesson, progress, status }) => {
+          const badgeStatus =
+            status === 'completed'
+              ? 'mastered'
+              : status === 'in_progress'
+                ? 'partial'
+                : 'not_started'
           return (
-            <article key={lesson.id}>
-              <StatusBadge status={status} />
+            <article key={lesson.id} data-testid="skill-item">
+              <StatusBadge status={badgeStatus} />
               <div>
                 <h2>{lesson.objectives[0]}</h2>
                 <p>{lesson.title}</p>
               </div>
               <span>
-                {scores.length ? `${Math.max(...scores)} %` : 'Bez pokusu'}
+                {progress?.best_score != null
+                  ? `${progress.best_score} %`
+                  : 'Bez pokusu'}
               </span>
             </article>
           )
         })}
       </div>
+      {filteredItems.length === 0 && (
+        <div className="empty-state">
+          <h2>Vybraným stavům neodpovídá žádná dovednost.</h2>
+          <button
+            type="button"
+            className="button button--primary"
+            onClick={() => setSelectedStatuses(new Set())}
+          >
+            Vyčistit filtr
+          </button>
+        </div>
+      )}
     </div>
   )
+}
+
+export function ChecklistPage() {
+  const { progress } = useUserProgress()
+  return <SkillsChecklist rows={progress.data ?? []} />
 }
 
 export function StatisticsPage() {
@@ -590,128 +664,6 @@ export function StatisticsPage() {
           })}
         </div>
       </section>
-    </div>
-  )
-}
-
-const simulationSteps = [
-  {
-    title: 'Převzetí podkladů',
-    text: 'Fiktivní firma Javorová dílna s.r.o. má zaměstnance Annu Testovou a Petra Ukázkového. Zkontrolujte seznam nástupních a měsíčních podkladů.',
-    answer:
-      'Ověřím pracovní dokumenty, období, schválení, docházku a zda jsou údaje kompletní.',
-  },
-  {
-    title: 'Kontrola změn',
-    text: 'Anna nastoupila tento měsíc. Petr má schválené osobní ohodnocení a evidovaný přesčas; v docházce je také krátká dovolená.',
-    answer:
-      'Oddělím nástupní agendu od měsíčních změn a u každé položky ověřím schválený zdroj.',
-  },
-  {
-    title: 'Rekapitulace',
-    text: 'Sestavte kontrolní seznam před předáním podkladů ke zpracování.',
-    answer:
-      'Dva zaměstnanci, správné období, úplná docházka, schválené ohodnocení a přesčas, doložená dovolená, vyřešené nesrovnalosti.',
-  },
-]
-
-export function SimulationPage() {
-  const { client, user } = useAuth()
-  const state = useQuery({
-    queryKey: ['simulation'],
-    queryFn: async () => {
-      const { data, error } = await client
-        .from('simulation_progress')
-        .select('*')
-        .eq('user_id', user!.id)
-        .eq('simulation_id', 'javorova-2026-01')
-        .maybeSingle()
-      if (error) throw error
-      return data as {
-        current_step: number
-        completed_at: string | null
-      } | null
-    },
-  })
-  const current = Math.min(
-    state.data?.current_step ?? 0,
-    simulationSteps.length - 1,
-  )
-  const step = simulationSteps[current]
-  const save = useMutation({
-    mutationFn: async (next: number) => {
-      const completed = next >= simulationSteps.length
-      const { error } = await client.from('simulation_progress').upsert(
-        {
-          user_id: user!.id,
-          simulation_id: 'javorova-2026-01',
-          current_step: Math.min(next, simulationSteps.length - 1),
-          state: { reviewed: next },
-          score: completed ? 100 : null,
-          completed_at: completed ? new Date().toISOString() : null,
-        },
-        { onConflict: 'user_id,simulation_id' },
-      )
-      if (error) throw error
-    },
-    onSuccess: () => state.refetch(),
-  })
-  return (
-    <div className="page">
-      <div className="page-header">
-        <div>
-          <div className="eyebrow">Demonstrační měsíc · leden 2026</div>
-          <h1>Javorová dílna s.r.o.</h1>
-          <p>
-            Fiktivní pracovní simulace zaměřená na správný postup, nikoli na
-            úplný legislativní výpočet čisté mzdy.
-          </p>
-        </div>
-        <div className="version-chip">
-          Krok {current + 1} / {simulationSteps.length}
-        </div>
-      </div>
-      <div className="simulation">
-        <aside>
-          {simulationSteps.map((item, index) => (
-            <div
-              key={item.title}
-              className={
-                index === current ? 'active' : index < current ? 'done' : ''
-              }
-            >
-              <span>{index < current ? '✓' : index + 1}</span>
-              {item.title}
-            </div>
-          ))}
-        </aside>
-        <section className="panel">
-          <h2>{step.title}</h2>
-          <p>{step.text}</p>
-          <label>
-            Vaše pracovní poznámka
-            <textarea rows={6} placeholder="Sepište, co byste zkontrolovali…" />
-          </label>
-          <details>
-            <summary>Zobrazit modelový postup</summary>
-            <p>{step.answer}</p>
-          </details>
-          <button
-            className="button button--primary"
-            disabled={save.isPending}
-            onClick={() => save.mutate(current + 1)}
-          >
-            {current === simulationSteps.length - 1
-              ? 'Dokončit simulaci'
-              : 'Uložit a pokračovat'}
-          </button>
-          {save.isError && (
-            <div className="form-message">
-              Stav simulace se nepodařilo uložit.
-            </div>
-          )}
-        </section>
-      </div>
     </div>
   )
 }

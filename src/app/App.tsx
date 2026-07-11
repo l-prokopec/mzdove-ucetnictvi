@@ -13,7 +13,6 @@ import {
   ReviewPage,
   ChecklistPage,
   StatisticsPage,
-  SimulationPage,
   SettingsPage,
 } from '../features/pages/Pages'
 import { LessonPage } from '../features/lessons/LessonPage'
@@ -23,7 +22,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: true } },
 })
 
-function RoutesWithAuth({ allowSignUp }: { allowSignUp: boolean }) {
+export function RoutesWithAuth({ allowSignUp }: { allowSignUp: boolean }) {
   const { user, loading } = useAuth()
   if (loading)
     return (
@@ -50,7 +49,6 @@ function RoutesWithAuth({ allowSignUp }: { allowSignUp: boolean }) {
         <Route path="course/lesson/:lessonId" element={<LessonPage />} />
         <Route path="review" element={<ReviewPage />} />
         <Route path="checklist" element={<ChecklistPage />} />
-        <Route path="simulation" element={<SimulationPage />} />
         <Route path="statistics" element={<StatisticsPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
