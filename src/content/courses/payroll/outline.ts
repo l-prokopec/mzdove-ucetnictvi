@@ -379,40 +379,58 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'dpp-purpose',
-        'Dohoda o provedení práce',
-        'popsat použití DPP a potřebné mzdové podklady',
-      ),
-      lesson(
-        'dpc-purpose',
-        'Dohoda o pracovní činnosti',
-        'popsat použití DPČ a potřebné mzdové podklady',
-      ),
-      lesson(
-        'agreement-comparison',
-        'Rozdíly mezi DPP, DPČ a pracovním poměrem',
-        'porovnat tři formy pracovněprávního vztahu',
-        'practice',
-      ),
-      lesson(
-        'agreement-time-records',
-        'Evidence pracovní doby u dohod',
-        'zkontrolovat evidenci práce, odpočinku a překážek',
-      ),
-      lesson(
-        'agreement-tax-insurance-inputs',
-        'Daňové a pojistné vstupy u dohod',
-        'určit proměnné nutné pro správné posouzení odvodů',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'agreement-lifecycle',
-        'Nástup a skončení dohody',
-        'sestavit proces založení, změny a ukončení dohody',
-        'process',
-      ),
+      {
+        ...lesson(
+          'dpp-purpose',
+          'Dohoda o provedení práce',
+          'popsat použití DPP a potřebné mzdové podklady',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'dpc-purpose',
+          'Dohoda o pracovní činnosti',
+          'popsat použití DPČ a potřebné mzdové podklady',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'agreement-comparison',
+          'Rozdíly mezi DPP, DPČ a pracovním poměrem',
+          'porovnat tři formy pracovněprávního vztahu',
+          'practice',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'agreement-time-records',
+          'Evidence pracovní doby u dohod',
+          'zkontrolovat evidenci práce, odpočinku a překážek',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'agreement-tax-insurance-inputs',
+          'Daňové a pojistné vstupy u dohod',
+          'určit proměnné nutné pro správné posouzení odvodů',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'agreement-lifecycle',
+          'Nástup a skončení dohody',
+          'sestavit proces založení, změny a ukončení dohody',
+          'process',
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Souběh více pracovních vztahů u jednoho zaměstnavatele.',
