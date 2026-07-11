@@ -688,10 +688,19 @@ summary {
   flex-wrap: wrap;
   margin-top: 2rem;
 }
-.lesson-hero nav a {
+.lesson-hero nav a,
+.lesson-hero nav button {
   font-size: 0.85rem;
   font-weight: 700;
   text-underline-offset: 4px;
+}
+.lesson-hero nav button {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }
 .lesson-layout {
   display: grid;
@@ -705,7 +714,11 @@ summary {
   padding: clamp(1.4rem, 4vw, 3.5rem);
   margin-bottom: 1.5rem;
   border-radius: 7px;
-  scroll-margin-top: 1rem;
+  scroll-margin-top: 5rem;
+}
+.lesson-section--target:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
 }
 .lesson-section > p,
 .lesson-section > ul {
@@ -822,6 +835,13 @@ summary {
 .rating button:hover {
   background: #ffffff19;
 }
+.rating button.is-selected,
+.rating button[aria-pressed='true'] {
+  background: #fff;
+  color: var(--green);
+  font-weight: 800;
+  box-shadow: inset 0 0 0 2px var(--orange);
+}
 .exercise-list {
   display: grid;
   gap: 1rem;
@@ -869,6 +889,25 @@ summary {
   width: auto;
   margin-top: 0.15rem;
   accent-color: var(--orange);
+}
+.option strong {
+  margin-left: auto;
+  font-size: 0.78rem;
+}
+.option--correct {
+  border-color: #347452;
+  background: #dcefe4;
+  color: #173d2a;
+}
+.option--wrong {
+  border-color: #a83f37;
+  background: #f9dfdc;
+  color: #702720;
+}
+.correct-solution {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--mint);
 }
 .exercise label + label {
   margin-top: 0.55rem;

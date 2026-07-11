@@ -17,6 +17,7 @@ import {
   SettingsPage,
 } from '../features/pages/Pages'
 import { LessonPage } from '../features/lessons/LessonPage'
+import { ScrollRestoration } from '../components/ScrollRestoration'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: true } },
@@ -65,6 +66,7 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider client={client}>
         <HashRouter>
+          <ScrollRestoration />
           <RoutesWithAuth allowSignUp={appConfig.config.allowSignUp} />
         </HashRouter>
       </AuthProvider>

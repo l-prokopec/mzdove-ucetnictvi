@@ -5,6 +5,7 @@ import {
   payrollCourse,
 } from '../../content/courses/payroll/course'
 import { checklistStatus, scoreBand } from '../../lib/exercises'
+import { lessonSectionPath } from '../../lib/lesson-navigation'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress } from '../progress/useProgress'
 import { StatusBadge } from '../../components/StatusBadge'
@@ -424,7 +425,7 @@ export function ReviewPage() {
               return (
                 <Link
                   key={`${attempt.exercise_id}-${attempt.created_at}-${index}`}
-                  to={`/course/lesson/${attempt.lesson_id}#cviceni`}
+                  to={lessonSectionPath(attempt.lesson_id, 'practice')}
                 >
                   <strong>{exercise?.prompt ?? attempt.exercise_id}</strong>
                   <span>{lesson?.title ?? attempt.lesson_id}</span>
@@ -450,7 +451,7 @@ export function ReviewPage() {
               return (
                 <Link
                   key={card.flashcard_id}
-                  to={`/course/lesson/${lesson?.id ?? ''}#karticky`}
+                  to={lessonSectionPath(lesson?.id ?? '', 'flashcards')}
                 >
                   <strong>{flashcard?.front ?? card.flashcard_id}</strong>
                   <span>{lesson?.title}</span>

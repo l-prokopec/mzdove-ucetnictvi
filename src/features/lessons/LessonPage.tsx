@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import {
   availableLessons,
   findLesson,
@@ -21,6 +21,12 @@ import type {
 import { saveAttempt, saveFlashcard } from '../../services/progress'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress, useSaveProgress } from '../progress/useProgress'
+import {
+  isLessonSection,
+  lessonSectionPath,
+  lessonSections,
+  type LessonSection,
+} from '../../lib/lesson-navigation'
 
 export function ContentBlock({ block }: { block: LessonBlock }) {
   if (block.type === 'heading') return <h2>{block.text}</h2>
@@ -67,7 +73,12 @@ export function ContentBlock({ block }: { block: LessonBlock }) {
   )
 }
 
-function Flashcards({
+type FlashcardState = Record<
+  string,
+  { open: boolean; rating?: 'failed' | 'partial' | 'mastered' }
+>
+
+export function Flashcards({
   lessonId,
   cards,
 }: {
@@ -75,12 +86,16 @@ function Flashcards({
   cards: Flashcard[]
 }) {
   const { client, user } = useAuth()
-  const [open, setOpen] = useState<string | null>(null)
+  const [states, setStates] = useState<FlashcardState>({})
   const [message, setMessage] = useState('')
   const rate = async (
     id: string,
     rating: 'failed' | 'partial' | 'mastered',
   ) => {
+    setStates((current) => ({
+      ...current,
+      [id]: { open: rating === 'mastered', rating },
+    }))
     setMessage('Ukládám…')
     try {
       await saveFlashcard(client, user!.id, {
@@ -88,56 +103,93 @@ function Flashcards({
         rating,
       })
       setMessage('Uloženo')
-      setOpen(null)
     } catch {
       setMessage('Uložení se nezdařilo')
     }
   }
   return (
-    <section id="karticky" className="lesson-section">
+    <section
+      id={lessonSections.flashcards}
+      className="lesson-section lesson-section--target"
+      tabIndex={-1}
+    >
       <div className="section-heading">
         <div>
           <div className="eyebrow">Aktivní vybavování</div>
           <h2>Studijní kartičky</h2>
         </div>
-        <span role="status">{message}</span>
+        <div>
+          <span role="status">{message}</span>
+          <button
+            type="button"
+            className="button button--quiet"
+            onClick={() => {
+              setStates({})
+              setMessage('Kartičky byly resetovány')
+            }}
+          >
+            Resetovat kartičky
+          </button>
+        </div>
       </div>
       <div className="flashcards">
-        {cards.map((card) => (
-          <article
-            key={card.id}
-            className={open === card.id ? 'flashcard is-open' : 'flashcard'}
-          >
-            <button
-              onClick={() => setOpen(open === card.id ? null : card.id)}
-              aria-expanded={open === card.id}
+        {cards.map((card) => {
+          const state = states[card.id] ?? { open: false }
+          return (
+            <article
+              key={card.id}
+              className={state.open ? 'flashcard is-open' : 'flashcard'}
             >
-              <span>{open === card.id ? 'Odpověď' : 'Pojem'}</span>
-              <strong>{open === card.id ? card.back : card.front}</strong>
-              <small>
-                {open === card.id
-                  ? card.explanation
-                  : 'Kliknutím odkryjte odpověď'}
-              </small>
-            </button>
-            {open === card.id && (
-              <div
-                className="rating"
-                aria-label={`Sebehodnocení kartičky ${card.front}`}
+              <button
+                type="button"
+                onClick={() =>
+                  setStates((current) => ({
+                    ...current,
+                    [card.id]: { ...state, open: !state.open },
+                  }))
+                }
+                aria-expanded={state.open}
               >
-                <button onClick={() => void rate(card.id, 'failed')}>
-                  Neumím
-                </button>
-                <button onClick={() => void rate(card.id, 'partial')}>
-                  Částečně
-                </button>
-                <button onClick={() => void rate(card.id, 'mastered')}>
-                  Umím
-                </button>
-              </div>
-            )}
-          </article>
-        ))}
+                <span>{state.open ? 'Odpověď' : 'Pojem'}</span>
+                <strong>{state.open ? card.back : card.front}</strong>
+                <small>
+                  {state.open ? card.explanation : 'Kliknutím odkryjte odpověď'}
+                </small>
+              </button>
+              {(state.open || state.rating) && (
+                <div
+                  className="rating"
+                  aria-label={`Sebehodnocení kartičky ${card.front}`}
+                >
+                  <button
+                    type="button"
+                    aria-pressed={state.rating === 'failed'}
+                    className={state.rating === 'failed' ? 'is-selected' : ''}
+                    onClick={() => void rate(card.id, 'failed')}
+                  >
+                    Neumím
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={state.rating === 'partial'}
+                    className={state.rating === 'partial' ? 'is-selected' : ''}
+                    onClick={() => void rate(card.id, 'partial')}
+                  >
+                    Částečně
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={state.rating === 'mastered'}
+                    className={state.rating === 'mastered' ? 'is-selected' : ''}
+                    onClick={() => void rate(card.id, 'mastered')}
+                  >
+                    Umím
+                  </button>
+                </div>
+              )}
+            </article>
+          )
+        })}
       </div>
       <small>
         Výsledky kartiček z lekce {lessonId} se ukládají samostatně a určují
@@ -147,32 +199,48 @@ function Flashcards({
   )
 }
 
-function ExerciseField({
+export function ExerciseField({
   exercise,
   value,
   onChange,
   revealed,
+  locked = revealed,
 }: {
   exercise: Exercise
   value: ExerciseAnswer | undefined
   onChange: (value: ExerciseAnswer) => void
   revealed: boolean
+  locked?: boolean
 }) {
+  const optionClass = (correct: boolean, selected: boolean) => {
+    if (!revealed) return 'option'
+    if (correct) return 'option option--correct'
+    return selected ? 'option option--wrong' : 'option'
+  }
   if (exercise.type === 'single_choice')
     return (
       <fieldset>
         <legend>{exercise.prompt}</legend>
-        {exercise.options.map((option) => (
-          <label className="option" key={option.id}>
-            <input
-              type="radio"
-              name={exercise.id}
-              checked={value === option.id}
-              onChange={() => onChange(option.id)}
-            />
-            {option.text}
-          </label>
-        ))}
+        {exercise.options.map((option) => {
+          const selected = value === option.id
+          const correct = option.id === exercise.correctOptionId
+          return (
+            <label className={optionClass(correct, selected)} key={option.id}>
+              <input
+                type="radio"
+                name={exercise.id}
+                checked={selected}
+                disabled={locked}
+                onChange={() => onChange(option.id)}
+              />
+              {option.text}
+              {revealed && correct && <strong>✓ Správná odpověď</strong>}
+              {revealed && selected && !correct && (
+                <strong>× Tvoje odpověď je chybná</strong>
+              )}
+            </label>
+          )
+        })}
       </fieldset>
     )
   if (exercise.type === 'multiple_choice') {
@@ -180,22 +248,31 @@ function ExerciseField({
     return (
       <fieldset>
         <legend>{exercise.prompt}</legend>
-        {exercise.options.map((option) => (
-          <label className="option" key={option.id}>
-            <input
-              type="checkbox"
-              checked={selected.includes(option.id)}
-              onChange={(event) =>
-                onChange(
-                  event.target.checked
-                    ? [...selected, option.id]
-                    : selected.filter((id) => id !== option.id),
-                )
-              }
-            />
-            {option.text}
-          </label>
-        ))}
+        {exercise.options.map((option) => {
+          const isSelected = selected.includes(option.id)
+          const correct = exercise.correctOptionIds.includes(option.id)
+          return (
+            <label className={optionClass(correct, isSelected)} key={option.id}>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                disabled={locked}
+                onChange={(event) =>
+                  onChange(
+                    event.target.checked
+                      ? [...selected, option.id]
+                      : selected.filter((id) => id !== option.id),
+                  )
+                }
+              />
+              {option.text}
+              {revealed && correct && <strong>✓ Správná odpověď</strong>}
+              {revealed && isSelected && !correct && (
+                <strong>× Tvoje odpověď je chybná</strong>
+              )}
+            </label>
+          )
+        })}
       </fieldset>
     )
   }
@@ -206,6 +283,7 @@ function ExerciseField({
         <div className="input-with-unit">
           <input
             inputMode="decimal"
+            disabled={locked}
             value={typeof value === 'string' ? value : ''}
             onChange={(event) => onChange(event.target.value)}
           />
@@ -218,6 +296,7 @@ function ExerciseField({
       <label>
         {exercise.prompt}
         <input
+          disabled={locked}
           value={typeof value === 'string' ? value : ''}
           onChange={(event) => onChange(event.target.value)}
         />
@@ -234,6 +313,7 @@ function ExerciseField({
           <label key={index}>
             Krok {index + 1}
             <select
+              disabled={locked}
               value={current[index]}
               onChange={(event) => {
                 const next = [...current]
@@ -249,6 +329,18 @@ function ExerciseField({
             </select>
           </label>
         ))}
+        {revealed && (
+          <div className="correct-solution">
+            <strong>Správné pořadí</strong>
+            <ol>
+              {exercise.correctOrder.map((id) => (
+                <li key={id}>
+                  {exercise.steps.find((step) => step.id === id)?.text}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
       </fieldset>
     )
   }
@@ -259,6 +351,7 @@ function ExerciseField({
       <label>
         {exercise.prompt}
         <textarea
+          disabled={locked}
           rows={5}
           value={objectValue.text}
           onChange={(event) =>
@@ -286,6 +379,7 @@ function ExerciseField({
                   type="radio"
                   name={`${exercise.id}-rating`}
                   checked={objectValue.selfRating === rating}
+                  disabled={locked}
                   onChange={() =>
                     onChange({ ...objectValue, selfRating: rating })
                   }
@@ -324,8 +418,8 @@ function createProgress(
   }
 }
 
-export function LessonPage() {
-  const { lessonId = '' } = useParams()
+function LessonPageContent({ lessonId }: { lessonId: string }) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const lesson = findLesson(lessonId)
   const { client, user } = useAuth()
   const progress = useProgress(client, user!.id)
@@ -337,20 +431,32 @@ export function LessonPage() {
   const [noteState, setNoteState] = useState('')
   const [error, setError] = useState('')
   useEffect(() => {
+    const section = searchParams.get('section')
+    if (!isLessonSection(section)) return
+    const target = document.getElementById(lessonSections[section])
+    if (!target) return
+    target.scrollIntoView({ block: 'start' })
+    target.focus({ preventScroll: true })
+  }, [lessonId, searchParams])
+  useEffect(() => {
     if (lesson && progress.isSuccess && !existing)
       saveProgress.mutate(createProgress(lesson.id, undefined, {}))
   }, [lesson, progress.isSuccess]) // eslint-disable-line react-hooks/exhaustive-deps
   const evaluations = useMemo(
     () =>
-      lesson?.exercises.map((exercise) =>
-        evaluateExercise(
-          exercise,
-          answers[exercise.id] ??
-            (exercise.type === 'multiple_choice' || exercise.type === 'ordering'
-              ? []
-              : ''),
-        ),
-      ) ?? [],
+      Object.fromEntries(
+        lesson?.exercises.map((exercise) => [
+          exercise.id,
+          evaluateExercise(
+            exercise,
+            answers[exercise.id] ??
+              (exercise.type === 'multiple_choice' ||
+              exercise.type === 'ordering'
+                ? []
+                : ''),
+          ),
+        ]) ?? [],
+      ),
     [answers, lesson],
   )
   if (!lesson)
@@ -366,7 +472,9 @@ export function LessonPage() {
   const currentModule = payrollCourse.modules.find(
     (item) => item.id === lesson.moduleId,
   )
-  const score = calculateScore(evaluations.map((item) => item.score))
+  const score = calculateScore(
+    lesson.exercises.map((exercise) => evaluations[exercise.id].score),
+  )
   const submit = async (event: FormEvent) => {
     event.preventDefault()
     setError('')
@@ -390,14 +498,14 @@ export function LessonPage() {
     setSubmitted(true)
     try {
       await Promise.all(
-        lesson.exercises.map((exercise, index) =>
+        lesson.exercises.map((exercise) =>
           saveAttempt(client, user!.id, {
             lessonId: lesson.id,
             exerciseId: exercise.id,
             type: exercise.type,
             answer: answers[exercise.id],
-            score: evaluations[index].score,
-            correct: evaluations[index].correct,
+            score: evaluations[exercise.id].score,
+            correct: evaluations[exercise.id].correct,
           }),
         ),
       )
@@ -432,6 +540,14 @@ export function LessonPage() {
       setNoteState('Chyba při ukládání')
     }
   }
+  const navigateToSection = (section: LessonSection) => {
+    setSearchParams({ section })
+  }
+  const resetTest = () => {
+    setAnswers({})
+    setSubmitted(false)
+    setError('')
+  }
   return (
     <div className="lesson-page">
       <header className="lesson-hero">
@@ -449,15 +565,30 @@ export function LessonPage() {
         <h1>{lesson.title}</h1>
         <p>{lesson.objectives.join(' · ')}</p>
         <nav aria-label="Obsah lekce">
-          <a href="#vyklad">Výklad</a>
-          <a href="#karticky">Kartičky</a>
-          <a href="#cviceni">Procvičování</a>
-          <a href="#poznamky">Poznámky</a>
+          <button
+            type="button"
+            onClick={() => navigateToSection('explanation')}
+          >
+            Výklad
+          </button>
+          <button type="button" onClick={() => navigateToSection('flashcards')}>
+            Kartičky
+          </button>
+          <button type="button" onClick={() => navigateToSection('practice')}>
+            Procvičování
+          </button>
+          <button type="button" onClick={() => navigateToSection('notes')}>
+            Poznámky
+          </button>
         </nav>
       </header>
       <div className="lesson-layout">
         <article>
-          <section id="vyklad" className="lesson-section">
+          <section
+            id={lessonSections.explanation}
+            className="lesson-section lesson-section--target"
+            tabIndex={-1}
+          >
             <div className="eyebrow">Cíle lekce</div>
             <ul className="objectives">
               {lesson.objectives.map((objective) => (
@@ -468,8 +599,16 @@ export function LessonPage() {
               <ContentBlock key={index} block={block} />
             ))}
           </section>
-          <Flashcards lessonId={lesson.id} cards={lesson.flashcards} />
-          <section id="cviceni" className="lesson-section">
+          <Flashcards
+            key={lesson.id}
+            lessonId={lesson.id}
+            cards={lesson.flashcards}
+          />
+          <section
+            id={lessonSections.practice}
+            className="lesson-section lesson-section--target"
+            tabIndex={-1}
+          >
             <div className="eyebrow">Závěrečný test</div>
             <h2>Ověřte si porozumění</h2>
             <p>
@@ -485,7 +624,7 @@ export function LessonPage() {
                   key={exercise.id}
                   className={
                     submitted
-                      ? `exercise exercise--${evaluations[index].correct ? 'correct' : 'wrong'}`
+                      ? `exercise exercise--${evaluations[exercise.id].correct ? 'correct' : 'wrong'}`
                       : 'exercise'
                   }
                 >
@@ -502,17 +641,33 @@ export function LessonPage() {
                       (answers[exercise.id] != null &&
                         exercise.type === 'self_assessed')
                     }
+                    locked={submitted}
                   />
                   {submitted && (
                     <div className="feedback" role="status">
                       <strong>
-                        {evaluations[index].correct
+                        {evaluations[exercise.id].correct
                           ? '✓ Správně'
-                          : evaluations[index].score > 0
+                          : evaluations[exercise.id].score > 0
                             ? '~ Částečně'
                             : '× K zopakování'}
                       </strong>
-                      <p>{evaluations[index].feedback}</p>
+                      <p>{evaluations[exercise.id].feedback}</p>
+                      {exercise.type === 'short_text' && (
+                        <p>
+                          <strong>Vaše odpověď:</strong>{' '}
+                          {String(answers[exercise.id])}
+                          <br />
+                          <strong>Přijatelné odpovědi:</strong>{' '}
+                          {exercise.acceptedAnswers.join(', ')}
+                        </p>
+                      )}
+                      {exercise.type === 'numeric' && (
+                        <p>
+                          <strong>Správný výsledek:</strong> {exercise.expected}{' '}
+                          {exercise.unit}
+                        </p>
+                      )}
                       {exercise.type === 'numeric' && (
                         <ol>
                           {exercise.solutionSteps.map((step) => (
@@ -531,13 +686,17 @@ export function LessonPage() {
               )}
               <button
                 className="button button--primary"
-                disabled={saveProgress.isPending}
+                disabled={saveProgress.isPending || submitted}
               >
-                {saveProgress.isPending
-                  ? 'Ukládám…'
-                  : submitted
-                    ? 'Odeslat znovu'
-                    : 'Vyhodnotit test'}
+                {saveProgress.isPending ? 'Ukládám…' : 'Vyhodnotit test'}
+              </button>
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={resetTest}
+                disabled={!submitted && Object.keys(answers).length === 0}
+              >
+                Resetovat test
               </button>
             </form>
             {submitted && (
@@ -557,7 +716,11 @@ export function LessonPage() {
               </div>
             )}
           </section>
-          <section id="poznamky" className="lesson-section">
+          <section
+            id={lessonSections.notes}
+            className="lesson-section lesson-section--target"
+            tabIndex={-1}
+          >
             <div className="section-heading">
               <div>
                 <div className="eyebrow">Soukromá poznámka</div>
@@ -610,7 +773,7 @@ export function LessonPage() {
           <nav className="lesson-pagination">
             {currentIndex > 0 ? (
               <Link
-                to={`/course/lesson/${availableLessons[currentIndex - 1].id}`}
+                to={lessonSectionPath(availableLessons[currentIndex - 1].id)}
               >
                 ← {availableLessons[currentIndex - 1].title}
               </Link>
@@ -619,7 +782,7 @@ export function LessonPage() {
             )}
             {currentIndex < availableLessons.length - 1 ? (
               <Link
-                to={`/course/lesson/${availableLessons[currentIndex + 1].id}`}
+                to={lessonSectionPath(availableLessons[currentIndex + 1].id)}
               >
                 {availableLessons[currentIndex + 1].title} →
               </Link>
@@ -660,4 +823,9 @@ export function LessonPage() {
       </div>
     </div>
   )
+}
+
+export function LessonPage() {
+  const { lessonId = '' } = useParams()
+  return <LessonPageContent key={lessonId} lessonId={lessonId} />
 }
