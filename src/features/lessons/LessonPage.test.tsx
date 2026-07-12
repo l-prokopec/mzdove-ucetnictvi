@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   ContentBlock,
   ExerciseField,
@@ -26,6 +26,11 @@ vi.mock('../../services/progress', () => ({
   saveAttempt: vi.fn().mockResolvedValue(undefined),
   saveFlashcard: vi.fn().mockResolvedValue(undefined),
 }))
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  saveProgress.mutateAsync.mockResolvedValue(undefined)
+})
 
 describe('obsah lekce', () => {
   it('vykreslí praktický příklad s modelovým postupem', () => {
@@ -188,6 +193,33 @@ describe('kartičky', () => {
 })
 
 describe('izolace pokusu mezi lekcemi', () => {
+  it('pouhé otevření lekce nevytvoří rozpracovaný progres', () => {
+    render(
+      <MemoryRouter initialEntries={['/course/lesson/payroll-purpose']}>
+        <Routes>
+          <Route path="course/lesson/:lessonId" element={<LessonPage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(saveProgress.mutate).not.toHaveBeenCalled()
+    expect(saveProgress.mutateAsync).not.toHaveBeenCalled()
+  })
+
+  it('pouhá volba odpovědi bez vyhodnocení progres nezmění', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={['/course/lesson/payroll-purpose']}>
+        <Routes>
+          <Route path="course/lesson/:lessonId" element={<LessonPage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    await user.click(screen.getAllByRole('radio')[0])
+    expect(saveProgress.mutateAsync).not.toHaveBeenCalled()
+  })
+
   it('Resetovat test vyčistí ordering volbu v aktuální lekci', async () => {
     const user = userEvent.setup()
     render(
@@ -246,6 +278,9 @@ describe('izolace pokusu mezi lekcemi', () => {
     await user.click(screen.getByRole('button', { name: 'Vyhodnotit test' }))
     await waitFor(() =>
       expect(screen.getByText('Výsledek lekce')).toBeInTheDocument(),
+    )
+    expect(saveProgress.mutateAsync).toHaveBeenLastCalledWith(
+      expect.objectContaining({ status: 'in_progress', attempts_count: 1 }),
     )
 
     await user.click(screen.getByRole('link', { name: /Role a odpovědnosti/ }))

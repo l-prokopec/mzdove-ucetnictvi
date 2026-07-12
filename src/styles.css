@@ -409,11 +409,14 @@ code {
   background: #e6e5df;
   color: #5f6966;
 }
-.status--available,
 .status--completed,
 .status--mastered {
   background: #d9ebdf;
   color: #1f663d;
+}
+.status--available {
+  background: #dcebf8;
+  color: #174f78;
 }
 .status--in_progress,
 .status--partial {

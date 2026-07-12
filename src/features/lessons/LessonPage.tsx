@@ -20,6 +20,7 @@ import type {
   LessonProgress,
 } from '../../types/course'
 import { saveAttempt, saveFlashcard } from '../../services/progress'
+import { progressStatusAfterEvaluation } from '../../lib/progress-status'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress, useSaveProgress } from '../progress/useProgress'
 import {
@@ -445,12 +446,12 @@ function createProgress(
     course_id: payrollCourse.id,
     lesson_id: lessonId,
     content_version: payrollCourse.version,
-    status: 'in_progress',
+    status: existing?.status ?? 'not_started',
     last_score: null,
     best_score: null,
     attempts_count: 0,
     notes: '',
-    started_at: existing?.started_at ?? now,
+    started_at: existing?.started_at ?? null,
     completed_at: null,
     last_opened_at: now,
     updated_at: now,
@@ -480,10 +481,6 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
     target.scrollIntoView({ block: 'start' })
     target.focus({ preventScroll: true })
   }, [lessonId, searchParams])
-  useEffect(() => {
-    if (lesson && progress.isSuccess && !existing)
-      saveProgress.mutate(createProgress(lesson.id, undefined, {}))
-  }, [lesson, progress.isSuccess]) // eslint-disable-line react-hooks/exhaustive-deps
   const evaluations = useMemo(
     () =>
       Object.fromEntries(
@@ -558,14 +555,20 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
       )
       await saveProgress.mutateAsync(
         createProgress(lesson.id, existing, {
-          status: score >= 80 ? 'completed' : 'in_progress',
+          status: progressStatusAfterEvaluation(
+            existing?.status ?? 'not_started',
+            score,
+          ),
           last_score: score,
           best_score: Math.max(score, existing?.best_score ?? 0),
           attempts_count: (existing?.attempts_count ?? 0) + 1,
+          started_at: existing?.started_at ?? new Date().toISOString(),
           completed_at:
-            score >= 80
-              ? new Date().toISOString()
-              : (existing?.completed_at ?? null),
+            existing?.status === 'completed'
+              ? existing.completed_at
+              : score >= 80
+                ? new Date().toISOString()
+                : (existing?.completed_at ?? null),
         }),
       )
     } catch {

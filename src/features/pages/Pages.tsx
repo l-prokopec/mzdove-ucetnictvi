@@ -9,6 +9,7 @@ import { scoreBand } from '../../lib/exercises'
 import { lessonSectionPath } from '../../lib/lesson-navigation'
 import { useAuth } from '../auth/AuthProvider'
 import { useProgress } from '../progress/useProgress'
+import { moduleProgressStatus } from '../../lib/progress-status'
 import { StatusBadge } from '../../components/StatusBadge'
 import type { LessonProgress, LessonProgressStatus } from '../../types/course'
 
@@ -188,6 +189,8 @@ export function DashboardPage() {
 }
 
 export function CoursePage() {
+  const { progress } = useUserProgress()
+  const rows = progress.data ?? []
   return (
     <div className="page">
       <div className="page-header">
@@ -200,6 +203,7 @@ export function CoursePage() {
       </div>
       <div className="module-list">
         {payrollCourse.modules.map((module) => {
+          const displayStatus = moduleProgressStatus(module, rows)
           return (
             <article
               key={module.id}
@@ -219,7 +223,7 @@ export function CoursePage() {
                   <small>{module.sourceReference}</small>
                 </div>
                 <div className="module__meta">
-                  <StatusBadge status={module.status} />
+                  <StatusBadge status={displayStatus} />
                   <span>{module.lessons.length} plánovaných lekcí</span>
                   <Link
                     className="button button--secondary"
@@ -261,7 +265,7 @@ export function ModulePage() {
           <h1>{module.title}</h1>
           <p>{module.description}</p>
         </div>
-        <StatusBadge status={module.status} />
+        <StatusBadge status={moduleProgressStatus(module, rows)} />
       </div>
       <div className="lesson-cards">
         {module.lessons.map((lesson) => {
