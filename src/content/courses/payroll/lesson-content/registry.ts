@@ -1,5 +1,6 @@
 import type { LessonContentRegistry } from './types'
 import { employeeOnboardingContent } from './employee-onboarding'
+import { employeeBenefitsOtherPaymentsContent } from './employee-benefits-other-payments'
 import { employmentChangesTerminationContent } from './employment-changes-termination'
 import { labourLawBasicsContent } from './labour-law-basics'
 import { payrollFoundationsContent } from './payroll-foundations'
@@ -16,4 +17,5 @@ export const lessonContentRegistry: LessonContentRegistry = {
   ...workAgreementsContent,
   ...workingTimeContent,
   ...remunerationBasicsContent,
+  ...employeeBenefitsOtherPaymentsContent,
 } satisfies LessonContentRegistry

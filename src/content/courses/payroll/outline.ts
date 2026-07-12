@@ -613,44 +613,62 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'benefit-classification',
-        'Klasifikace zaměstnaneckých benefitů',
-        'rozlišit zdanitelné příjmy, osvobozené příjmy a příjmy, které nejsou předmětem daně',
-      ),
-      lesson(
-        'non-cash-benefits',
-        'Nepeněžní benefity',
-        'určit způsob ocenění a základní mzdové zpracování nepeněžního plnění',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'benefit-tax-insurance-impact',
-        'Dopad benefitů na daň a pojistné',
-        'propojit benefit se základem daně a vyměřovacími základy zdravotního a sociálního pojištění',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'employer-retirement-contributions',
-        'Příspěvky zaměstnavatele na produkty spoření na stáří',
-        'rozpoznat potřebné podklady a použít aktuální verzované podmínky pro mzdové posouzení',
-      ),
-      lesson(
-        'hazardous-work-mandatory-contribution',
-        'Povinný příspěvek při rizikové práci',
-        'rozpoznat nárok, evidenční vstupy a vazbu příspěvku na mzdové zpracování bez použití neověřených limitů',
-      ),
-      lesson(
-        'benefits-payroll-case',
-        'Praktický případ zpracování benefitů',
-        'zpracovat kombinaci peněžního a nepeněžního plnění a zdokumentovat daňové a pojistné posouzení',
-        'case_study',
-        true,
-        true,
-        45,
-      ),
+      {
+        ...lesson(
+          'benefit-classification',
+          'Klasifikace zaměstnaneckých benefitů',
+          'rozlišit zdanitelné příjmy, osvobozené příjmy a příjmy, které nejsou předmětem daně',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'non-cash-benefits',
+          'Nepeněžní benefity',
+          'určit způsob ocenění a základní mzdové zpracování nepeněžního plnění',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'benefit-tax-insurance-impact',
+          'Dopad benefitů na daň a pojistné',
+          'propojit benefit se základem daně a vyměřovacími základy zdravotního a sociálního pojištění',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'employer-retirement-contributions',
+          'Příspěvky zaměstnavatele na produkty spoření na stáří',
+          'rozpoznat potřebné podklady a použít aktuální verzované podmínky pro mzdové posouzení',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'hazardous-work-mandatory-contribution',
+          'Povinný příspěvek při rizikové práci',
+          'rozpoznat nárok, evidenční vstupy a vazbu příspěvku na mzdové zpracování bez použití neověřených limitů',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'benefits-payroll-case',
+          'Praktický případ zpracování benefitů',
+          'zpracovat kombinaci peněžního a nepeněžního plnění a zdokumentovat daňové a pojistné posouzení',
+          'case_study',
+          true,
+          true,
+          45,
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Kombinace peněžního příspěvku a nepeněžního benefitu v jednom období.',

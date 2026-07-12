@@ -55,6 +55,12 @@ const availableLessonIds = [
   'minimum-wage-guaranteed-salary',
   'non-wage-benefits',
   'payday-payment',
+  'benefit-classification',
+  'non-cash-benefits',
+  'benefit-tax-insurance-impact',
+  'employer-retirement-contributions',
+  'hazardous-work-mandatory-contribution',
+  'benefits-payroll-case',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -137,17 +143,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě čtyřicet lekcí prvních sedmi modulů', () => {
+  it('publikuje právě čtyřicet šest lekcí prvních osmi modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(40)
+    ).toHaveLength(46)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(154)
+    ).toHaveLength(148)
     expect(
       availableLessons
         .slice(0, 5)
@@ -182,12 +188,19 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(34)
+        .slice(34, 40)
         .every((lesson) => lesson.moduleId === 'remuneration-basics'),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(40)
+        .every(
+          (lesson) => lesson.moduleId === 'employee-benefits-other-payments',
+        ),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(7)
+        .slice(8)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
@@ -197,6 +210,7 @@ describe('registr plného obsahu', () => {
     expect(payrollCourse.modules[4].status).toBe('available')
     expect(payrollCourse.modules[5].status).toBe('available')
     expect(payrollCourse.modules[6].status).toBe('available')
+    expect(payrollCourse.modules[7].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -402,7 +416,7 @@ describe('registr plného obsahu', () => {
       'non-wage-benefits': '2026-01-01',
       'payday-payment': '2025-06-01',
     }
-    for (const lessonId of availableLessonIds.slice(34)) {
+    for (const lessonId of availableLessonIds.slice(34, 40)) {
       const content = lessonContentRegistry[lessonId]
       expect(content.moduleId).toBe('remuneration-basics')
       expect(content.skillIds.length).toBeGreaterThan(0)
@@ -417,6 +431,48 @@ describe('registr plného obsahu', () => {
         validFrom: expectedValidFrom[lessonId],
         verifiedAt: '2026-07-12',
       })
+    }
+  })
+
+  it('má u všech lekcí osmého modulu úplný obsah a legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(40)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('employee-benefits-other-payments')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(45)
+      expect(content.flashcards).toHaveLength(4)
+      expect(content.exercises).toHaveLength(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(5)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: '2026-01-01',
+        verifiedAt: '2026-07-12',
+      })
+    }
+  })
+
+  it('ověřuje klíčová odborná pravidla osmého modulu bez snapshotů', () => {
+    const text = JSON.stringify(
+      availableLessonIds
+        .slice(40)
+        .map((lessonId) => lessonContentRegistry[lessonId].blocks),
+    )
+    for (const expected of [
+      '48 967 Kč',
+      '24 483,50 Kč',
+      'nepeněžní',
+      'nadlimitní část',
+      '50 000 Kč',
+      'povinný příspěvek',
+      '4 %',
+      'tři směny',
+      '1,25 směny',
+      'DIP',
+      '4 516,50 Kč',
+    ]) {
+      expect(text).toContain(expected)
     }
   })
 
