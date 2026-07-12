@@ -49,6 +49,12 @@ const availableLessonIds = [
   'rest-breaks',
   'work-time-records',
   'attendance-reconciliation',
+  'wage-salary-agreement',
+  'remuneration-setting',
+  'wage-components',
+  'minimum-wage-guaranteed-salary',
+  'non-wage-benefits',
+  'payday-payment',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -131,17 +137,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě třicet čtyři lekcí prvních šesti modulů', () => {
+  it('publikuje právě čtyřicet lekcí prvních sedmi modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(34)
+    ).toHaveLength(40)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(160)
+    ).toHaveLength(154)
     expect(
       availableLessons
         .slice(0, 5)
@@ -171,12 +177,17 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(28)
+        .slice(28, 34)
         .every((lesson) => lesson.moduleId === 'working-time'),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(34)
+        .every((lesson) => lesson.moduleId === 'remuneration-basics'),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(6)
+        .slice(7)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
@@ -185,6 +196,7 @@ describe('registr plného obsahu', () => {
     expect(payrollCourse.modules[3].status).toBe('available')
     expect(payrollCourse.modules[4].status).toBe('available')
     expect(payrollCourse.modules[5].status).toBe('available')
+    expect(payrollCourse.modules[6].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -339,7 +351,7 @@ describe('registr plného obsahu', () => {
   })
 
   it('má u všech lekcí šestého modulu úplný obsah a legislativní metadata', () => {
-    for (const lessonId of availableLessonIds.slice(28)) {
+    for (const lessonId of availableLessonIds.slice(28, 34)) {
       const content = lessonContentRegistry[lessonId]
       expect(content.moduleId).toBe('working-time')
       expect(content.skillIds.length).toBeGreaterThan(0)
@@ -376,6 +388,63 @@ describe('registr plného obsahu', () => {
       'začátek a konec směn',
       'Přítomnost',
       'není automaticky přesčas',
+    ]) {
+      expect(text).toContain(expected)
+    }
+  })
+
+  it('má u všech lekcí sedmého modulu úplný obsah a legislativní metadata', () => {
+    const expectedValidFrom: Record<string, string> = {
+      'wage-salary-agreement': '2026-01-01',
+      'remuneration-setting': '2026-01-01',
+      'wage-components': '2026-01-01',
+      'minimum-wage-guaranteed-salary': '2026-01-01',
+      'non-wage-benefits': '2026-01-01',
+      'payday-payment': '2025-06-01',
+    }
+    for (const lessonId of availableLessonIds.slice(34)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('remuneration-basics')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(40)
+      expect(content.flashcards.length).toBeGreaterThanOrEqual(4)
+      expect(content.exercises.length).toBeGreaterThanOrEqual(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(5)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: expectedValidFrom[lessonId],
+        verifiedAt: '2026-07-12',
+      })
+    }
+  })
+
+  it('ověřuje klíčová odborná pravidla sedmého modulu bez snapshotů', () => {
+    const text = JSON.stringify(
+      availableLessonIds
+        .slice(34)
+        .map((lessonId) => lessonContentRegistry[lessonId].blocks),
+    )
+    for (const expected of [
+      'Mzda',
+      'Plat',
+      'Odměna z dohody',
+      'sjednanou mzdu',
+      'před začátkem výkonu práce',
+      'nemzdové',
+      '22 400 Kč',
+      '134,40 Kč',
+      '138,80 Kč',
+      '143,40 Kč',
+      '26 880 Kč',
+      '31 360 Kč',
+      '35 840 Kč',
+      '4,70 Kč',
+      'bezhotovost',
+      'výplatní termín',
+      'výplatní doklad',
+      'zlomky hodin',
     ]) {
       expect(text).toContain(expected)
     }

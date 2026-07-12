@@ -537,39 +537,57 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'wage-salary-agreement',
-        'Mzda, plat a odměna',
-        'správně pojmenovat plnění podle zaměstnavatele a vztahu',
-      ),
-      lesson(
-        'remuneration-setting',
-        'Sjednání, stanovení a určení odměny',
-        'odlišit způsoby založení nároku na odměnu',
-      ),
-      lesson(
-        'wage-components',
-        'Pevné a pohyblivé složky mzdy',
-        'roztřídit základní, výkonové a mimořádné složky',
-      ),
-      lesson(
-        'minimum-wage-guaranteed-salary',
-        'Minimální mzda a zaručený plat',
-        'rozlišit minimální mzdu a zaručený plat a promítnout je do kontroly odměny',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'non-wage-benefits',
-        'Plnění nemzdové povahy',
-        'rozpoznat položky, které nelze automaticky zahrnout do mzdy',
-      ),
-      lesson(
-        'payday-payment',
-        'Splatnost a výplata',
-        'popsat kontrolní kroky před předáním výplaty',
-        'process',
-      ),
+      {
+        ...lesson(
+          'wage-salary-agreement',
+          'Mzda, plat a odměna',
+          'správně pojmenovat plnění podle zaměstnavatele a vztahu',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'remuneration-setting',
+          'Sjednání, stanovení a určení odměny',
+          'odlišit způsoby založení nároku na odměnu',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'wage-components',
+          'Pevné a pohyblivé složky mzdy',
+          'roztřídit základní, výkonové a mimořádné složky',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'minimum-wage-guaranteed-salary',
+          'Minimální mzda a zaručený plat',
+          'rozlišit minimální mzdu a zaručený plat a promítnout je do kontroly odměny',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'non-wage-benefits',
+          'Plnění nemzdové povahy',
+          'rozpoznat položky, které nelze automaticky zahrnout do mzdy',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'payday-payment',
+          'Splatnost a výplata',
+          'popsat kontrolní kroky před předáním výplaty',
+          'process',
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Zařazení osobního ohodnocení a mimořádné odměny.',
