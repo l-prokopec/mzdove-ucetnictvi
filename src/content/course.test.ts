@@ -43,6 +43,12 @@ const availableLessonIds = [
   'agreement-time-records',
   'agreement-tax-insurance-inputs',
   'agreement-lifecycle',
+  'working-time-concepts',
+  'weekly-hours',
+  'shift-patterns',
+  'rest-breaks',
+  'work-time-records',
+  'attendance-reconciliation',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -125,17 +131,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě dvacet osm lekcí prvních pěti modulů', () => {
+  it('publikuje právě třicet čtyři lekcí prvních šesti modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(28)
+    ).toHaveLength(34)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(166)
+    ).toHaveLength(160)
     expect(
       availableLessons
         .slice(0, 5)
@@ -160,12 +166,17 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(22)
+        .slice(22, 28)
         .every((lesson) => lesson.moduleId === 'work-agreements'),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(28)
+        .every((lesson) => lesson.moduleId === 'working-time'),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(5)
+        .slice(6)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
@@ -173,6 +184,7 @@ describe('registr plného obsahu', () => {
     expect(payrollCourse.modules[2].status).toBe('available')
     expect(payrollCourse.modules[3].status).toBe('available')
     expect(payrollCourse.modules[4].status).toBe('available')
+    expect(payrollCourse.modules[5].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -308,7 +320,7 @@ describe('registr plného obsahu', () => {
       'agreement-tax-insurance-inputs': '2026-01-01',
       'agreement-lifecycle': '2026-07-01',
     }
-    for (const lessonId of availableLessonIds.slice(22)) {
+    for (const lessonId of availableLessonIds.slice(22, 28)) {
       const content = lessonContentRegistry[lessonId]
       expect(content.moduleId).toBe('work-agreements')
       expect(content.skillIds.length).toBeGreaterThan(0)
@@ -323,6 +335,49 @@ describe('registr plného obsahu', () => {
         validFrom: expectedValidFrom[lessonId],
         verifiedAt: '2026-07-11',
       })
+    }
+  })
+
+  it('má u všech lekcí šestého modulu úplný obsah a legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(28)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('working-time')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(35)
+      expect(content.flashcards.length).toBeGreaterThanOrEqual(4)
+      expect(content.exercises.length).toBeGreaterThanOrEqual(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(5)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: '2026-01-01',
+        verifiedAt: '2026-07-12',
+      })
+    }
+  })
+
+  it('ověřuje klíčová odborná pravidla šestého modulu bez snapshotů', () => {
+    const text = JSON.stringify(
+      availableLessonIds
+        .slice(28)
+        .map((lessonId) => lessonContentRegistry[lessonId].blocks),
+    )
+    for (const expected of [
+      '40 hodin',
+      '38,75',
+      '37,5',
+      'Zkrácená stanovená týdenní pracovní doba',
+      'Kratší pracovní doba',
+      'nezapočítává',
+      'Bezpečnostní přestávka',
+      '11 hodin',
+      '35 hodin',
+      'začátek a konec směn',
+      'Přítomnost',
+      'není automaticky přesčas',
+    ]) {
+      expect(text).toContain(expected)
     }
   })
 

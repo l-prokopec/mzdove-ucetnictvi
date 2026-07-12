@@ -459,40 +459,58 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'working-time-concepts',
-        'Pracovní doba, směna a pracovní režim',
-        'rozlišit základní pojmy pracovní doby',
-      ),
-      lesson(
-        'weekly-hours',
-        'Stanovená a kratší pracovní doba',
-        'určit sjednaný rozsah práce pro mzdové zpracování',
-      ),
-      lesson(
-        'shift-patterns',
-        'Jednosměnný a vícesměnný provoz',
-        'číst modelový rozvrh směn a jeho změny',
-        'worked_example',
-        true,
-      ),
-      lesson(
-        'rest-breaks',
-        'Přestávky a doba odpočinku',
-        'odlišit započitatelné a nezapočitatelné části směny',
-      ),
-      lesson(
-        'work-time-records',
-        'Evidence pracovní doby',
-        'zkontrolovat povinné údaje evidence pro zpracování mzdy',
-        'process',
-      ),
-      lesson(
-        'attendance-reconciliation',
-        'Kontrola docházky proti rozvrhu',
-        'najít rozdíly mezi plánem směn a skutečnou docházkou',
-        'practice',
-      ),
+      {
+        ...lesson(
+          'working-time-concepts',
+          'Pracovní doba, směna a pracovní režim',
+          'rozlišit základní pojmy pracovní doby',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'weekly-hours',
+          'Stanovená a kratší pracovní doba',
+          'určit sjednaný rozsah práce pro mzdové zpracování',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'shift-patterns',
+          'Jednosměnný a vícesměnný provoz',
+          'číst modelový rozvrh směn a jeho změny',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'rest-breaks',
+          'Přestávky a doba odpočinku',
+          'odlišit započitatelné a nezapočitatelné části směny',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'work-time-records',
+          'Evidence pracovní doby',
+          'zkontrolovat povinné údaje evidence pro zpracování mzdy',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'attendance-reconciliation',
+          'Kontrola docházky proti rozvrhu',
+          'najít rozdíly mezi plánem směn a skutečnou docházkou',
+          'practice',
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Nesoulad mezi plánem směn a evidovanou docházkou.',

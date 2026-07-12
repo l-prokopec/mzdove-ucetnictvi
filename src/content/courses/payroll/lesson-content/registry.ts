@@ -4,6 +4,7 @@ import { employmentChangesTerminationContent } from './employment-changes-termin
 import { labourLawBasicsContent } from './labour-law-basics'
 import { payrollFoundationsContent } from './payroll-foundations'
 import { workAgreementsContent } from './work-agreements'
+import { workingTimeContent } from './working-time'
 
 // Obsah se přidává po modulech a explicitně se registruje pod stabilním ID lekce.
 export const lessonContentRegistry: LessonContentRegistry = {
@@ -12,4 +13,5 @@ export const lessonContentRegistry: LessonContentRegistry = {
   ...employeeOnboardingContent,
   ...employmentChangesTerminationContent,
   ...workAgreementsContent,
+  ...workingTimeContent,
 } satisfies LessonContentRegistry
