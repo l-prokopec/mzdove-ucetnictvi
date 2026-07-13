@@ -7,6 +7,7 @@ import { payrollFoundationsContent } from './payroll-foundations'
 import { overtimeSupplementsContent } from './overtime-supplements'
 import { remunerationBasicsContent } from './remuneration-basics'
 import { workAgreementsContent } from './work-agreements'
+import { workObstaclesContent } from './work-obstacles'
 import { workingTimeContent } from './working-time'
 
 // Obsah se přidává po modulech a explicitně se registruje pod stabilním ID lekce.
@@ -20,4 +21,5 @@ export const lessonContentRegistry: LessonContentRegistry = {
   ...remunerationBasicsContent,
   ...employeeBenefitsOtherPaymentsContent,
   ...overtimeSupplementsContent,
+  ...workObstaclesContent,
 } satisfies LessonContentRegistry

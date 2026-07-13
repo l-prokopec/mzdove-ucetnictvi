@@ -69,6 +69,11 @@ const availableLessonIds = [
   'weekend-work',
   'on-call-duty',
   'supplement-overlap',
+  'employee-obstacles',
+  'public-interest-obstacles',
+  'employer-obstacles',
+  'obstacle-documents',
+  'obstacle-compensation',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -151,17 +156,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě padesát tři lekcí prvních devíti modulů', () => {
+  it('publikuje právě padesát osm lekcí prvních deseti modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(53)
+    ).toHaveLength(58)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(141)
+    ).toHaveLength(136)
     expect(
       availableLessons
         .slice(0, 5)
@@ -208,12 +213,17 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(46)
+        .slice(46, 53)
         .every((lesson) => lesson.moduleId === 'overtime-supplements'),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(53)
+        .every((lesson) => lesson.moduleId === 'work-obstacles'),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(9)
+        .slice(10)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
@@ -225,6 +235,7 @@ describe('registr plného obsahu', () => {
     expect(payrollCourse.modules[6].status).toBe('available')
     expect(payrollCourse.modules[7].status).toBe('available')
     expect(payrollCourse.modules[8].status).toBe('available')
+    expect(payrollCourse.modules[9].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -468,7 +479,7 @@ describe('registr plného obsahu', () => {
   })
 
   it('má u všech lekcí devátého modulu úplný obsah a legislativní metadata', () => {
-    for (const lessonId of availableLessonIds.slice(46)) {
+    for (const lessonId of availableLessonIds.slice(46, 53)) {
       const content = lessonContentRegistry[lessonId]
       expect(content.moduleId).toBe('overtime-supplements')
       expect(content.skillIds.length).toBeGreaterThan(0)
@@ -486,10 +497,158 @@ describe('registr plného obsahu', () => {
     }
   })
 
+  it('má u všech lekcí desátého modulu úplný obsah a legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(53)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('work-obstacles')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(47)
+      expect(content.flashcards).toHaveLength(4)
+      expect(content.exercises).toHaveLength(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(5)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom:
+          lessonId === 'employee-obstacles' ? '2025-06-01' : '2026-01-01',
+        verifiedAt: '2026-07-13',
+      })
+    }
+  })
+
+  it('ověřuje klíčová odborná pravidla desátého modulu bez snapshotů', () => {
+    const text = JSON.stringify(
+      availableLessonIds
+        .slice(53)
+        .map((lessonId) => lessonContentRegistry[lessonId].blocks),
+    )
+    for (const expected of [
+      'nejbližšího způsobilého zařízení',
+      'dva dny',
+      'pět dalších dnů',
+      'pouze jednomu rodinnému příslušníkovi',
+      'nejvýše 4 dny s náhradou',
+      'nejvýše 2 dny bez náhrady',
+      'považuje za vyčerpaný celý den',
+      'Veřejná funkce',
+      'občanské povinnosti',
+      'Jiné úkony v obecném zájmu',
+      '24 hodin',
+      '48 hodin',
+      '96 hodin',
+      '12 směn',
+      'tři týdny',
+      '276,90 Kč',
+      '80 %',
+      '60 %',
+      '100 %',
+      'částečné nezaměstnanosti',
+      'platové sféře',
+      'DPP a DPČ',
+      'Stejný čas nelze současně vykázat jako práci a překážku',
+      'Minimalizace osobních údajů',
+      'auditní stopu',
+    ]) {
+      expect(text).toContain(expected)
+    }
+  })
+
+  it('module 10 calculation exercises are independent from worked examples', () => {
+    const contents = availableLessonIds
+      .slice(53)
+      .map((lessonId) => lessonContentRegistry[lessonId])
+    const exercises = contents.flatMap((content) => content.exercises)
+    const findShortText = (id: string) => {
+      const exercise = exercises.find((candidate) => candidate.id === id)
+      if (!exercise || exercise.type !== 'short_text') {
+        throw new Error(`Missing short-text exercise ${id}`)
+      }
+      return exercise
+    }
+
+    const employee = lessonContentRegistry['employee-obstacles']
+    const employeeText = JSON.stringify(employee.blocks)
+    const employeeExercise = findShortText('employee-obstacles-exercise-05')
+    expect(employeeText).toContain('2,5 hodiny')
+    expect(employeeExercise.prompt).toContain('10:20 do 13:05')
+    expect(employeeExercise.prompt).not.toContain('9:10–11:40')
+    expect(employeeExercise.acceptedAnswers).toContain('2,75 hodiny')
+
+    const publicInterest = lessonContentRegistry['public-interest-obstacles']
+    const publicInterestText = JSON.stringify(publicInterest.blocks)
+    const publicInterestExercise = findShortText(
+      'public-interest-obstacles-exercise-05',
+    )
+    expect(publicInterestText).toContain('40 × 276,90 = 11 076 Kč')
+    expect(publicInterestExercise.prompt).toContain('32 hodin')
+    expect(publicInterestExercise.prompt).toContain('260 Kč')
+    expect(publicInterestExercise.acceptedAnswers).toContain('8 320 Kč')
+    expect(publicInterestExercise.acceptedAnswers).not.toContain('11 076 Kč')
+
+    const employer = lessonContentRegistry['employer-obstacles']
+    const employerText = JSON.stringify(employer.blocks)
+    const employerExercise = findShortText('employer-obstacles-exercise-05')
+    for (const result of ['960 Kč', '1 008 Kč', '1 120 Kč', '3 900 Kč']) {
+      expect(employerText).toContain(result)
+    }
+    expect(employerExercise.prompt).toContain('7,25 hodiny')
+    expect(employerExercise.prompt).toContain('310 Kč')
+    expect(employerExercise.acceptedAnswers).toContain('1 798 Kč')
+    for (const input of ['4 × 300', '6 × 280', '3,5 × 320', '20 × 300']) {
+      expect(employerExercise.prompt).not.toContain(input)
+    }
+
+    const documents = lessonContentRegistry['obstacle-documents']
+    const documentsText = JSON.stringify(documents.blocks)
+    const documentsExercise = findShortText('obstacle-documents-exercise-05')
+    expect(documentsText).toContain('8:00–16:00')
+    expect(documentsExercise.prompt).toContain('9:00–17:30')
+    expect(documentsExercise.acceptedAnswers).toContain('3 hodiny 20 minut')
+
+    const compensation = lessonContentRegistry['obstacle-compensation']
+    const compensationText = JSON.stringify(compensation.blocks)
+    for (const result of [
+      '955,50 Kč',
+      '775 Kč',
+      '1 342 Kč',
+      '1 218 Kč',
+      '907,50 Kč',
+      '4 914 Kč',
+      '1 008 Kč',
+      '4 500 Kč',
+    ]) {
+      expect(compensationText).toContain(result)
+    }
+    const compensationExercise = findShortText(
+      'obstacle-compensation-exercise-05',
+    )
+    for (const input of ['304 Kč', '2,25 hodiny', '6,5 hodiny', '4 hodiny']) {
+      expect(compensationExercise.prompt).toContain(input)
+    }
+    expect(compensationExercise.acceptedAnswers).toContain('3 480,80 Kč')
+    expect(
+      JSON.stringify({
+        blocks: compensation.blocks,
+        flashcards: compensation.flashcards,
+      }),
+    ).not.toContain('3 480,80 Kč')
+
+    expect(new Decimal(4.5).minus(2.75).toString()).toBe('1.75')
+    expect(new Decimal(32).times(260).toString()).toBe('8320')
+    expect(new Decimal(7.25).times(310).times(0.8).toString()).toBe('1798')
+    expect(new Decimal(5).minus(3.25).toString()).toBe('1.75')
+    const total = new Decimal(2.25)
+      .times(304)
+      .plus(new Decimal(6.5).times(304).times(0.8))
+      .plus(new Decimal(4).times(304))
+    expect(total.toString()).toBe('3480.8')
+  })
+
   it('ověřuje klíčová odborná pravidla devátého modulu bez snapshotů', () => {
     const text = JSON.stringify(
       availableLessonIds
-        .slice(46)
+        .slice(46, 53)
         .map((lessonId) => lessonContentRegistry[lessonId].blocks),
     )
     for (const expected of [
@@ -513,7 +672,7 @@ describe('registr plného obsahu', () => {
   })
 
   it('module 9 calculation exercises use inputs independent from worked examples', () => {
-    const moduleLessonIds = availableLessonIds.slice(46)
+    const moduleLessonIds = availableLessonIds.slice(46, 53)
     const contents = moduleLessonIds.map(
       (lessonId) => lessonContentRegistry[lessonId],
     )
@@ -683,16 +842,16 @@ describe('registr plného obsahu', () => {
 
     expect(payrollCourse.modules).toHaveLength(31)
     expect(outlineLessons).toHaveLength(194)
-    expect(availableLessons).toHaveLength(53)
+    expect(availableLessons).toHaveLength(58)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(141)
+    ).toHaveLength(136)
   })
 
   it('ověřuje klíčová odborná pravidla osmého modulu bez snapshotů', () => {
     const text = JSON.stringify(
       availableLessonIds
-        .slice(40)
+        .slice(40, 46)
         .map((lessonId) => lessonContentRegistry[lessonId].blocks),
     )
     for (const expected of [

@@ -799,34 +799,49 @@ const modules: OutlineModule[] = [
     ],
     category: 'core',
     lessons: [
-      lesson(
-        'employee-obstacles',
-        'Překážky na straně zaměstnance',
-        'roztřídit základní osobní překážky v práci',
-      ),
-      lesson(
-        'public-interest-obstacles',
-        'Překážky z důvodu obecného zájmu',
-        'rozpoznat nepřítomnosti vyžadující zvláštní podklad',
-      ),
-      lesson(
-        'employer-obstacles',
-        'Překážky na straně zaměstnavatele',
-        'rozlišit prostoje a jiné překážky zaměstnavatele',
-      ),
-      lesson(
-        'obstacle-documents',
-        'Dokladování a evidence překážek',
-        'zkontrolovat vazbu dokladu, docházky a mzdového kódu',
-        'process',
-      ),
-      lesson(
-        'obstacle-compensation',
-        'Náhrada mzdy při překážce',
-        'určit vstupy pro výpočet náhrady mzdy',
-        'worked_example',
-        true,
-      ),
+      {
+        ...lesson(
+          'employee-obstacles',
+          'Překážky na straně zaměstnance',
+          'roztřídit základní osobní překážky v práci',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'public-interest-obstacles',
+          'Překážky z důvodu obecného zájmu',
+          'rozpoznat nepřítomnosti vyžadující zvláštní podklad',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'employer-obstacles',
+          'Překážky na straně zaměstnavatele',
+          'rozlišit prostoje a jiné překážky zaměstnavatele',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'obstacle-documents',
+          'Dokladování a evidence překážek',
+          'zkontrolovat vazbu dokladu, docházky a mzdového kódu',
+          'process',
+        ),
+        status: 'available',
+      },
+      {
+        ...lesson(
+          'obstacle-compensation',
+          'Náhrada mzdy při překážce',
+          'určit vstupy pro výpočet náhrady mzdy',
+          'worked_example',
+          true,
+        ),
+        status: 'available',
+      },
     ],
     practicalScenarios: [
       'Návštěva lékaře zasahující do části směny.',
