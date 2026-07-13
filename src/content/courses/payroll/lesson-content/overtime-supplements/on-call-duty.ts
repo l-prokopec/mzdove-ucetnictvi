@@ -296,29 +296,31 @@ export const onCallDutyContent = defineLessonContent({
       id: 'on-call-duty-exercise-01',
       type: 'single_choice',
       prompt:
-        'Zaměstnanec drží 8 hodin pohotovosti bez zásahu a průměrný výdělek činí 300 Kč. Jaká je minimální odměna?',
+        'Pracovní pohotovost trvá 9 hodin. Během ní zaměstnanec vykoná dva zásahy: první v délce 1,25 hodiny a druhý v délce 0,75 hodiny. Průměrný hodinový výdělek činí 315 Kč. Kolik činí minimální odměna za neaktivní část pohotovosti?',
       options: [
         {
           id: 'a',
-          text: '80 Kč.',
+          text: '189 Kč.',
         },
         {
           id: 'b',
-          text: '240 Kč.',
+          text: '220,50 Kč.',
         },
         {
           id: 'c',
-          text: '300 Kč.',
+          text: '283,50 Kč.',
         },
         {
           id: 'd',
-          text: '2 400 Kč.',
+          text: '315 Kč.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['standby-remuneration-calculation'],
-      explanation: '8 × 300 × 10 % = 240 Kč.',
-      commonMistake: 'Použít celou průměrnou mzdu jako za výkon práce.',
+      explanation:
+        'Výkon práce trvá celkem 2 hodiny, takže neaktivní pohotovost činí 7 hodin. Výpočet je 7 × 315 × 10 % = 220,50 Kč.',
+      commonMistake:
+        'Počítat odměnu z celých devíti hodin nebo neodečíst oba zásahy.',
     },
     {
       id: 'on-call-duty-exercise-02',
@@ -397,69 +399,80 @@ export const onCallDutyContent = defineLessonContent({
       id: 'on-call-duty-exercise-04',
       type: 'single_choice',
       prompt:
-        'Pohotovost trvá 6 hodin a zásah 2 hodiny. Za kolik hodin se počítá odměna za pohotovost?',
+        'Pohotovost trvá 11,5 hodiny. První výkon práce trvá 1,25 hodiny a druhý 2 hodiny. Za kolik hodin se počítá odměna za neaktivní pohotovost?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '7,25 hodiny.',
         },
         {
           id: 'b',
-          text: '4 hodiny.',
+          text: '8,25 hodiny.',
         },
         {
           id: 'c',
-          text: '6 hodin.',
+          text: '9,5 hodiny.',
         },
         {
           id: 'd',
-          text: '8 hodin.',
+          text: '11,5 hodiny.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['standby-remuneration-calculation'],
-      explanation: 'Šestihodinový interval se sníží o dvě hodiny výkonu.',
-      commonMistake: 'Zaplatit pohotovost i za odpracovaný zásah.',
+      explanation:
+        'Celkový výkon práce činí 1,25 + 2 = 3,25 hodiny. Neaktivní pohotovost je 11,5 − 3,25 = 8,25 hodiny.',
+      commonMistake:
+        'Odečíst jen jeden zásah nebo zaokrouhlit jednotlivé zásahy na celé hodiny.',
     },
     {
       id: 'on-call-duty-exercise-05',
       type: 'short_text',
       prompt:
-        'Kolik procent průměrného výdělku činí minimální odměna za pracovní pohotovost?',
-      acceptedAnswers: ['10 %', '10 procent', 'deset procent'],
+        'Neaktivní pracovní pohotovost trvala 6,75 hodiny a průměrný hodinový výdělek činí 308 Kč. Kolik činí minimální odměna za pohotovost?',
+      acceptedAnswers: [
+        '207,90 Kč',
+        '207,9 Kč',
+        '207,90',
+        '207,9',
+        '207.90',
+        '207.9',
+      ],
       ignoreDiacritics: true,
       skillIds: ['standby-remuneration-calculation'],
-      explanation: 'Zákonné minimum činí 10 %.',
-      commonMistake: 'Uvést noční platový příplatek 20 %.',
+      explanation: 'Výpočet je 6,75 × 308 × 10 % = 207,90 Kč.',
+      commonMistake:
+        'Použít celou průměrnou hodinovou sazbu nebo zaokrouhlit pohotovost na celé hodiny.',
     },
     {
       id: 'on-call-duty-exercise-06',
       type: 'single_choice',
       prompt:
-        'Zaměstnanec musí po celou dobu čekat na pracovišti. Lze čas automaticky označit jako pracovní pohotovost?',
+        'Zaměstnanec musí od 18:00 do 22:00 fyzicky setrvat v dispečerské místnosti zaměstnavatele a být připraven okamžitě zasáhnout. Lze celý interval automaticky odměnit pouze jako pracovní pohotovost?',
       options: [
         {
           id: 'a',
-          text: 'Ano vždy.',
+          text: 'Ano, protože většinu času aktivně nepracuje.',
         },
         {
           id: 'b',
-          text: 'Ne, povinná přítomnost na pracovišti může být pracovní dobou.',
+          text: 'Ne. Povinná přítomnost na pracovišti odpovídá pracovní době nebo jinému režimu, který je nutné posoudit podle skutečného obsahu.',
         },
         {
           id: 'c',
-          text: 'Ano, pokud nepracuje rukama.',
+          text: 'Ano, pokud je interval kratší než jedna směna.',
         },
         {
           id: 'd',
-          text: 'Ano, pokud je večer.',
+          text: 'Ano, pokud zaměstnanec může používat telefon.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['standby-work-distinction'],
       explanation:
-        'Pracovní pohotovost se drží mimo pracoviště zaměstnavatele.',
-      commonMistake: 'Posuzovat jen intenzitu práce místo místa a omezení.',
+        'Pracovní pohotovost se drží na jiném dohodnutém místě než na pracovišti zaměstnavatele.',
+      commonMistake:
+        'Posuzovat pouze intenzitu činnosti a ignorovat povinné místo pobytu.',
     },
   ],
   sources: [

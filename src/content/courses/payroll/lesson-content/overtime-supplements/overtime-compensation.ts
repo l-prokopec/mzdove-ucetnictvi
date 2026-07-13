@@ -328,29 +328,31 @@ export const overtimeCompensationContent = defineLessonContent({
       id: 'overtime-compensation-exercise-01',
       type: 'single_choice',
       prompt:
-        'Hodinová mzda je 240 Kč, průměrný výdělek 280 Kč a přesčas trvá 4 hodiny. Kolik činí minimální příplatek?',
+        'Zaměstnanec ve mzdové sféře odpracuje 3,5 hodiny přesčas. Jeho hodinová mzda činí 265 Kč a průměrný hodinový výdělek 312 Kč. Náhradní volno nebylo dohodnuto. Kolik činí součet dosažené mzdy za přesčas a minimálního přesčasového příplatku?',
       options: [
         {
           id: 'a',
-          text: '70 Kč.',
+          text: '273 Kč.',
         },
         {
           id: 'b',
-          text: '280 Kč.',
+          text: '927,50 Kč.',
         },
         {
           id: 'c',
-          text: '960 Kč.',
+          text: '1 200,50 Kč.',
         },
         {
           id: 'd',
-          text: '1 240 Kč.',
+          text: '1 290 Kč.',
         },
       ],
-      correctOptionId: 'b',
+      correctOptionId: 'c',
       skillIds: ['overtime-wage-calculation'],
-      explanation: '4 × 280 × 25 % = 280 Kč.',
-      commonMistake: 'Zaměnit dosaženou mzdu a příplatek.',
+      explanation:
+        'Dosažená mzda je 3,5 × 265 = 927,50 Kč. Příplatek je 3,5 × 312 × 25 % = 273 Kč. Celkem 1 200,50 Kč.',
+      commonMistake:
+        'Vypočítat jen příplatek nebo použít průměrný výdělek také jako dosaženou mzdu.',
     },
     {
       id: 'overtime-compensation-exercise-02',
@@ -431,75 +433,74 @@ export const overtimeCompensationContent = defineLessonContent({
       id: 'overtime-compensation-exercise-04',
       type: 'single_choice',
       prompt:
-        'Průměrný výdělek je 320 Kč a v platové sféře jde o 3 hodiny přesčasu v den týdenního odpočinku. Kolik činí příplatek?',
+        'Zaměstnanec odměňovaný platem vykoná 4,5 hodiny práce přesčas v den svého nepřetržitého odpočinku. Průměrný hodinový výdělek činí 336 Kč. Kolik činí přesčasový příplatek?',
       options: [
         {
           id: 'a',
-          text: '240 Kč.',
+          text: '378 Kč.',
         },
         {
           id: 'b',
-          text: '320 Kč.',
+          text: '672 Kč.',
         },
         {
           id: 'c',
-          text: '480 Kč.',
+          text: '756 Kč.',
         },
         {
           id: 'd',
-          text: '960 Kč.',
+          text: '1 512 Kč.',
         },
       ],
       correctOptionId: 'c',
       skillIds: ['overtime-wage-calculation'],
-      explanation: '3 × 320 × 50 % = 480 Kč.',
-      commonMistake: 'Použít 25% sazbu.',
+      explanation:
+        'V den nepřetržitého odpočinku činí platový přesčasový příplatek 50 %. Výpočet je 4,5 × 336 × 50 % = 756 Kč.',
+      commonMistake:
+        'Použít 25% sazbu nebo zaměnit výši příplatku s celou částí platu za přesčas.',
     },
     {
       id: 'overtime-compensation-exercise-05',
       type: 'short_text',
       prompt:
-        'Jaký konkrétní údaj musí obsahovat dohoda o mzdě zahrnující přesčas?',
-      acceptedAnswers: [
-        'rozsah práce přesčas',
-        'konkrétní rozsah přesčasu',
-        'pocet hodin prescasu',
-        'počet hodin přesčasu',
-      ],
+        'Mzda byla platně sjednána s přihlédnutím k 90 hodinám práce přesčas za kalendářní rok. Zaměstnanec skutečně vykonal 104 hodin přesčasu. Kolik hodin se musí vypořádat nad rámec sjednaného zahrnutí?',
+      acceptedAnswers: ['14 hodin', '14', 'čtrnáct hodin'],
       ignoreDiacritics: true,
       skillIds: ['overtime-included-remuneration-control'],
       explanation:
-        'Musí být sjednáno, k jakému rozsahu přesčasu se ve mzdě přihlíží.',
-      commonMistake: 'Uvést jen obecnou větu přesčasy jsou zahrnuty.',
+        'Do sjednané mzdy je zahrnuto 90 hodin. Nad tento rozsah zbývá 104 − 90 = 14 hodin ke standardnímu vypořádání.',
+      commonMistake:
+        'Považovat ujednání za neomezené nebo počítat všech 104 hodin znovu.',
     },
     {
       id: 'overtime-compensation-exercise-06',
       type: 'single_choice',
       prompt:
-        'Mzda zahrnuje 100 hodin přesčasu a zaměstnanec vykoná 108 hodin. Jak se vypořádá posledních 8 hodin?',
+        'Pracovní smlouva uvádí pouze větu „sjednaná mzda zahrnuje veškerou případnou práci přesčas“, ale neobsahuje žádný počet hodin ani jinak určitý rozsah. Jak má mzdová účetní postupovat při potvrzeném přesčasu?',
       options: [
         {
           id: 'a',
-          text: 'Nijak.',
+          text: 'Považovat veškerý přesčas za vypořádaný sjednanou mzdou.',
         },
         {
           id: 'b',
-          text: 'Standardně dosaženou mzdou a příplatkem nebo náhradním volnem.',
+          text: 'Nepovažovat neurčité ujednání za dostatečné a přesčas vypořádat standardním způsobem, dokud není doloženo platné konkrétní sjednání.',
         },
         {
           id: 'c',
-          text: 'Pouze náhradním volnem bez dohody.',
+          text: 'Poskytnout pouze neplacené náhradní volno.',
         },
         {
           id: 'd',
-          text: 'Jako cestovní náhrada.',
+          text: 'Převést přesčas automaticky do dalšího kalendářního roku.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['overtime-included-remuneration-control'],
       explanation:
-        'Hodiny nad přesně sjednaný zahrnutý rozsah podléhají standardnímu vypořádání.',
-      commonMistake: 'Považovat zahrnutí přesčasu za neomezené.',
+        'Mzda může přihlížet k přesčasu jen při sjednání konkrétního rozsahu. Obecná neomezená formulace není dostatečným podkladem.',
+      commonMistake:
+        'Považovat jakoukoli zmínku o zahrnutí přesčasu za platné neomezené vypořádání.',
     },
   ],
   sources: [

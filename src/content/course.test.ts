@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js'
 import { describe, expect, it } from 'vitest'
 import type { Exercise } from '../types/course'
 import type { CourseOutline } from '../types/course-outline'
@@ -509,6 +510,113 @@ describe('registr plného obsahu', () => {
     ]) {
       expect(text).toContain(expected)
     }
+  })
+
+  it('module 9 calculation exercises use inputs independent from worked examples', () => {
+    const moduleLessonIds = availableLessonIds.slice(46)
+    const contents = moduleLessonIds.map(
+      (lessonId) => lessonContentRegistry[lessonId],
+    )
+    const exercises = contents.flatMap((content) => content.exercises)
+    const cards = contents.flatMap((content) => content.flashcards)
+    const exerciseIds = exercises.map((exercise) => exercise.id)
+    const cardIds = cards.map((card) => card.id)
+
+    expect(new Set(exerciseIds).size).toBe(exerciseIds.length)
+    expect(new Set(cardIds).size).toBe(cardIds.length)
+
+    const findExercise = (id: string) => {
+      const exercise = exercises.find((candidate) => candidate.id === id)
+      if (!exercise) throw new Error(`Missing exercise ${id}`)
+      return exercise
+    }
+    const findCard = (id: string) => {
+      const card = cards.find((candidate) => candidate.id === id)
+      if (!card) throw new Error(`Missing card ${id}`)
+      return card
+    }
+    const correctOptionText = (id: string) => {
+      const exercise = findExercise(id)
+      if (exercise.type !== 'single_choice') {
+        throw new Error(`${id} is not a single-choice exercise`)
+      }
+      return exercise.options.find(
+        (option) => option.id === exercise.correctOptionId,
+      )?.text
+    }
+
+    const overlapCalculation = findExercise('supplement-overlap-exercise-05')
+    expect(overlapCalculation.type).toBe('short_text')
+    if (overlapCalculation.type !== 'short_text') return
+    expect(overlapCalculation.prompt).toContain('270 Kč')
+    expect(overlapCalculation.prompt).toContain('340 Kč')
+    expect(overlapCalculation.prompt).not.toContain('modelový případ')
+    expect(overlapCalculation.prompt).not.toContain('26. prosince 22:00')
+    expect(overlapCalculation.acceptedAnswers).toContain('2 506 Kč')
+    expect(overlapCalculation.acceptedAnswers).not.toContain('3 004 Kč')
+
+    const overlapCard = findCard('supplement-overlap-card-03')
+    const overlapCardText = JSON.stringify(overlapCard)
+    expect(overlapCardText).not.toContain('3 004 Kč')
+    expect(overlapCardText).toContain('náhradním volnu')
+    expect(overlapCardText).toContain('noční nebo víkendový příplatek')
+
+    expect(correctOptionText('overtime-compensation-exercise-01')).toBe(
+      '1 200,50 Kč.',
+    )
+    expect(correctOptionText('holiday-work-exercise-04')).toBe('1 749 Kč.')
+    expect(correctOptionText('night-work-exercise-04')).toBe('155,40 Kč.')
+    expect(correctOptionText('weekend-work-exercise-04')).toBe('185,90 Kč.')
+    expect(correctOptionText('on-call-duty-exercise-01')).toBe('220,50 Kč.')
+    expect(correctOptionText('supplement-overlap-exercise-06')).toBe('208 Kč.')
+
+    const workedExampleText = JSON.stringify(
+      lessonContentRegistry['supplement-overlap'].blocks,
+    )
+    expect(workedExampleText).toContain('3 004 Kč')
+    expect(
+      JSON.stringify({
+        blocks: lessonContentRegistry['supplement-overlap'].blocks,
+        flashcards: lessonContentRegistry['supplement-overlap'].flashcards,
+      }),
+    ).not.toContain('2 506 Kč')
+
+    expect(new Decimal(40).minus(37.5).toString()).toBe('2.5')
+    expect(new Decimal(8).minus(6.5).toString()).toBe('1.5')
+    expect(new Decimal(150).minus(136.5).toString()).toBe('13.5')
+    expect(
+      new Decimal(3.5)
+        .times(265)
+        .plus(new Decimal(3.5).times(312).times(0.25))
+        .toString(),
+    ).toBe('1200.5')
+    expect(new Decimal(4.5).times(336).times(0.5).toString()).toBe('756')
+    expect(new Decimal(104).minus(90).toString()).toBe('14')
+    expect(new Decimal(6.5).times(286).toString()).toBe('1859')
+    expect(new Decimal(5.5).times(318).toString()).toBe('1749')
+    expect(new Decimal(3.5).minus(0.5).toString()).toBe('3')
+    expect(new Decimal(5.75).minus(0.5).toString()).toBe('5.25')
+    expect(new Decimal(5.25).times(296).times(0.1).toString()).toBe('155.4')
+    expect(new Decimal(4.75).times(328).times(0.2).toString()).toBe('311.6')
+    expect(new Decimal(5.5).minus(0.5).toString()).toBe('5')
+    expect(new Decimal(6.5).times(286).times(0.1).toString()).toBe('185.9')
+    expect(new Decimal(7.25).times(344).times(0.25).toString()).toBe('623.5')
+    expect(new Decimal(9).minus(1.25).minus(0.75).toString()).toBe('7')
+    expect(new Decimal(7).times(315).times(0.1).toString()).toBe('220.5')
+    expect(new Decimal(11.5).minus(1.25).minus(2).toString()).toBe('8.25')
+    expect(new Decimal(6.75).times(308).times(0.1).toString()).toBe('207.9')
+    expect(new Decimal(3.75).times(336).toString()).toBe('1260')
+
+    const overlapTotal = new Decimal(5)
+      .times(270)
+      .plus(new Decimal(5).times(340).times(0.25))
+      .plus(new Decimal(5).times(340).times(0.1))
+      .plus(new Decimal(1.5).times(340).times(0.1))
+      .plus(new Decimal(1.5).times(340))
+    expect(overlapTotal.toString()).toBe('2506')
+    expect(new Decimal(8).minus(1.5).times(320).times(0.1).toString()).toBe(
+      '208',
+    )
   })
 
   it('ověřuje klíčová odborná pravidla osmého modulu bez snapshotů', () => {

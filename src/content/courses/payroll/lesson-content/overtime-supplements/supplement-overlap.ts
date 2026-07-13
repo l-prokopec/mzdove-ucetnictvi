@@ -323,10 +323,12 @@ export const supplementOverlapContent = defineLessonContent({
     },
     {
       id: 'supplement-overlap-card-03',
-      front: 'Kolik činí celkové plnění v modelovém případu?',
-      back: '3 004 Kč.',
-      explanation: '1 500 + 480 + 192 + 192 + 640 Kč.',
-      skillIds: ['supplement-overlap-calculation'],
+      front:
+        'Zruší dohoda o náhradním volnu za přesčas současný nárok na noční nebo víkendový příplatek?',
+      back: 'Ne.',
+      explanation:
+        'Náhradní volno nahrazuje konkrétní přesčasové vypořádání. Ostatní současně vzniklá zvýhodnění se posoudí samostatně.',
+      skillIds: ['supplement-overlap-audit'],
     },
     {
       id: 'supplement-overlap-card-04',
@@ -341,60 +343,64 @@ export const supplementOverlapContent = defineLessonContent({
       id: 'supplement-overlap-exercise-01',
       type: 'single_choice',
       prompt:
-        'Kolik svátečních hodin má modelová směna 26. prosince 22:00 až 27. prosince 4:00?',
+        'Zaměstnanec pracuje v neděli, která je současně svátkem, od 21:30 do pondělí 2:30. Kolik hodin je současně noční prací, prací v neděli a prací ve svátek?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '0,5 hodiny.',
         },
         {
           id: 'b',
-          text: '4 hodiny.',
+          text: '1,5 hodiny.',
         },
         {
           id: 'c',
-          text: '6 hodin.',
+          text: '2 hodiny.',
         },
         {
           id: 'd',
-          text: '0 hodin.',
+          text: '5 hodin.',
         },
       ],
-      correctOptionId: 'a',
+      correctOptionId: 'c',
       skillIds: ['supplement-overlap-classification'],
-      explanation: 'Svátek končí 26. prosince o půlnoci.',
-      commonMistake: 'Přiřadit celý noční interval svátku.',
+      explanation:
+        'Všechny tři režimy se překrývají od 22:00 do nedělní půlnoci, tedy 2 hodiny.',
+      commonMistake:
+        'Považovat za současný překryv celý interval do pondělního rána.',
     },
     {
       id: 'supplement-overlap-exercise-02',
       type: 'multiple_choice',
-      prompt: 'Která zvýhodnění vznikají za všech šest hodin modelové směny?',
+      prompt:
+        'Zaměstnanec na příkaz zaměstnavatele pracuje mimo rozvrh od soboty 23:00 do neděle 3:00. Již naplnil stanovenou týdenní pracovní dobu, nejde o svátek ani pracovní pohotovost. Které režimy platí pro celý čtyřhodinový úsek?',
       options: [
         {
           id: 'overtime',
-          text: 'Přesčasové.',
+          text: 'Práce přesčas.',
         },
         {
           id: 'night',
-          text: 'Noční.',
+          text: 'Noční práce.',
         },
         {
           id: 'weekend',
-          text: 'Víkendové.',
+          text: 'Práce v sobotu nebo neděli.',
         },
         {
           id: 'holiday',
-          text: 'Sváteční.',
+          text: 'Práce ve svátek.',
         },
         {
           id: 'standby',
-          text: 'Odměna za neaktivní pohotovost.',
+          text: 'Neaktivní pracovní pohotovost.',
         },
       ],
       correctOptionIds: ['overtime', 'night', 'weekend'],
       skillIds: ['supplement-overlap-classification'],
-      explanation: 'Svátek trvá jen první dvě hodiny a nejde o pohotovost.',
-      commonMistake: 'Přisoudit sváteční režim i času po půlnoci.',
+      explanation:
+        'Celý úsek je mimo rozvrh po naplnění stanovené doby, leží v noční době a zároveň v kalendářním víkendu.',
+      commonMistake: 'Přidat svátek nebo pohotovost bez skutkového podkladu.',
     },
     {
       id: 'supplement-overlap-exercise-03',
@@ -442,68 +448,75 @@ export const supplementOverlapContent = defineLessonContent({
     {
       id: 'supplement-overlap-exercise-04',
       type: 'single_choice',
-      prompt: 'Kolik činí sváteční příplatek za 2 hodiny při průměru 320 Kč?',
+      prompt:
+        'Zaměstnanec pracuje ve svátek 3,75 hodiny. Průměrný hodinový výdělek činí 336 Kč a bylo dohodnuto peněžní vypořádání místo náhradního volna. Kolik činí minimální sváteční příplatek?',
       options: [
         {
           id: 'a',
-          text: '64 Kč.',
+          text: '315 Kč.',
         },
         {
           id: 'b',
-          text: '160 Kč.',
+          text: '630 Kč.',
         },
         {
           id: 'c',
-          text: '320 Kč.',
+          text: '1 260 Kč.',
         },
         {
           id: 'd',
-          text: '640 Kč.',
+          text: '2 520 Kč.',
         },
       ],
-      correctOptionId: 'd',
+      correctOptionId: 'c',
       skillIds: ['supplement-overlap-calculation'],
-      explanation: '2 × 320 × 100 % = 640 Kč.',
-      commonMistake: 'Použít noční nebo přesčasovou sazbu.',
+      explanation:
+        'Sváteční příplatek činí 100 % průměrného výdělku: 3,75 × 336 = 1 260 Kč.',
+      commonMistake:
+        'Použít přesčasovou, noční nebo víkendovou procentní sazbu.',
     },
     {
       id: 'supplement-overlap-exercise-05',
       type: 'short_text',
-      prompt: 'Jaký je celkový výsledek modelového případu?',
-      acceptedAnswers: ['3 004 Kč', '3004', '3 004'],
+      prompt:
+        'Zaměstnanec ve mzdové sféře má hodinovou mzdu 270 Kč a průměrný hodinový výdělek 340 Kč. V neděli, která je současně svátkem, pracuje na příkaz zaměstnavatele od 22:30 do pondělí 3:30. Již naplnil stanovenou týdenní pracovní dobu, takže všech 5 hodin je přesčasem. Celých 5 hodin je noční prací, ale pouze 1,5 hodiny do nedělní půlnoci jsou současně prací v neděli a ve svátek. Náhradní volno nebylo dohodnuto a za svátek byl dohodnut příplatek. Použij zákonná minima 25 % za přesčas, 10 % za noční práci, 10 % za neděli a 100 % za svátek. Kolik činí celkové plnění za tento pracovní úsek včetně dosažené mzdy?',
+      acceptedAnswers: ['2 506 Kč', '2506 Kč', '2 506', '2506'],
       ignoreDiacritics: true,
       skillIds: ['supplement-overlap-calculation'],
-      explanation: 'Součet dosažené mzdy a čtyř příplatků činí 3 004 Kč.',
+      explanation:
+        'Dosažená mzda: 5 × 270 = 1 350 Kč. Přesčas: 5 × 340 × 25 % = 425 Kč. Noc: 5 × 340 × 10 % = 170 Kč. Neděle: 1,5 × 340 × 10 % = 51 Kč. Svátek: 1,5 × 340 × 100 % = 510 Kč. Celkem 1 350 + 425 + 170 + 51 + 510 = 2 506 Kč.',
       commonMistake:
-        'Započítat základní mzdu vícekrát nebo vynechat souběžný příplatek.',
+        'Použít víkendový nebo sváteční příplatek na všech pět hodin, případně započítat dosaženou mzdu vícekrát.',
     },
     {
       id: 'supplement-overlap-exercise-06',
       type: 'single_choice',
       prompt:
-        'Jak se zpracuje dvouhodinový výkon během šestihodinové pohotovosti?',
+        'Pracovní pohotovost trvá 8 hodin. Během ní zaměstnanec vykoná 1,5 hodiny práce. Průměrný hodinový výdělek činí 320 Kč. Kolik činí minimální odměna za zbývající neaktivní pohotovost?',
       options: [
         {
           id: 'a',
-          text: 'Šest hodin pohotovosti a dvě hodiny práce současně.',
+          text: '160 Kč.',
         },
         {
           id: 'b',
-          text: 'Čtyři hodiny pohotovosti a dvě hodiny práce.',
+          text: '208 Kč.',
         },
         {
           id: 'c',
-          text: 'Pouze šest hodin pohotovosti.',
+          text: '256 Kč.',
         },
         {
           id: 'd',
-          text: 'Pouze dvě hodiny pohotovosti.',
+          text: '320 Kč.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['supplement-overlap-audit'],
-      explanation: 'Výkon práce se z intervalu pohotovosti vyjme.',
-      commonMistake: 'Dvojitě vykázat stejný čas.',
+      explanation:
+        'Neaktivní pohotovost činí 8 − 1,5 = 6,5 hodiny. Odměna je 6,5 × 320 × 10 % = 208 Kč.',
+      commonMistake:
+        'Počítat odměnu za pohotovost také za dobu skutečného výkonu práce.',
     },
   ],
   sources: [

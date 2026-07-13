@@ -314,7 +314,7 @@ export const overtimeIdentificationContent = defineLessonContent({
       id: 'overtime-identification-exercise-01',
       type: 'single_choice',
       prompt:
-        'Zaměstnanec má úvazek 30 hodin, stanovenou dobu 40 hodin a odpracuje 36 hodin. Kolik hodin je přesčas?',
+        'Zaměstnanec má sjednanou kratší pracovní dobu 28 hodin týdně. Pro jeho režim činí stanovená týdenní pracovní doba 37,5 hodiny. Se souhlasem zaměstnavatele odpracuje v daném týdnu 40 hodin, přičemž hodiny nad rozvrh splňují ostatní znaky přesčasu. Kolik hodin je prací přesčas?',
       options: [
         {
           id: 'a',
@@ -322,21 +322,23 @@ export const overtimeIdentificationContent = defineLessonContent({
         },
         {
           id: 'b',
-          text: '6 hodin.',
+          text: '2,5 hodiny.',
         },
         {
           id: 'c',
-          text: '30 hodin.',
+          text: '9,5 hodiny.',
         },
         {
           id: 'd',
-          text: '36 hodin.',
+          text: '12 hodin.',
         },
       ],
-      correctOptionId: 'a',
+      correctOptionId: 'b',
       skillIds: ['overtime-definition-control'],
-      explanation: 'Šest hodin je nad kratší úvazek, ale pod hranicí 40 hodin.',
-      commonMistake: 'Použít individuální úvazek jako hranici přesčasu.',
+      explanation:
+        'Práce přesčas vzniká až nad stanovenou týdenní pracovní dobu 37,5 hodiny. Výpočet je 40 − 37,5 = 2,5 hodiny. Doba mezi 28 a 37,5 hodinami je pouze prací nad kratší pracovní dobu.',
+      commonMistake:
+        'Počítat přesčas už od sjednaného kratšího úvazku 28 hodin.',
     },
     {
       id: 'overtime-identification-exercise-02',
@@ -416,41 +418,50 @@ export const overtimeIdentificationContent = defineLessonContent({
       id: 'overtime-identification-exercise-04',
       type: 'single_choice',
       prompt:
-        'Kolik hodin přesčasu může zaměstnavatel nejvýše nařídit v jednom týdnu?',
+        'Zaměstnavatel už zaměstnanci v jednom týdnu nařídil 6,5 hodiny práce přesčas. Kolik dalších hodin mu může v témže týdnu ještě jednostranně nařídit, aby nepřekročil týdenní limit?',
       options: [
         {
           id: 'a',
-          text: '4 hodiny.',
+          text: '0,5 hodiny.',
         },
         {
           id: 'b',
-          text: '8 hodin.',
+          text: '1,5 hodiny.',
         },
         {
           id: 'c',
-          text: '12 hodin.',
+          text: '3 hodiny.',
         },
         {
           id: 'd',
-          text: '150 hodin.',
+          text: '8 hodin.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['overtime-limit-control'],
       explanation:
-        'Nařízená práce přesčas je omezena osmi hodinami v jednotlivém týdnu.',
-      commonMistake: 'Zaměnit týdenní a roční limit.',
+        'Týdenní limit nařízené práce přesčas činí 8 hodin. Zbývá tedy 8 − 6,5 = 1,5 hodiny.',
+      commonMistake:
+        'Považovat osm hodin za další možný rozsah místo celkového týdenního limitu.',
     },
     {
       id: 'overtime-identification-exercise-05',
       type: 'short_text',
-      prompt: 'Jaký je roční limit nařízené práce přesčas?',
-      acceptedAnswers: ['150 hodin', '150', 'sto padesát hodin'],
+      prompt:
+        'Zaměstnavatel už zaměstnanci v kalendářním roce nařídil 136,5 hodiny práce přesčas. Kolik hodin mu může ještě nařídit do dosažení ročního limitu?',
+      acceptedAnswers: [
+        '13,5 hodiny',
+        '13,5 hodin',
+        '13,5',
+        '13.5',
+        '13 hodin 30 minut',
+      ],
       ignoreDiacritics: true,
       skillIds: ['overtime-limit-control'],
       explanation:
-        'Nařízený přesčas nesmí překročit 150 hodin za kalendářní rok.',
-      commonMistake: 'Uvést průměr osm hodin týdně jako roční počet.',
+        'Roční limit činí 150 hodin. Výpočet je 150 − 136,5 = 13,5 hodiny.',
+      commonMistake:
+        'Odečítat dosavadní přesčas od jiného než ročního limitu 150 hodin.',
     },
     {
       id: 'overtime-identification-exercise-06',

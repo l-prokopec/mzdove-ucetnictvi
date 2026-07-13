@@ -308,30 +308,31 @@ export const holidayWorkContent = defineLessonContent({
       id: 'holiday-work-exercise-01',
       type: 'single_choice',
       prompt:
-        'Na svátek nebyla zaměstnanci rozvržena směna a nepracoval. Jaký sváteční nárok vzniká jen z této skutečnosti?',
+        'Hodinově odměňovaný zaměstnanec měl na svátek rozvrženu směnu v délce 6,5 hodiny, ale kvůli svátku nepracoval. Průměrný hodinový výdělek činí 286 Kč a celá směna představuje ušlou mzdu. Jaká náhrada mzdy mu náleží?',
       options: [
         {
           id: 'a',
-          text: 'Osm hodin náhrady.',
+          text: '929,50 Kč.',
         },
         {
           id: 'b',
-          text: 'Osm hodin příplatku.',
+          text: '1 716 Kč.',
         },
         {
           id: 'c',
-          text: 'Žádný, protože nebyla zameškána směna.',
+          text: '1 859 Kč.',
         },
         {
           id: 'd',
-          text: 'Automaticky dovolená.',
+          text: '2 288 Kč.',
         },
       ],
       correctOptionId: 'c',
       skillIds: ['holiday-schedule-classification'],
       explanation:
-        'Svátek bez rozvržené směny nevytváří zameškanou pracovní dobu.',
-      commonMistake: 'Použít jednotný fond pondělí až pátek pro směnný provoz.',
+        'Náhrada odpovídá zameškané rozvržené době: 6,5 × 286 = 1 859 Kč.',
+      commonMistake:
+        'Použít délku standardní osmihodinové směny místo skutečného rozvrhu.',
     },
     {
       id: 'holiday-work-exercise-02',
@@ -408,29 +409,31 @@ export const holidayWorkContent = defineLessonContent({
       id: 'holiday-work-exercise-04',
       type: 'single_choice',
       prompt:
-        'Průměrný výdělek činí 300 Kč a zaměstnanec pracuje ve svátek 8 hodin. Kolik činí minimální příplatek místo volna?',
+        'Zaměstnanec pracuje ve svátek 5,5 hodiny. Průměrný hodinový výdělek činí 318 Kč a zaměstnanec se zaměstnavatelem se dohodli na příplatku místo náhradního volna. Kolik činí minimální sváteční příplatek?',
       options: [
         {
           id: 'a',
-          text: '600 Kč.',
+          text: '437,25 Kč.',
         },
         {
           id: 'b',
-          text: '1 200 Kč.',
+          text: '874,50 Kč.',
         },
         {
           id: 'c',
-          text: '2 400 Kč.',
+          text: '1 749 Kč.',
         },
         {
           id: 'd',
-          text: '4 800 Kč.',
+          text: '3 498 Kč.',
         },
       ],
       correctOptionId: 'c',
       skillIds: ['holiday-work-compensation'],
-      explanation: '8 × 300 × 100 % = 2 400 Kč.',
-      commonMistake: 'Použít 25% přesčasovou sazbu.',
+      explanation:
+        'Příplatek činí nejméně 100 % průměrného výdělku: 5,5 × 318 = 1 749 Kč.',
+      commonMistake:
+        'Použít přesčasovou nebo noční sazbu místo 100% sváteční sazby.',
     },
     {
       id: 'holiday-work-exercise-05',
@@ -448,29 +451,31 @@ export const holidayWorkContent = defineLessonContent({
       id: 'holiday-work-exercise-06',
       type: 'single_choice',
       prompt:
-        'Směna trvá den před svátkem od 22:00 do svátku 6:00. Kolik hodin je prací ve svátek?',
+        'Směna začíná ve svátek ve 20:30 a končí následující den ve 2:30. Běžná nezapočitatelná přestávka proběhne ve svátek od 23:30 do 24:00. Kolik hodin skutečné práce připadá na svátek?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '2,5 hodiny.',
         },
         {
           id: 'b',
-          text: '6 hodin.',
+          text: '3 hodiny.',
         },
         {
           id: 'c',
-          text: '8 hodin.',
+          text: '3,5 hodiny.',
         },
         {
           id: 'd',
-          text: '0 hodin.',
+          text: '6 hodin.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['holiday-time-splitting'],
-      explanation: 'Svátek začíná o půlnoci, takže jde o úsek 00:00–6:00.',
-      commonMistake: 'Přiřadit celou směnu dni jejího začátku.',
+      explanation:
+        'Kalendářní úsek svátku od 20:30 do 24:00 má 3,5 hodiny. Po odečtení třicetiminutové přestávky zbývají 3 hodiny práce ve svátek.',
+      commonMistake:
+        'Započítat celou směnu nebo neodečíst nezapočitatelnou přestávku.',
     },
   ],
   sources: [

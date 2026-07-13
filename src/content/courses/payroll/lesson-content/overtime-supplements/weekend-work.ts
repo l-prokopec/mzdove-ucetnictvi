@@ -294,19 +294,19 @@ export const weekendWorkContent = defineLessonContent({
       id: 'weekend-work-exercise-01',
       type: 'single_choice',
       prompt:
-        'Směna trvá v pátek 20:00 až sobotu 4:00. Kolik hodin je prací v sobotu?',
+        'Směna trvá od soboty 21:30 do neděle 5:30. Běžná nezapočitatelná přestávka proběhne v neděli od 1:00 do 1:30. Kolik hodin skutečné práce připadá na neděli?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '4,5 hodiny.',
         },
         {
           id: 'b',
-          text: '4 hodiny.',
+          text: '5 hodin.',
         },
         {
           id: 'c',
-          text: '6 hodin.',
+          text: '5,5 hodiny.',
         },
         {
           id: 'd',
@@ -315,8 +315,9 @@ export const weekendWorkContent = defineLessonContent({
       ],
       correctOptionId: 'b',
       skillIds: ['weekend-time-classification'],
-      explanation: 'Sobotní úsek je 00:00–4:00.',
-      commonMistake: 'Přiřadit celou směnu pátku nebo sobotě.',
+      explanation:
+        'Nedělní interval od 00:00 do 5:30 má 5,5 hodiny. Po odečtení půlhodinové přestávky zbývá 5 hodin práce v neděli.',
+      commonMistake: 'Neodečíst přestávku nebo přiřadit celou směnu sobotě.',
     },
     {
       id: 'weekend-work-exercise-02',
@@ -395,67 +396,80 @@ export const weekendWorkContent = defineLessonContent({
       id: 'weekend-work-exercise-04',
       type: 'single_choice',
       prompt:
-        'Ve mzdové sféře jde o 8 hodin sobotní práce a průměrný výdělek 300 Kč. Kolik činí minimální příplatek?',
+        'Ve mzdové sféře zaměstnanec odpracuje v sobotu 6,5 hodiny. Průměrný hodinový výdělek činí 286 Kč a není sjednáno jiné pravidlo. Kolik činí minimální víkendový příplatek?',
       options: [
         {
           id: 'a',
-          text: '120 Kč.',
+          text: '92,95 Kč.',
         },
         {
           id: 'b',
-          text: '240 Kč.',
+          text: '185,90 Kč.',
         },
         {
           id: 'c',
-          text: '600 Kč.',
+          text: '464,75 Kč.',
         },
         {
           id: 'd',
-          text: '2 400 Kč.',
+          text: '1 859 Kč.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['weekend-supplement-calculation'],
-      explanation: '8 × 300 × 10 % = 240 Kč.',
-      commonMistake: 'Použít 25% platovou sazbu.',
+      explanation: 'Výpočet je 6,5 × 286 × 10 % = 185,90 Kč.',
+      commonMistake:
+        'Použít platovou sazbu 25 % nebo počítat příplatek z jiné doby.',
     },
     {
       id: 'weekend-work-exercise-05',
       type: 'short_text',
-      prompt: 'Jaký je víkendový příplatek v platové sféře?',
-      acceptedAnswers: ['25 %', '25 procent', 'dvacet pět procent'],
+      prompt:
+        'Zaměstnanec odměňovaný platem odpracuje v neděli 7,25 hodiny. Jeho průměrný hodinový výdělek činí 344 Kč. Kolik činí nedělní příplatek?',
+      acceptedAnswers: [
+        '623,50 Kč',
+        '623,5 Kč',
+        '623,50',
+        '623,5',
+        '623.50',
+        '623.5',
+      ],
       ignoreDiacritics: true,
       skillIds: ['weekend-supplement-calculation'],
-      explanation: 'Platový příplatek činí 25 % průměrného hodinového výdělku.',
-      commonMistake: 'Uvést mzdové minimum 10 %.',
+      explanation:
+        'V platové sféře činí příplatek 25 %. Výpočet je 7,25 × 344 × 25 % = 623,50 Kč.',
+      commonMistake:
+        'Použít mzdovou sazbu 10 % nebo zaokrouhlit dobu na celé hodiny.',
     },
     {
       id: 'weekend-work-exercise-06',
       type: 'single_choice',
       prompt:
-        'Zaměstnanec pracuje v neděli, která je současně svátkem. Co platí?',
+        'Zaměstnanec odpracuje 3 hodiny v kalendářní sobotu, která je současně svátkem. Směna byla předem rozvržena. Jaké časové režimy se musí pro tyto tři hodiny vyhodnotit?',
       options: [
         {
           id: 'a',
-          text: 'Použije se jen vyšší z příplatků.',
+          text: 'Pouze práce v sobotu.',
         },
         {
           id: 'b',
-          text: 'Posoudí se samostatně neděle i svátek.',
+          text: 'Pouze práce ve svátek.',
         },
         {
           id: 'c',
-          text: 'Nevzniká žádné zvýhodnění.',
+          text: 'Práce v sobotu i práce ve svátek; případný přesčas se posoudí ještě samostatně.',
         },
         {
           id: 'd',
-          text: 'Automaticky jde o dovolenou.',
+          text: 'Automaticky práce přesčas bez dalších příplatků.',
         },
       ],
-      correctOptionId: 'b',
+      correctOptionId: 'c',
       skillIds: ['weekend-overlap-control'],
-      explanation: 'Víkendové a sváteční zvýhodnění se mohou překrývat.',
-      commonMistake: 'Sloučit různé právní důvody do jedné položky.',
+      explanation:
+        'Kalendářní sobota a svátek jsou samostatné právní režimy. Rozvržená směna není automaticky přesčasem.',
+      commonMistake:
+        'Ponechat pouze jedno zvýhodnění nebo považovat víkendovou směnu automaticky za přesčas.',
     },
   ],
   sources: [

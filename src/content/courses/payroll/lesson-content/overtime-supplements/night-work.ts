@@ -298,19 +298,19 @@ export const nightWorkContent = defineLessonContent({
       id: 'night-work-exercise-01',
       type: 'single_choice',
       prompt:
-        'Směna trvá 18:00–2:00 bez přestávky. Kolik hodin je noční prací?',
+        'Směna trvá od 19:15 do 3:45. Běžná nezapočitatelná přestávka proběhne od 23:30 do 24:00. Kolik hodin skutečné práce je noční prací?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '4,75 hodiny.',
         },
         {
           id: 'b',
-          text: '4 hodiny.',
+          text: '5,25 hodiny.',
         },
         {
           id: 'c',
-          text: '6 hodin.',
+          text: '5,75 hodiny.',
         },
         {
           id: 'd',
@@ -319,8 +319,9 @@ export const nightWorkContent = defineLessonContent({
       ],
       correctOptionId: 'b',
       skillIds: ['night-time-classification'],
-      explanation: 'Noční úsek je 22:00–2:00.',
-      commonMistake: 'Považovat celou večerní směnu za noční.',
+      explanation:
+        'Noční interval 22:00–3:45 trvá 5,75 hodiny. Po odečtení půlhodinové přestávky zbývá 5,25 hodiny noční práce.',
+      commonMistake: 'Započítat celou dobu od 19:15 nebo neodečíst přestávku.',
     },
     {
       id: 'night-work-exercise-02',
@@ -399,67 +400,79 @@ export const nightWorkContent = defineLessonContent({
       id: 'night-work-exercise-04',
       type: 'single_choice',
       prompt:
-        'Ve mzdové sféře jde o 6 hodin noční práce a průměrný výdělek 300 Kč. Kolik činí minimální příplatek?',
+        'Ve mzdové sféře zaměstnanec odpracuje 5,25 hodiny noční práce. Průměrný hodinový výdělek činí 296 Kč a není sjednáno jiné pravidlo. Kolik činí minimální noční příplatek?',
       options: [
         {
           id: 'a',
-          text: '90 Kč.',
+          text: '77,70 Kč.',
         },
         {
           id: 'b',
-          text: '180 Kč.',
+          text: '155,40 Kč.',
         },
         {
           id: 'c',
-          text: '360 Kč.',
+          text: '310,80 Kč.',
         },
         {
           id: 'd',
-          text: '1 800 Kč.',
+          text: '1 554 Kč.',
         },
       ],
       correctOptionId: 'b',
       skillIds: ['night-supplement-calculation'],
-      explanation: '6 × 300 × 10 % = 180 Kč.',
-      commonMistake: 'Použít 20% platovou sazbu.',
+      explanation: 'Výpočet je 5,25 × 296 × 10 % = 155,40 Kč.',
+      commonMistake:
+        'Použít 20% platovou sazbu nebo počítat příplatek z celé odměny.',
     },
     {
       id: 'night-work-exercise-05',
       type: 'short_text',
-      prompt: 'Do kolika hodin ráno trvá noční doba?',
-      acceptedAnswers: ['6:00', '6 hodin', 'šest hodin', '6'],
+      prompt:
+        'Zaměstnanec odměňovaný platem vykoná 4,75 hodiny noční práce. Jeho průměrný hodinový výdělek činí 328 Kč. Kolik činí noční příplatek?',
+      acceptedAnswers: [
+        '311,60 Kč',
+        '311,6 Kč',
+        '311,60',
+        '311,6',
+        '311.60',
+        '311.6',
+      ],
       ignoreDiacritics: true,
-      skillIds: ['night-time-classification'],
-      explanation: 'Noční doba končí v 6:00.',
-      commonMistake: 'Uvést konec konkrétní směny.',
+      skillIds: ['night-supplement-calculation'],
+      explanation:
+        'V platové sféře činí příplatek 20 %. Výpočet je 4,75 × 328 × 20 % = 311,60 Kč.',
+      commonMistake:
+        'Použít mzdové minimum 10 % nebo zaokrouhlit dobu na celé hodiny.',
     },
     {
       id: 'night-work-exercise-06',
       type: 'single_choice',
       prompt:
-        'Páteční směna trvá 22:00–sobota 6:00. Kolik hodin je současně nočních a sobotních?',
+        'Směna trvá v neděli od 23:15 do pondělí 5:45. Kolik hodin je současně noční prací a prací v neděli?',
       options: [
         {
           id: 'a',
-          text: '2 hodiny.',
+          text: '0,75 hodiny.',
         },
         {
           id: 'b',
-          text: '6 hodin.',
+          text: '5,75 hodiny.',
         },
         {
           id: 'c',
-          text: '8 hodin.',
+          text: '6,5 hodiny.',
         },
         {
           id: 'd',
           text: '0 hodin.',
         },
       ],
-      correctOptionId: 'b',
+      correctOptionId: 'a',
       skillIds: ['night-work-overlap-control'],
-      explanation: 'Úsek od sobotní půlnoci do 6:00 má oba příznaky.',
-      commonMistake: 'Přiřadit celou směnu pouze pátku.',
+      explanation:
+        'Současně noční a nedělní je pouze úsek od 23:15 do nedělní půlnoci, tedy 45 minut neboli 0,75 hodiny.',
+      commonMistake: 'Přiřadit celou směnu neděli podle dne jejího začátku.',
     },
   ],
   sources: [
