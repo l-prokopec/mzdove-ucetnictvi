@@ -4,6 +4,7 @@ import { employeeBenefitsOtherPaymentsContent } from './employee-benefits-other-
 import { employmentChangesTerminationContent } from './employment-changes-termination'
 import { labourLawBasicsContent } from './labour-law-basics'
 import { payrollFoundationsContent } from './payroll-foundations'
+import { overtimeSupplementsContent } from './overtime-supplements'
 import { remunerationBasicsContent } from './remuneration-basics'
 import { workAgreementsContent } from './work-agreements'
 import { workingTimeContent } from './working-time'
@@ -18,4 +19,5 @@ export const lessonContentRegistry: LessonContentRegistry = {
   ...workingTimeContent,
   ...remunerationBasicsContent,
   ...employeeBenefitsOtherPaymentsContent,
+  ...overtimeSupplementsContent,
 } satisfies LessonContentRegistry

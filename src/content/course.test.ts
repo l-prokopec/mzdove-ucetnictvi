@@ -61,6 +61,13 @@ const availableLessonIds = [
   'employer-retirement-contributions',
   'hazardous-work-mandatory-contribution',
   'benefits-payroll-case',
+  'overtime-identification',
+  'overtime-compensation',
+  'holiday-work',
+  'night-work',
+  'weekend-work',
+  'on-call-duty',
+  'supplement-overlap',
 ]
 
 const outlineWithOnlyFirstAvailable = () => {
@@ -143,17 +150,17 @@ describe('master osnova', () => {
 })
 
 describe('registr plného obsahu', () => {
-  it('publikuje právě čtyřicet šest lekcí prvních osmi modulů', () => {
+  it('publikuje právě padesát tři lekcí prvních devíti modulů', () => {
     expect(Object.keys(lessonContentRegistry)).toEqual(availableLessonIds)
     expect(availableLessons.map((lesson) => lesson.id)).toEqual(
       availableLessonIds,
     )
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'available'),
-    ).toHaveLength(46)
+    ).toHaveLength(53)
     expect(
       outlineLessons.filter((lesson) => lesson.status === 'planned'),
-    ).toHaveLength(148)
+    ).toHaveLength(141)
     expect(
       availableLessons
         .slice(0, 5)
@@ -193,14 +200,19 @@ describe('registr plného obsahu', () => {
     ).toBe(true)
     expect(
       availableLessons
-        .slice(40)
+        .slice(40, 46)
         .every(
           (lesson) => lesson.moduleId === 'employee-benefits-other-payments',
         ),
     ).toBe(true)
     expect(
+      availableLessons
+        .slice(46)
+        .every((lesson) => lesson.moduleId === 'overtime-supplements'),
+    ).toBe(true)
+    expect(
       payrollCourse.modules
-        .slice(8)
+        .slice(9)
         .every((module) => module.status === 'planned'),
     ).toBe(true)
     expect(payrollCourse.modules[0].status).toBe('available')
@@ -211,6 +223,7 @@ describe('registr plného obsahu', () => {
     expect(payrollCourse.modules[5].status).toBe('available')
     expect(payrollCourse.modules[6].status).toBe('available')
     expect(payrollCourse.modules[7].status).toBe('available')
+    expect(payrollCourse.modules[8].status).toBe('available')
     expect(courseSchema.parse(payrollCourse)).toBeTruthy()
   })
 
@@ -435,7 +448,7 @@ describe('registr plného obsahu', () => {
   })
 
   it('má u všech lekcí osmého modulu úplný obsah a legislativní metadata', () => {
-    for (const lessonId of availableLessonIds.slice(40)) {
+    for (const lessonId of availableLessonIds.slice(40, 46)) {
       const content = lessonContentRegistry[lessonId]
       expect(content.moduleId).toBe('employee-benefits-other-payments')
       expect(content.skillIds.length).toBeGreaterThan(0)
@@ -450,6 +463,51 @@ describe('registr plného obsahu', () => {
         validFrom: '2026-01-01',
         verifiedAt: '2026-07-12',
       })
+    }
+  })
+
+  it('má u všech lekcí devátého modulu úplný obsah a legislativní metadata', () => {
+    for (const lessonId of availableLessonIds.slice(46)) {
+      const content = lessonContentRegistry[lessonId]
+      expect(content.moduleId).toBe('overtime-supplements')
+      expect(content.skillIds.length).toBeGreaterThan(0)
+      expect(content.blocks.length).toBeGreaterThanOrEqual(44)
+      expect(content.flashcards).toHaveLength(4)
+      expect(content.exercises).toHaveLength(6)
+      expect(
+        content.sources.filter((source) => source.kind === 'official').length,
+      ).toBeGreaterThanOrEqual(5)
+      expect(content.legalValidity).toMatchObject({
+        jurisdiction: 'CZ',
+        validFrom: '2026-01-01',
+        verifiedAt: '2026-07-13',
+      })
+    }
+  })
+
+  it('ověřuje klíčová odborná pravidla devátého modulu bez snapshotů', () => {
+    const text = JSON.stringify(
+      availableLessonIds
+        .slice(46)
+        .map((lessonId) => lessonContentRegistry[lessonId].blocks),
+    )
+    for (const expected of [
+      'příkaz zaměstnavatele nebo s jeho souhlasem',
+      'kratší pracovní dobu',
+      '8 hodin',
+      '150 hodin',
+      '25 %',
+      '50 %',
+      '100 %',
+      '22:00–6:00',
+      '20 %',
+      '10 %',
+      '25 %',
+      'pracovní pohotovost',
+      '3 004 Kč',
+      '2 hodiny',
+    ]) {
+      expect(text).toContain(expected)
     }
   })
 
