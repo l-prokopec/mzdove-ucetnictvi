@@ -1,0 +1,21 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="Mzdová akademie"
+>
+  <path
+    fill="#d66b3d"
+    d="M32 2C48.57 2 62 15.43 62 32s-13.43 30-30 30H15.5C8.04 62 2 55.96 2 48.5V32C2 15.43 15.43 2 32 2Z"
+  />
+  <text
+    x="32"
+    y="32"
+    fill="#fff"
+    font-family="Fraunces, Georgia, serif"
+    font-size="36"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >M</text>
+</svg>
