@@ -619,6 +619,76 @@ describe('registr plného obsahu', () => {
     )
   })
 
+  it('module 8 open calculation exercise is independent from the worked example', () => {
+    const content = lessonContentRegistry['benefits-payroll-case']
+    const exercise = content.exercises.find(
+      (candidate) => candidate.id === 'benefits-payroll-case-exercise-05',
+    )
+    const card = content.flashcards.find(
+      (candidate) => candidate.id === 'benefits-payroll-case-card-04',
+    )
+
+    expect(exercise).toBeDefined()
+    expect(exercise?.type).toBe('short_text')
+    if (!exercise || exercise.type !== 'short_text') return
+
+    for (const input of [
+      '1 800 Kč',
+      '3 200 Kč',
+      '2 600 Kč',
+      '2 900 Kč',
+      '46 500 Kč',
+      '22 900 Kč',
+      '48 600 Kč',
+    ]) {
+      expect(exercise.prompt).toContain(input)
+    }
+    expect(exercise.prompt).not.toContain(
+      'Kolik činí celková zdanitelná benefitní část případu?',
+    )
+    expect(exercise.acceptedAnswers).toContain('5 049,50 Kč')
+    expect(exercise.acceptedAnswers).not.toContain('4 516,50 Kč')
+
+    expect(card).toBeDefined()
+    const cardText = JSON.stringify(card)
+    expect(cardText).not.toContain('4 516,50 Kč')
+    expect(cardText).not.toContain('5 049,50 Kč')
+    expect(cardText).toContain('zdanitelné a nadlimitní části')
+
+    const teachingText = JSON.stringify({
+      blocks: content.blocks,
+      flashcards: content.flashcards,
+    })
+    expect(JSON.stringify(content.blocks)).toContain('4 516,50 Kč')
+    expect(teachingText).not.toContain('5 049,50 Kč')
+
+    const healthRemaining = new Decimal(48967).minus(46500)
+    const healthTaxable = new Decimal(3200).minus(healthRemaining)
+    const leisureRemaining = new Decimal('24483.50').minus(22900)
+    const leisureTaxable = new Decimal(2600).minus(leisureRemaining)
+    const retirementRemaining = new Decimal(50000).minus(48600)
+    const retirementTaxable = new Decimal(2900).minus(retirementRemaining)
+    const total = new Decimal(1800)
+      .plus(healthTaxable)
+      .plus(leisureTaxable)
+      .plus(retirementTaxable)
+
+    expect(healthRemaining.toString()).toBe('2467')
+    expect(healthTaxable.toString()).toBe('733')
+    expect(leisureRemaining.toString()).toBe('1583.5')
+    expect(leisureTaxable.toString()).toBe('1016.5')
+    expect(retirementRemaining.toString()).toBe('1400')
+    expect(retirementTaxable.toString()).toBe('1500')
+    expect(total.toString()).toBe('5049.5')
+
+    expect(payrollCourse.modules).toHaveLength(31)
+    expect(outlineLessons).toHaveLength(194)
+    expect(availableLessons).toHaveLength(53)
+    expect(
+      outlineLessons.filter((lesson) => lesson.status === 'planned'),
+    ).toHaveLength(141)
+  })
+
   it('ověřuje klíčová odborná pravidla osmého modulu bez snapshotů', () => {
     const text = JSON.stringify(
       availableLessonIds

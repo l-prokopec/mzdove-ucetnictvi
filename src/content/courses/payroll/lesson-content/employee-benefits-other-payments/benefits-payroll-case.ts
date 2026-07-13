@@ -373,9 +373,11 @@ export const benefitsPayrollCaseContent = defineLessonContent({
     },
     {
       id: 'benefits-payroll-case-card-04',
-      front: 'Jaká je celková zdanitelná benefitní část případu?',
-      back: '4 516,50 Kč.',
-      explanation: '2 000 + 1 516,50 + 1 000 Kč.',
+      front:
+        'Jak se určí celková zdanitelná část při souběhu několika zaměstnaneckých benefitů?',
+      back: 'Sečtou se pouze zdanitelné a nadlimitní části jednotlivých plnění.',
+      explanation:
+        'Osvobozené části a plnění mimo předmět daně se do zdanitelného součtu nezahrnují. Každá benefitní kategorie se nejprve posoudí samostatně.',
       skillIds: ['benefits-case-calculation'],
     },
   ],
@@ -515,13 +517,28 @@ export const benefitsPayrollCaseContent = defineLessonContent({
     {
       id: 'benefits-payroll-case-exercise-05',
       type: 'short_text',
-      prompt: 'Kolik činí celková zdanitelná benefitní část případu?',
-      acceptedAnswers: ['4 516,50 Kč', '4516,50', '4 516.50', '4516.5'],
+      prompt:
+        'Zaměstnanec v roce 2026 obdrží v jednom měsíci tato plnění: peněžní příspěvek na sport 1 800 Kč, nepeněžní zdravotní benefit 3 200 Kč, nepeněžní volnočasový benefit 2 600 Kč a příspěvky zaměstnavatele na podporované produkty spoření na stáří celkem 2 900 Kč. Před tímto měsícem činí jeho roční kumulace zdravotních benefitů 46 500 Kč, volnočasových benefitů 22 900 Kč a příspěvků zaměstnavatele na podporované produkty 48 600 Kč. Všechna nepeněžní plnění splňují ostatní podmínky osvobození. Použij limity roku 2026: zdravotní benefity 48 967 Kč, volnočasové benefity 24 483,50 Kč a příspěvky zaměstnavatele 50 000 Kč. Kolik činí celková zdanitelná část těchto plnění?',
+      acceptedAnswers: [
+        '5 049,50 Kč',
+        '5049,50 Kč',
+        '5 049,5 Kč',
+        '5049,5 Kč',
+        '5 049,50',
+        '5049,50',
+        '5 049,5',
+        '5049,5',
+        '5 049.50',
+        '5049.50',
+        '5 049.5',
+        '5049.5',
+      ],
       ignoreDiacritics: true,
       skillIds: ['benefits-case-calculation'],
-      explanation: 'Součet je 2 000 + 1 516,50 + 1 000 Kč.',
+      explanation:
+        'Peněžní sportovní příspěvek je zdanitelný celý: 1 800 Kč. U zdravotního benefitu zbývá do limitu 48 967 − 46 500 = 2 467 Kč, takže zdanitelných je 3 200 − 2 467 = 733 Kč. U volnočasového benefitu zbývá 24 483,50 − 22 900 = 1 583,50 Kč, takže zdanitelných je 2 600 − 1 583,50 = 1 016,50 Kč. U příspěvků na produkty zbývá 50 000 − 48 600 = 1 400 Kč, takže zdanitelných je 2 900 − 1 400 = 1 500 Kč. Celkem 1 800 + 733 + 1 016,50 + 1 500 = 5 049,50 Kč.',
       commonMistake:
-        'Přičíst osvobozený zdravotní benefit nebo cestovní náhradu.',
+        'Sečíst celé hodnoty všech benefitů, spojit samostatné limity nebo nezahrnout celý peněžní příspěvek do zdanitelné části.',
     },
     {
       id: 'benefits-payroll-case-exercise-06',
