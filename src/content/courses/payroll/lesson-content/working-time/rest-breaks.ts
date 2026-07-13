@@ -350,47 +350,21 @@ export const restBreaksContent = defineLessonContent({
     },
     {
       id: 'rest-breaks-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu směny z hlediska přestávek a odpočinku.',
-      steps: [
-        {
-          id: 'shift',
-          text: 'Zjistit začátek a konec směny.',
-        },
-        {
-          id: 'break-type',
-          text: 'Určit druh a délku přestávek.',
-        },
-        {
-          id: 'work-time',
-          text: 'Vypočítat čistou pracovní dobu.',
-        },
-        {
-          id: 'continuous',
-          text: 'Zkontrolovat nejdelší nepřetržitý úsek práce.',
-        },
-        {
-          id: 'daily',
-          text: 'Zkontrolovat denní odpočinek.',
-        },
-        {
-          id: 'weekly',
-          text: 'Zkontrolovat týdenní odpočinek a případnou kompenzaci.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Která doba se na rozdíl od běžné přestávky na jídlo a oddech započítává do pracovní doby?',
+      options: [
+        { id: 'a', text: 'Bezpečnostní přestávka.' },
+        { id: 'b', text: 'Libovolná soukromá pauza.' },
+        { id: 'c', text: 'Cesta z domova.' },
+        { id: 'd', text: 'Neomluvený pozdní příchod.' },
       ],
-      correctOrder: [
-        'shift',
-        'break-type',
-        'work-time',
-        'continuous',
-        'daily',
-        'weekly',
-      ],
+      correctOptionId: 'a',
       skillIds: ['rest-period-control'],
       explanation:
-        'Od čisté směny se přechází ke kontrole návazných odpočinků.',
+        'Bezpečnostní přestávka je součástí pracovní doby; běžná přestávka zpravidla nikoli.',
       commonMistake:
-        'Kontrolovat pouze součet hodin bez jejich časového umístění.',
+        'Odečíst z pracovní doby i zákonnou bezpečnostní přestávku.',
     },
     {
       id: 'rest-breaks-exercise-04',

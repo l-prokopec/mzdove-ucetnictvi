@@ -234,6 +234,10 @@ export const payrollPurposeContent = defineLessonContent({
           text: 'Údaje z pracovního vztahu a mzdových podmínek.',
         },
         {
+          id: 'lunch',
+          text: 'Neformální informace o tom, co měl zaměstnanec k obědu.',
+        },
+        {
           id: 'attendance',
           text: 'Evidence odpracované doby a nepřítomností.',
         },
@@ -245,10 +249,6 @@ export const payrollPurposeContent = defineLessonContent({
           id: 'overtime',
           text: 'Schválený podklad k práci přesčas.',
         },
-        {
-          id: 'lunch',
-          text: 'Neformální informace o tom, co měl zaměstnanec k obědu.',
-        },
       ],
       correctOptionIds: ['contract', 'attendance', 'tax', 'overtime'],
       skillIds: ['payroll-input-output'],
@@ -259,36 +259,30 @@ export const payrollPurposeContent = defineLessonContent({
     },
     {
       id: 'payroll-purpose-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď základní kroky mzdového zpracování.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Mzdová účtárna obdrží schválenou docházku, rozhodnutí o odměně a oznámení zaměstnance o změně bankovního účtu. Který postup patří do její odpovědnosti?',
+      options: [
         {
-          id: 'collect',
-          text: 'Převzít vstupní podklady.',
+          id: 'a',
+          text: 'Sama znovu rozhodnout, zda zaměstnanec odměnu zaslouží.',
         },
         {
-          id: 'validate',
-          text: 'Zkontrolovat úplnost a správnost vstupů.',
+          id: 'b',
+          text: 'Ověřit úplnost, účinnost a schválení podkladů a správně je promítnout do mzdy.',
         },
+        { id: 'c', text: 'Jednostranně změnit pracovní smlouvu.' },
         {
-          id: 'calculate',
-          text: 'Provést mzdové a odvodové výpočty.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Zkontrolovat výsledky a souhrnné vazby.',
-        },
-        {
-          id: 'output',
-          text: 'Připravit výplaty, evidence, hlášení a archivaci.',
+          id: 'd',
+          text: 'Doplnit chybějící údaje odhadem, aby se stihla uzávěrka.',
         },
       ],
-      correctOrder: ['collect', 'validate', 'calculate', 'reconcile', 'output'],
+      correctOptionId: 'b',
       skillIds: ['payroll-input-output'],
       explanation:
-        'Výpočet má následovat až po převzetí a kontrole vstupů. Před odesláním výstupů musí být výsledek zkontrolován.',
+        'Mzdová účetní zpracovává a kontroluje schválené vstupy; nevytváří bez pravomoci pracovněprávní nároky ani chybějící skutečnosti.',
       commonMistake:
-        'Začít počítat dříve, než jsou vstupy úplné a vzájemně konzistentní.',
+        'Zaměnit technické zpracování mzdy za rozhodování o nároku.',
     },
     {
       id: 'payroll-purpose-exercise-04',
@@ -330,6 +324,10 @@ export const payrollPurposeContent = defineLessonContent({
           text: 'Částka určená k výplatě zaměstnanci.',
         },
         {
+          id: 'future-estimate',
+          text: 'Nezávazný odhad mzdy zaměstnance na příštích deset let.',
+        },
+        {
           id: 'payslip',
           text: 'Výplatní doklad.',
         },
@@ -340,10 +338,6 @@ export const payrollPurposeContent = defineLessonContent({
         {
           id: 'audit',
           text: 'Kontrolní záznamy a dohledatelné podklady.',
-        },
-        {
-          id: 'future-estimate',
-          text: 'Nezávazný odhad mzdy zaměstnance na příštích deset let.',
         },
       ],
       correctOptionIds: ['payable', 'payslip', 'reports', 'audit'],

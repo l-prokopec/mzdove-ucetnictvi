@@ -255,6 +255,10 @@ export const employmentTransferContent = defineLessonContent({
           text: 'Souhlas zaměstnance.',
         },
         {
+          id: 'guess',
+          text: 'Odhad mzdové účetní bez dokumentu.',
+        },
+        {
           id: 'place',
           text: 'Nové místo výkonu práce.',
         },
@@ -266,10 +270,6 @@ export const employmentTransferContent = defineLessonContent({
           id: 'employer',
           text: 'Zda jde stále o stejného zaměstnavatele.',
         },
-        {
-          id: 'guess',
-          text: 'Odhad mzdové účetní bez dokumentu.',
-        },
       ],
       correctOptionIds: ['consent', 'place', 'duration', 'employer'],
       skillIds: ['transfer-classification', 'transfer-payroll-impact'],
@@ -279,40 +279,31 @@ export const employmentTransferContent = defineLessonContent({
     },
     {
       id: 'employment-transfer-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu dočasné změny výkonu práce.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Která tvrzení správně rozlišují pracovní cestu a přeložení?',
+      options: [
         {
-          id: 'classify',
-          text: 'Určit, zda jde o převedení, přeložení nebo pracovní cestu.',
+          id: 'a',
+          text: 'Pracovní cesta je vždy trvalá změna místa výkonu práce.',
         },
         {
-          id: 'basis',
-          text: 'Ověřit zákonný důvod, dohodu nebo souhlas.',
+          id: 'b',
+          text: 'Pracovní cesta je časově omezené vyslání mimo sjednané místo výkonu práce.',
         },
         {
-          id: 'dates',
-          text: 'Určit začátek a konec změny.',
+          id: 'c',
+          text: 'Přeložení mění místo výkonu práce v rámci zaměstnavatele za zákonných podmínek.',
         },
+        { id: 'd', text: 'Oba režimy se vždy zapisují pouze jako dovolená.' },
         {
-          id: 'pay',
-          text: 'Vyhodnotit mzdu, příplatky, doplatek a cestovní náhrady.',
-        },
-        {
-          id: 'systems',
-          text: 'Aktualizovat dotčené evidence a střediska.',
-        },
-        {
-          id: 'close',
-          text: 'Po skončení vrátit evidenci do správného stavu.',
+          id: 'e',
+          text: 'Mzdová účetní může režim zvolit jen podle výše cestovních výdajů.',
         },
       ],
-      correctOrder: ['classify', 'basis', 'dates', 'pay', 'systems', 'close'],
+      correctOptionIds: ['b', 'c'],
       skillIds: ['transfer-classification', 'transfer-payroll-impact'],
-      explanation:
-        'Nejprve se určí právní institut a teprve potom jeho mzdové dopady.',
-      commonMistake:
-        'Zadat novou práci nebo místo bez určení, o jakou změnu jde.',
+      explanation: 'Rozhoduje právní povaha změny místa a její dočasnost.',
+      commonMistake: 'Zaměnit dočasné vyslání za změnu pracovního závazku.',
     },
     {
       id: 'employment-transfer-exercise-04',

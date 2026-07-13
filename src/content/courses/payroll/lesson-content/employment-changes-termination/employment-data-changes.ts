@@ -288,6 +288,10 @@ export const employmentDataChangesContent = defineLessonContent({
           text: 'Mzdový systém.',
         },
         {
+          id: 'none',
+          text: 'Žádný další systém kromě e-mailu vedoucího.',
+        },
+        {
           id: 'hr',
           text: 'Personální systém.',
         },
@@ -299,10 +303,6 @@ export const employmentDataChangesContent = defineLessonContent({
           id: 'attendance',
           text: 'Docházkový systém, pokud používá pracovní režim nebo středisko.',
         },
-        {
-          id: 'none',
-          text: 'Žádný další systém kromě e-mailu vedoucího.',
-        },
       ],
       correctOptionIds: ['payroll', 'hr', 'accounting', 'attendance'],
       skillIds: ['payroll-change-reconciliation'],
@@ -312,49 +312,23 @@ export const employmentDataChangesContent = defineLessonContent({
     },
     {
       id: 'employment-data-changes-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup zpracování změny pracovního údaje.',
-      steps: [
-        {
-          id: 'identify',
-          text: 'Identifikovat zaměstnance, vztah a typ změny.',
-        },
-        {
-          id: 'document',
-          text: 'Ověřit podklad a oprávnění autora.',
-        },
-        {
-          id: 'effective',
-          text: 'Určit datum účinnosti.',
-        },
-        {
-          id: 'impact',
-          text: 'Vyhodnotit dotčené evidence a hlášení.',
-        },
-        {
-          id: 'process',
-          text: 'Provést změnu se zachováním historie.',
-        },
-        {
-          id: 'control',
-          text: 'Zkontrolovat výsledek a uložit kontrolní stopu.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Podepsaný dodatek byl doručen 18. dne měsíce, ale účinnost změny mzdy je výslovně sjednána od 1. dne téhož měsíce. Který údaj řídí mzdový dopad?',
+      options: [
+        { id: 'a', text: 'Datum účinnosti změny.' },
+        { id: 'b', text: 'Datum otevření e-mailu.' },
+        { id: 'c', text: 'Datum nejbližší výplaty.' },
+        { id: 'd', text: 'Datum archivace dokumentu.' },
       ],
-      correctOrder: [
-        'identify',
-        'document',
-        'effective',
-        'impact',
-        'process',
-        'control',
-      ],
+      correctOptionId: 'a',
       skillIds: [
         'employment-change-documentation',
         'payroll-change-reconciliation',
       ],
       explanation:
-        'Změna se provádí až po ověření podkladu, účinnosti a dopadů.',
-      commonMistake: 'Nejprve změnit údaj a teprve potom dohledávat dokument.',
+        'Mzdový dopad se řídí platně stanovenou účinností; pozdní doručení může vyvolat opravu.',
+      commonMistake: 'Automaticky použít datum doručení jako datum účinnosti.',
     },
     {
       id: 'employment-data-changes-exercise-04',

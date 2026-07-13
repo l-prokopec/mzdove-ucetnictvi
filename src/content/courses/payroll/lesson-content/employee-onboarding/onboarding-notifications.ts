@@ -277,6 +277,10 @@ export const onboardingNotificationsContent = defineLessonContent({
           text: 'Ověřit smlouvu a den nástupu.',
         },
         {
+          id: 'ignore-result',
+          text: 'Ignorovat potvrzení nebo odmítnutí podání.',
+        },
+        {
           id: 'regzec',
           text: 'Provést REGZEC v přípustné lhůtě.',
         },
@@ -287,10 +291,6 @@ export const onboardingNotificationsContent = defineLessonContent({
         {
           id: 'health',
           text: 'Provést oznámení zdravotní pojišťovně.',
-        },
-        {
-          id: 'ignore-result',
-          text: 'Ignorovat potvrzení nebo odmítnutí podání.',
         },
       ],
       correctOptionIds: ['contract', 'regzec', 'actual', 'health'],
@@ -306,46 +306,25 @@ export const onboardingNotificationsContent = defineLessonContent({
     },
     {
       id: 'onboarding-notifications-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď základní ohlašovací kroky běžného nástupu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které kroky patří do kontrolovaného nástupního procesu po ověření pracovního vztahu?',
+      options: [
+        { id: 'a', text: 'Založit zaměstnance v mzdovém systému.' },
+        { id: 'd', text: 'Změnit den nástupu podle data prvního zpracování.' },
         {
-          id: 'documents',
-          text: 'Ověřit dokumentaci a předpokládaný den nástupu.',
+          id: 'b',
+          text: 'Odeslat příslušná zákonná oznámení podle ověřených údajů.',
         },
-        {
-          id: 'minimum-data',
-          text: 'Ověřit minimální registrační údaje.',
-        },
-        {
-          id: 'pre-register',
-          text: 'Provést přednástupní REGZEC.',
-        },
-        {
-          id: 'actual-start',
-          text: 'Ověřit, zda zaměstnanec skutečně nastoupil.',
-        },
-        {
-          id: 'complete',
-          text: 'Doplnit evidenci a provést navazující oznámení.',
-        },
-        {
-          id: 'confirm',
-          text: 'Zkontrolovat potvrzení a uložit kontrolní stopu.',
-        },
+        { id: 'e', text: 'Smazat vstupní dokumenty po odeslání hlášení.' },
+        { id: 'c', text: 'Uchovat potvrzení o provedených krocích.' },
       ],
-      correctOrder: [
-        'documents',
-        'minimum-data',
-        'pre-register',
-        'actual-start',
-        'complete',
-        'confirm',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['onboarding-notification-sequence'],
       explanation:
-        'Přednástupní registrace vychází z ověřených údajů a po nástupu se dokončí navazující proces.',
-      commonMistake: 'Začít podáním bez ověřené smlouvy a identity.',
+        'Nástupní proces musí propojit založení, oznámení a kontrolní stopu.',
+      commonMistake:
+        'Považovat odeslání hlášení za důvod k odstranění podkladů.',
     },
     {
       id: 'onboarding-notifications-exercise-04',

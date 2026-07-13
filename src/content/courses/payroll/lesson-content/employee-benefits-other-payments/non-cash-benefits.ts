@@ -344,6 +344,10 @@ export const nonCashBenefitsContent = defineLessonContent({
           text: 'Smlouva s poskytovatelem.',
         },
         {
+          id: 'name',
+          text: 'Pouze marketingový název benefitu.',
+        },
+        {
           id: 'invoice',
           text: 'Faktura nebo ceník.',
         },
@@ -355,10 +359,6 @@ export const nonCashBenefitsContent = defineLessonContent({
           id: 'employee',
           text: 'Spoluúčast zaměstnance.',
         },
-        {
-          id: 'name',
-          text: 'Pouze marketingový název benefitu.',
-        },
       ],
       correctOptionIds: ['contract', 'invoice', 'usual', 'employee'],
       skillIds: ['non-cash-benefit-valuation'],
@@ -367,46 +367,24 @@ export const nonCashBenefitsContent = defineLessonContent({
     },
     {
       id: 'non-cash-benefits-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování nepeněžního benefitu.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec získá nepeněžní plnění za cenu nižší než obvyklou a uhradí část hodnoty. Jak se základně určí jeho nepeněžní příjem?',
+      options: [
         {
-          id: 'form',
-          text: 'Ověřit nepeněžní formu.',
+          id: 'a',
+          text: 'Jako obvyklá nebo zvláštním pravidlem určená hodnota snížená o úhradu zaměstnance.',
         },
-        {
-          id: 'timing',
-          text: 'Určit okamžik vzniku příjmu.',
-        },
-        {
-          id: 'valuation',
-          text: 'Použít správnou oceňovací metodu.',
-        },
-        {
-          id: 'contribution',
-          text: 'Odečíst spoluúčast zaměstnance.',
-        },
-        {
-          id: 'classification',
-          text: 'Posoudit osvobození a limit.',
-        },
-        {
-          id: 'record',
-          text: 'Uložit hodnotu a podklady do mzdové evidence.',
-        },
+        { id: 'b', text: 'Vždy jako nula.' },
+        { id: 'c', text: 'Pouze podle názvu benefitu.' },
+        { id: 'd', text: 'Jako celá měsíční mzda.' },
       ],
-      correctOrder: [
-        'form',
-        'timing',
-        'valuation',
-        'contribution',
-        'classification',
-        'record',
-      ],
+      correctOptionId: 'a',
       skillIds: ['non-cash-benefit-identification', 'non-cash-benefit-timing'],
       explanation:
-        'Daňové posouzení navazuje na správnou hodnotu a okamžik příjmu.',
-      commonMistake: 'Kontrolovat limit před určením hodnoty.',
+        'Ocenění vychází z právního pravidla a zohledňuje zaměstnancovu spoluúčast.',
+      commonMistake:
+        'Použít automaticky pořizovací cenu bez kontroly oceňovacího pravidla.',
     },
     {
       id: 'non-cash-benefits-exercise-04',

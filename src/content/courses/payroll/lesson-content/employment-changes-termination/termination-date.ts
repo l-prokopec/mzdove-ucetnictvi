@@ -317,6 +317,10 @@ export const terminationDateContent = defineLessonContent({
           text: 'Datum doručení.',
         },
         {
+          id: 'payday',
+          text: 'Běžný výplatní termín sám o sobě.',
+        },
+        {
           id: 'length',
           text: 'Délka výpovědní doby.',
         },
@@ -328,10 +332,6 @@ export const terminationDateContent = defineLessonContent({
           id: 'agreement',
           text: 'Písemná dohoda o běhu výpovědní doby.',
         },
-        {
-          id: 'payday',
-          text: 'Běžný výplatní termín sám o sobě.',
-        },
       ],
       correctOptionIds: ['delivery', 'length', 'protection', 'agreement'],
       skillIds: ['notice-period-control'],
@@ -341,47 +341,20 @@ export const terminationDateContent = defineLessonContent({
     },
     {
       id: 'termination-date-exercise-04',
-      type: 'ordering',
-      prompt: 'Seřaď postup určení rozhodného dne skončení.',
-      steps: [
-        {
-          id: 'method',
-          text: 'Určit způsob skončení.',
-        },
-        {
-          id: 'document',
-          text: 'Ověřit finální dokument a doručení.',
-        },
-        {
-          id: 'period',
-          text: 'Vypočítat výpovědní dobu nebo použít sjednaný den.',
-        },
-        {
-          id: 'protection',
-          text: 'Prověřit ochrannou dobu a výjimky.',
-        },
-        {
-          id: 'date',
-          text: 'Potvrdit poslední den pracovního poměru.',
-        },
-        {
-          id: 'followup',
-          text: 'Promítnout datum do mzdy a odhlášení.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec přestal chodit do práce dříve, ale platná dohoda stanoví skončení k pozdějšímu datu. Které datum je rozhodné pro ukončení pracovního poměru?',
+      options: [
+        { id: 'a', text: 'Poslední fyzická přítomnost.' },
+        { id: 'b', text: 'Datum stanovené platnou dohodou.' },
+        { id: 'c', text: 'Datum poslední výplaty.' },
+        { id: 'd', text: 'Datum odhlášky vytvořené mzdovou účtárnou.' },
       ],
-      correctOrder: [
-        'method',
-        'document',
-        'period',
-        'protection',
-        'date',
-        'followup',
-      ],
+      correctOptionId: 'b',
       skillIds: ['termination-date-calculation', 'final-payroll-period'],
       explanation:
-        'Datum lze bezpečně použít až po kontrole všech právních okolností.',
-      commonMistake:
-        'Nejdříve zadat datum do systému a teprve potom kontrolovat dokument.',
+        'Rozhodný den vyplývá z právního titulu skončení, nikoli jen z docházky.',
+      commonMistake: 'Odvodit skončení pouze z posledního odpracovaného dne.',
     },
     {
       id: 'termination-date-exercise-05',

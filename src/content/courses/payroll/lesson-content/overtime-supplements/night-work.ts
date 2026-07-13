@@ -333,6 +333,10 @@ export const nightWorkContent = defineLessonContent({
           text: 'Noční práce.',
         },
         {
+          id: 'exclusive',
+          text: 'Vždy pouze jeden příznak.',
+        },
+        {
           id: 'weekend',
           text: 'Práce v sobotu nebo neděli.',
         },
@@ -344,10 +348,6 @@ export const nightWorkContent = defineLessonContent({
           id: 'overtime',
           text: 'Práce přesčas.',
         },
-        {
-          id: 'exclusive',
-          text: 'Vždy pouze jeden příznak.',
-        },
       ],
       correctOptionIds: ['night', 'weekend', 'holiday', 'overtime'],
       skillIds: ['night-work-overlap-control'],
@@ -356,45 +356,19 @@ export const nightWorkContent = defineLessonContent({
     },
     {
       id: 'night-work-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování noční směny.',
-      steps: [
-        {
-          id: 'actual',
-          text: 'Zjistit skutečný čas práce.',
-        },
-        {
-          id: 'break',
-          text: 'Odečíst nezapočitatelné přestávky.',
-        },
-        {
-          id: 'split',
-          text: 'Vymezit úsek 22:00–6:00.',
-        },
-        {
-          id: 'sphere',
-          text: 'Určit odměňovací sféru.',
-        },
-        {
-          id: 'calculate',
-          text: 'Vypočítat příplatek.',
-        },
-        {
-          id: 'overlap',
-          text: 'Přidat souběžné časové příznaky.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec pracuje od 21:30 do 23:15. Která část je noční prací?',
+      options: [
+        { id: 'a', text: 'Celých 1,75 hodiny.' },
+        { id: 'b', text: 'Úsek 22:00–23:15, tedy 1,25 hodiny.' },
+        { id: 'c', text: 'Jen 21:30–22:00.' },
+        { id: 'd', text: 'Žádná část.' },
       ],
-      correctOrder: [
-        'actual',
-        'break',
-        'split',
-        'sphere',
-        'calculate',
-        'overlap',
-      ],
+      correctOptionId: 'b',
       skillIds: ['night-time-classification', 'night-work-overlap-control'],
-      explanation: 'Příplatek vychází z čisté noční pracovní doby.',
-      commonMistake: 'Použít plánovanou délku bez kontroly přestávky.',
+      explanation: 'Noční doba začíná ve 22:00.',
+      commonMistake: 'Považovat celou večerní směnu za noční.',
     },
     {
       id: 'night-work-exercise-04',

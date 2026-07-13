@@ -295,6 +295,10 @@ export const onboardingChecklistContent = defineLessonContent({
           text: 'Pracovněprávní dokumentace.',
         },
         {
+          id: 'private-hobby',
+          text: 'Soukromé zájmy bez vztahu k zaměstnání.',
+        },
+        {
           id: 'personal',
           text: 'Osobní a mzdové údaje.',
         },
@@ -305,10 +309,6 @@ export const onboardingChecklistContent = defineLessonContent({
         {
           id: 'insurance',
           text: 'Pojistné a registrační údaje.',
-        },
-        {
-          id: 'private-hobby',
-          text: 'Soukromé zájmy bez vztahu k zaměstnání.',
         },
       ],
       correctOptionIds: ['contract', 'personal', 'tax', 'insurance'],
@@ -349,47 +349,22 @@ export const onboardingChecklistContent = defineLessonContent({
     },
     {
       id: 'onboarding-checklist-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď komplexní kontrolu nástupu.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Nástupní spis obsahuje pracovní smlouvu a osobní údaje, ale chybí ověřený pojistný podklad. Co je správné?',
+      options: [
+        { id: 'a', text: 'Označit spis jako úplný.' },
         {
-          id: 'legal',
-          text: 'Zkontrolovat pracovní smlouvu a dobu trvání.',
+          id: 'b',
+          text: 'Doplnit chybějící podklad nebo evidovat řízenou výjimku před navazujícím hlášením.',
         },
-        {
-          id: 'personal',
-          text: 'Ověřit osobní a mzdové údaje.',
-        },
-        {
-          id: 'tax-insurance',
-          text: 'Zkontrolovat daňové a pojistné podklady.',
-        },
-        {
-          id: 'pre-start',
-          text: 'Ověřit přednástupní registraci a připravenost.',
-        },
-        {
-          id: 'actual-start',
-          text: 'Potvrdit skutečný nástup.',
-        },
-        {
-          id: 'first-payroll',
-          text: 'Provést kontrolu před první mzdou.',
-        },
+        { id: 'c', text: 'Zkopírovat údaj od jiného zaměstnance.' },
+        { id: 'd', text: 'Odstranit kontrolní bod z checklistu.' },
       ],
-      correctOrder: [
-        'legal',
-        'personal',
-        'tax-insurance',
-        'pre-start',
-        'actual-start',
-        'first-payroll',
-      ],
+      correctOptionId: 'b',
       skillIds: ['onboarding-file-review', 'onboarding-reconciliation'],
-      explanation:
-        'Kontrola postupuje od právního základu přes registraci až k první mzdě.',
-      commonMistake:
-        'Ukončit kontrolu před ověřením skutečného nástupu a prvního mzdového období.',
+      explanation: 'Checklist má odhalit a řízeně uzavřít chybějící podklady.',
+      commonMistake: 'Formálně odškrtnout krok bez skutečného vyřešení.',
     },
     {
       id: 'onboarding-checklist-exercise-04',

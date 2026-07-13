@@ -380,20 +380,20 @@ export const supplementOverlapContent = defineLessonContent({
           text: 'Práce přesčas.',
         },
         {
-          id: 'night',
-          text: 'Noční práce.',
-        },
-        {
-          id: 'weekend',
-          text: 'Práce v sobotu nebo neděli.',
-        },
-        {
           id: 'holiday',
           text: 'Práce ve svátek.',
         },
         {
+          id: 'night',
+          text: 'Noční práce.',
+        },
+        {
           id: 'standby',
           text: 'Neaktivní pracovní pohotovost.',
+        },
+        {
+          id: 'weekend',
+          text: 'Práce v sobotu nebo neděli.',
         },
       ],
       correctOptionIds: ['overtime', 'night', 'weekend'],
@@ -404,46 +404,28 @@ export const supplementOverlapContent = defineLessonContent({
     },
     {
       id: 'supplement-overlap-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď výpočet souběhu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Která pravidla platí při souběhu více mzdových zvýhodnění?',
+      options: [
+        { id: 'a', text: 'Dosažená mzda za stejnou hodinu se započte jednou.' },
+        { id: 'e', text: 'Vždy se ponechá jen nejvyšší příplatek.' },
+        { id: 'b', text: 'Každý vzniklý příplatek se posoudí samostatně.' },
         {
-          id: 'timeline',
-          text: 'Rozdělit časovou osu podle kalendářních hranic.',
+          id: 'f',
+          text: 'Stejná hodina se zaplatí základní mzdou tolikrát, kolik má příznaků.',
         },
         {
-          id: 'classify',
-          text: 'Přiřadit všechny právní příznaky.',
+          id: 'c',
+          text: 'Směna přes půlnoc se rozdělí podle kalendářních hranic.',
         },
-        {
-          id: 'base',
-          text: 'Vypočítat dosaženou mzdu nebo plat jednou.',
-        },
-        {
-          id: 'supplements',
-          text: 'Vypočítat každý příplatek samostatně.',
-        },
-        {
-          id: 'leave',
-          text: 'Promítnout dohody o náhradním volnu.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Provést součet a audit hodin.',
-        },
+        { id: 'd', text: 'Neaktivní pohotovost se oddělí od výkonu práce.' },
       ],
-      correctOrder: [
-        'timeline',
-        'classify',
-        'base',
-        'supplements',
-        'leave',
-        'reconcile',
-      ],
+      correctOptionIds: ['a', 'b', 'c', 'd'],
       skillIds: ['supplement-overlap-calculation', 'supplement-overlap-audit'],
       explanation:
-        'Výpočet navazuje na přesnou klasifikaci každého časového úseku.',
-      commonMistake: 'Sečíst příplatky bez časové matice.',
+        'Souběh přidává samostatná zvýhodnění, nikoli opakovanou základní mzdu.',
+      commonMistake:
+        'Zrušit ostatní nároky ve prospěch jediného nejvyššího příplatku.',
     },
     {
       id: 'supplement-overlap-exercise-04',

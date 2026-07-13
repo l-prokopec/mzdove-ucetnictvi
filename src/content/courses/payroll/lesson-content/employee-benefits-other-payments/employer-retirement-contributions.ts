@@ -359,6 +359,10 @@ export const employerRetirementContributionsContent = defineLessonContent({
           text: 'Doplňkové penzijní spoření.',
         },
         {
+          id: 'salary',
+          text: 'Běžná základní mzda.',
+        },
+        {
           id: 'dip',
           text: 'Dlouhodobý investiční produkt.',
         },
@@ -370,10 +374,6 @@ export const employerRetirementContributionsContent = defineLessonContent({
           id: 'care',
           text: 'Podporované pojištění dlouhodobé péče.',
         },
-        {
-          id: 'salary',
-          text: 'Běžná základní mzda.',
-        },
       ],
       correctOptionIds: ['pension', 'dip', 'life', 'care'],
       skillIds: ['retirement-product-identification'],
@@ -382,46 +382,26 @@ export const employerRetirementContributionsContent = defineLessonContent({
     },
     {
       id: 'employer-retirement-contributions-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování příspěvku zaměstnavatele.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Zaměstnavatel přispívá zaměstnanci na více podporovaných produktů spoření na stáří. Jak se sleduje zákonný roční limit?',
+      options: [
+        { id: 'a', text: 'Samostatně pro každý produkt bez součtu.' },
         {
-          id: 'product',
-          text: 'Ověřit podporovaný produkt.',
+          id: 'b',
+          text: 'Společně za všechny podporované produkty zaměstnance u zaměstnavatele.',
         },
+        { id: 'c', text: 'Jen podle nejvyšší jednotlivé platby.' },
         {
-          id: 'documents',
-          text: 'Ověřit smlouvu a platební údaje.',
-        },
-        {
-          id: 'entitlement',
-          text: 'Dohledat právní titul a částku.',
-        },
-        {
-          id: 'year',
-          text: 'Zkontrolovat roční kumulaci.',
-        },
-        {
-          id: 'split',
-          text: 'Rozdělit osvobozenou a zdanitelnou část.',
-        },
-        {
-          id: 'payment',
-          text: 'Provést a zdokumentovat platbu poskytovateli.',
+          id: 'd',
+          text: 'Limit se týká pouze vlastních příspěvků zaměstnance.',
         },
       ],
-      correctOrder: [
-        'product',
-        'documents',
-        'entitlement',
-        'year',
-        'split',
-        'payment',
-      ],
+      correctOptionId: 'b',
       skillIds: ['retirement-contribution-documentation'],
-      explanation: 'Platba následuje až po ověření produktu, nároku a limitu.',
-      commonMistake:
-        'Nejprve poslat částku a teprve potom kontrolovat smlouvu.',
+      explanation:
+        'Příspěvky zaměstnavatele se pro osvobození sčítají do společného limitu.',
+      commonMistake: 'Rozdělit platby mezi produkty a tím limit uměle násobit.',
     },
     {
       id: 'employer-retirement-contributions-exercise-04',

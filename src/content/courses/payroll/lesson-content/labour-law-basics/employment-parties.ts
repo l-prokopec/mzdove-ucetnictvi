@@ -234,13 +234,13 @@ export const employmentPartiesContent = defineLessonContent({
       prompt: 'Která oprávnění jsou typická pro vedoucího zaměstnance?',
       options: [
         { id: 'tasks', text: 'Ukládat podřízeným pracovní úkoly.' },
-        { id: 'organize', text: 'Organizovat jejich práci.' },
-        { id: 'control', text: 'Kontrolovat jejich práci.' },
-        { id: 'instructions', text: 'Dávat závazné pracovní pokyny.' },
         {
           id: 'all-payroll',
           text: 'Automaticky schválit libovolnou změnu mzdy bez omezení.',
         },
+        { id: 'organize', text: 'Organizovat jejich práci.' },
+        { id: 'control', text: 'Kontrolovat jejich práci.' },
+        { id: 'instructions', text: 'Dávat závazné pracovní pokyny.' },
       ],
       correctOptionIds: ['tasks', 'organize', 'control', 'instructions'],
       skillIds: ['manager-role-recognition'],
@@ -251,36 +251,21 @@ export const employmentPartiesContent = defineLessonContent({
     },
     {
       id: 'employment-parties-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu požadavku vedoucího na změnu základní mzdy.',
-      steps: [
-        {
-          id: 'identify',
-          text: 'Identifikovat zaměstnance a pracovní vztah.',
-        },
-        {
-          id: 'authority',
-          text: 'Ověřit pravomoc osoby, která změnu požaduje.',
-        },
-        {
-          id: 'document',
-          text: 'Zkontrolovat písemný podklad a datum účinnosti.',
-        },
-        {
-          id: 'process',
-          text: 'Změnu zadat do správného mzdového období.',
-        },
-        {
-          id: 'retain',
-          text: 'Uchovat podklad a záznam provedené kontroly.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Kdo odpovídá za přidělování práce podle pracovní smlouvy a za vytváření podmínek pro její výkon?',
+      options: [
+        { id: 'a', text: 'Zaměstnavatel.' },
+        { id: 'b', text: 'Zdravotní pojišťovna.' },
+        { id: 'c', text: 'Mzdová účetní osobně.' },
+        { id: 'd', text: 'Libovolný spolupracovník zaměstnance.' },
       ],
-      correctOrder: ['identify', 'authority', 'document', 'process', 'retain'],
+      correctOptionId: 'a',
       skillIds: ['employment-rights-duties'],
       explanation:
-        'Nejprve se ověřuje vztah, pravomoc a dokument; teprve potom se údaj zpracuje.',
+        'Jde o základní povinnost zaměstnavatele v pracovním poměru.',
       commonMistake:
-        'Provést změnu jen podle funkce odesílatele bez ověření oprávnění.',
+        'Zaměnit administrativní zpracování mezd za povinnost přidělovat práci.',
     },
     {
       id: 'employment-parties-exercise-04',

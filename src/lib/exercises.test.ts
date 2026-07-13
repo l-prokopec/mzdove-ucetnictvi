@@ -5,9 +5,11 @@ import {
   checklistStatus,
   evaluateExercise,
   nextReviewDate,
+  normalizeExerciseAnswer,
   normalizeText,
   roundMoney,
   scoreBand,
+  shuffleOptions,
   shuffleOrderingOptions,
 } from './exercises'
 
@@ -46,7 +48,11 @@ describe('deterministické vyhodnocení', () => {
       correctOptionIds: ['a', 'c'],
     }
     expect(evaluateExercise(exercise, ['c', 'a']).correct).toBe(true)
+    expect(evaluateExercise(exercise, ['a', 'c']).correct).toBe(true)
     expect(evaluateExercise(exercise, ['a']).correct).toBe(false)
+    expect(evaluateExercise(exercise, ['a', 'c', 'b']).correct).toBe(false)
+    expect(evaluateExercise(exercise, ['a', 'b']).correct).toBe(false)
+    expect(evaluateExercise(exercise, ['a', 'a']).correct).toBe(false)
   })
 
   it('vyhodnotí číselnou odpověď včetně desetinné čárky a tolerance', () => {
@@ -96,6 +102,84 @@ describe('deterministické vyhodnocení', () => {
     expect(nextReviewDate('mastered', 2, from).toISOString()).toBe(
       '2026-08-07T10:00:00.000Z',
     )
+  })
+})
+
+describe('prezentační pořadí choice cvičení', () => {
+  const options = [
+    { id: 'a', text: 'A' },
+    { id: 'b', text: 'B' },
+    { id: 'c', text: 'C' },
+  ]
+
+  it('použije Fisher–Yates bez mutace a zachová přesně množinu možností', () => {
+    const original = structuredClone(options)
+    const shuffled = shuffleOptions(options, () => 0.999)
+    expect(shuffled.map((option) => option.id)).not.toEqual(['a', 'b', 'c'])
+    expect(shuffled.map((option) => option.id).sort()).toEqual(['a', 'b', 'c'])
+    expect(new Set(shuffled.map((option) => option.id)).size).toBe(3)
+    expect(options).toEqual(original)
+  })
+
+  it('při resetu bezpečně vynutí pořadí odlišné od předchozího', () => {
+    const previous = ['b', 'a', 'c']
+    const shuffled = shuffleOptions(options, () => 0.999, previous)
+    expect(shuffled.map((option) => option.id)).not.toEqual(previous)
+  })
+
+  it('bezpečně obslouží nula, jednu i dvě možnosti', () => {
+    expect(shuffleOptions([], () => 0)).toEqual([])
+    expect(shuffleOptions([{ id: 'a', text: 'A' }], () => 0)).toEqual([
+      { id: 'a', text: 'A' },
+    ])
+    expect(
+      shuffleOptions(
+        [
+          { id: 'a', text: 'A' },
+          { id: 'b', text: 'B' },
+        ],
+        () => 0.999,
+      ).map((option) => option.id),
+    ).toEqual(['b', 'a'])
+  })
+})
+
+describe('kompatibilita odpovědi s aktuálním typem cvičení', () => {
+  const single: Exercise = {
+    ...base,
+    type: 'single_choice',
+    options: [
+      { id: 'a', text: 'A' },
+      { id: 'b', text: 'B' },
+    ],
+    correctOptionId: 'b',
+  }
+  const multiple: Exercise = {
+    ...base,
+    type: 'multiple_choice',
+    options: [
+      { id: 'a', text: 'A' },
+      { id: 'b', text: 'B' },
+      { id: 'c', text: 'C' },
+    ],
+    correctOptionIds: ['a', 'c'],
+  }
+
+  it('považuje starý ordering draft u choice otázky za nezodpovězený', () => {
+    expect(
+      normalizeExerciseAnswer(single, ['step-1', 'step-2']),
+    ).toBeUndefined()
+    expect(
+      normalizeExerciseAnswer(multiple, ['step-1', 'step-2']),
+    ).toBeUndefined()
+    expect(evaluateExercise(single, ['step-1', 'step-2']).correct).toBe(false)
+  })
+
+  it('zachová platná option ID a odmítne neznámé nebo duplicitní ID', () => {
+    expect(normalizeExerciseAnswer(single, 'b')).toBe('b')
+    expect(normalizeExerciseAnswer(multiple, ['c', 'a'])).toEqual(['c', 'a'])
+    expect(normalizeExerciseAnswer(multiple, ['a', 'unknown'])).toBeUndefined()
+    expect(normalizeExerciseAnswer(multiple, ['a', 'a'])).toBeUndefined()
   })
 })
 

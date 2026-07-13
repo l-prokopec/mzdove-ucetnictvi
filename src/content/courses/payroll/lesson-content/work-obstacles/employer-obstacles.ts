@@ -347,6 +347,10 @@ export const employerObstaclesContent = defineLessonContent({
           text: 'Dočasné omezení odbytu nebo poptávky.',
         },
         {
+          id: 'machine',
+          text: 'Vždy musí jít o poruchu stroje.',
+        },
+        {
           id: 'private',
           text: 'Zaměstnavatel není zaměstnavatelem odměňujícím platem podle § 109 odst. 3.',
         },
@@ -358,10 +362,6 @@ export const employerObstaclesContent = defineLessonContent({
           id: 'minimum',
           text: 'Náhrada nejméně 60 % průměrného výdělku.',
         },
-        {
-          id: 'machine',
-          text: 'Vždy musí jít o poruchu stroje.',
-        },
       ],
       correctOptionIds: ['demand', 'private', 'document', 'minimum'],
       skillIds: ['partial-unemployment-control'],
@@ -371,46 +371,34 @@ export const employerObstaclesContent = defineLessonContent({
     },
     {
       id: 'employer-obstacles-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování překážky zaměstnavatele.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Která tvrzení správně rozlišují překážky na straně zaměstnavatele?',
+      options: [
         {
-          id: 'readiness',
-          text: 'Ověřit připravenost zaměstnance pracovat.',
+          id: 'a',
+          text: 'Prostoj má zákonné minimum 80 % průměrného výdělku.',
+        },
+        { id: 'e', text: 'Každá porucha stroje je částečná nezaměstnanost.' },
+        {
+          id: 'b',
+          text: 'Povětrnostní nebo živelná překážka má minimum 60 %.',
+        },
+        { id: 'f', text: 'Sníženou sazbu 60 % lze použít vždy bez dokumentu.' },
+        {
+          id: 'c',
+          text: 'Jiná překážka podle § 208 se standardně hradí průměrným výdělkem.',
         },
         {
-          id: 'schedule',
-          text: 'Ověřit rozvrženou pracovní dobu.',
-        },
-        {
-          id: 'cause',
-          text: 'Určit skutečnou příčinu nepřidělování práce.',
-        },
-        {
-          id: 'transfer',
-          text: 'Ověřit případné převedení na jinou práci.',
-        },
-        {
-          id: 'rate',
-          text: 'Přiřadit právní režim a sazbu.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat dobu, výpočet a schvalovací podklad.',
+          id: 'd',
+          text: 'Částečná nezaměstnanost vyžaduje ekonomický důvod a platný podklad pro sníženou náhradu.',
         },
       ],
-      correctOrder: [
-        'readiness',
-        'schedule',
-        'cause',
-        'transfer',
-        'rate',
-        'record',
-      ],
+      correctOptionIds: ['a', 'b', 'c', 'd'],
       skillIds: ['employer-obstacle-classification'],
-      explanation:
-        'Sazba se určuje až po ověření příčiny a skutečného výkonu jiné práce.',
-      commonMistake: 'Vybrat sazbu podle interního názvu absence.',
+      explanation: 'Příčina překážky určuje právní režim a sazbu.',
+      commonMistake:
+        'Použít jednu procentní sazbu na všechny důvody nepřidělování práce.',
     },
     {
       id: 'employer-obstacles-exercise-04',

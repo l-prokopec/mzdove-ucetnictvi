@@ -379,6 +379,10 @@ export const agreementLifecycleContent = defineLessonContent({
           text: 'Ověřit způsob a den skončení.',
         },
         {
+          id: 'delete',
+          text: 'Smazat bez archivace všechny záznamy.',
+        },
+        {
           id: 'hours',
           text: 'Uzavřít evidenci práce.',
         },
@@ -390,10 +394,6 @@ export const agreementLifecycleContent = defineLessonContent({
           id: 'notifications',
           text: 'Provést registrační a pojistná oznámení.',
         },
-        {
-          id: 'delete',
-          text: 'Smazat bez archivace všechny záznamy.',
-        },
       ],
       correctOptionIds: ['date', 'hours', 'vacation', 'notifications'],
       skillIds: ['agreement-termination-process'],
@@ -402,50 +402,25 @@ export const agreementLifecycleContent = defineLessonContent({
     },
     {
       id: 'agreement-lifecycle-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď životní cyklus dohody.',
-      steps: [
-        {
-          id: 'select',
-          text: 'Zvolit správný druh dohody podle práce a rozsahu.',
-        },
-        {
-          id: 'sign',
-          text: 'Uzavřít písemnou dohodu.',
-        },
-        {
-          id: 'register',
-          text: 'Provést registraci a připravit rozvrh.',
-        },
-        {
-          id: 'process',
-          text: 'Měsíčně evidovat práci, odměnu, daň a pojištění.',
-        },
-        {
-          id: 'change',
-          text: 'Zpracovat doložené změny se zachováním historie.',
-        },
-        {
-          id: 'terminate',
-          text: 'Skončit, vyúčtovat, odhlásit a archivovat.',
-        },
+      type: 'multiple_choice',
+      prompt: 'Které kroky patří do řízeného životního cyklu dohody?',
+      options: [
+        { id: 'a', text: 'Založit vztah podle podepsaného dokumentu.' },
+        { id: 'd', text: 'Po podpisu už žádné změny neevidovat.' },
+        { id: 'b', text: 'Průběžně evidovat práci a změny.' },
+        { id: 'e', text: 'Smazat vztah bez zachování historie.' },
+        { id: 'c', text: 'Při skončení uzavřít odměnu, oznámení a archivaci.' },
       ],
-      correctOrder: [
-        'select',
-        'sign',
-        'register',
-        'process',
-        'change',
-        'terminate',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: [
         'agreement-onboarding-process',
         'agreement-change-process',
         'agreement-termination-process',
       ],
       explanation:
-        'Technické zpracování vždy navazuje na platný právní stav dohody.',
-      commonMistake: 'Začít prací a dokumentaci doplnit až při výplatě.',
+        'Dohoda vyžaduje kontrolu od vzniku přes změny až po skončení.',
+      commonMistake:
+        'Vnímat dohodu jako jednorázový dokument bez následné evidence.',
     },
     {
       id: 'agreement-lifecycle-exercise-04',

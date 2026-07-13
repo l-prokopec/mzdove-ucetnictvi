@@ -380,6 +380,10 @@ export const obstacleCompensationContent = defineLessonContent({
           text: 'Placené hodiny.',
         },
         {
+          id: 'guess',
+          text: 'Odhad mzdové účetní bez dokladu.',
+        },
+        {
           id: 'average',
           text: 'Průměrný hodinový výdělek.',
         },
@@ -391,10 +395,6 @@ export const obstacleCompensationContent = defineLessonContent({
           id: 'relationship',
           text: 'Druh pracovněprávního vztahu.',
         },
-        {
-          id: 'guess',
-          text: 'Odhad mzdové účetní bez dokladu.',
-        },
       ],
       correctOptionIds: ['hours', 'average', 'rate', 'relationship'],
       skillIds: ['obstacle-compensation-inputs'],
@@ -404,46 +404,21 @@ export const obstacleCompensationContent = defineLessonContent({
     },
     {
       id: 'obstacle-compensation-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď výpočet měsíční náhrady.',
-      steps: [
-        {
-          id: 'classify',
-          text: 'Klasifikovat právní důvod.',
-        },
-        {
-          id: 'hours',
-          text: 'Rozdělit placené a neplacené hodiny.',
-        },
-        {
-          id: 'average',
-          text: 'Načíst platný průměrný výdělek.',
-        },
-        {
-          id: 'rate',
-          text: 'Určit sazbu nebo strop.',
-        },
-        {
-          id: 'calculate',
-          text: 'Vypočítat jednotlivé náhrady.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Zkontrolovat dvojí plnění a refundaci.',
-        },
+      type: 'multiple_choice',
+      prompt:
+        'Které vstupy jsou nutné pro správný výpočet náhrady při překážce?',
+      options: [
+        { id: 'a', text: 'Počet placených hodin.' },
+        { id: 'd', text: 'Libovolný odhad mzdové účetní.' },
+        { id: 'b', text: 'Platný průměrný hodinový výdělek.' },
+        { id: 'e', text: 'Celá omluvená doba bez rozlišení placené části.' },
+        { id: 'c', text: 'Správná zákonná nebo interní sazba.' },
       ],
-      correctOrder: [
-        'classify',
-        'hours',
-        'average',
-        'rate',
-        'calculate',
-        'reconcile',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['obstacle-compensation-reconciliation'],
       explanation:
-        'Výpočet bez klasifikace a rozdělení hodin není kontrolovatelný.',
-      commonMistake: 'Začít násobením celé nepřítomnosti.',
+        'Výpočet vzniká až po potvrzení placeného rozsahu, průměru a sazby.',
+      commonMistake: 'Násobit celý omluvený čas univerzální procentní sazbou.',
     },
     {
       id: 'obstacle-compensation-exercise-04',

@@ -382,46 +382,25 @@ export const employeeObstaclesContent = defineLessonContent({
     },
     {
       id: 'employee-obstacles-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování osobní překážky.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které kontroly jsou nutné před zadáním jiné důležité osobní překážky?',
+      options: [
+        { id: 'a', text: 'Zda událost zasáhla do rozvržené směny.' },
+        { id: 'd', text: 'Zda má zaměstnanec stejnou diagnózu jako kolega.' },
+        { id: 'b', text: 'Zda zaměstnanec překážku oznámil a prokázal.' },
+        { id: 'e', text: 'Zda je vždy možné zadat automaticky celý den.' },
         {
-          id: 'schedule',
-          text: 'Ověřit rozvrženou směnu.',
+          id: 'c',
+          text: 'Zda konkrétní důvod zakládá placené nebo neplacené volno.',
         },
-        {
-          id: 'reason',
-          text: 'Určit právní důvod překážky.',
-        },
-        {
-          id: 'notice',
-          text: 'Ověřit oznámení nebo žádost.',
-        },
-        {
-          id: 'document',
-          text: 'Zkontrolovat doklad a rozsah.',
-        },
-        {
-          id: 'paid-status',
-          text: 'Určit placenou a neplacenou část.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat docházkový a mzdový kód.',
-        },
+        { id: 'f', text: 'Zda lze chybějící čas odhadnout bez dokladu.' },
       ],
-      correctOrder: [
-        'schedule',
-        'reason',
-        'notice',
-        'document',
-        'paid-status',
-        'record',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['employee-obstacle-schedule-link'],
       explanation:
-        'Mzdový kód je až výsledkem právního a evidenčního posouzení.',
-      commonMistake: 'Začít zadáním celodenní absence bez kontroly rozvrhu.',
+        'Rozvrh, důvod, doklad a placený režim se posuzují odděleně.',
+      commonMistake: 'Považovat každý omluvený důvod za celý placený den.',
     },
     {
       id: 'employee-obstacles-exercise-04',

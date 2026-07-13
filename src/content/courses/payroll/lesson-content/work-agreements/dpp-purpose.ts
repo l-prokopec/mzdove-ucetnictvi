@@ -291,6 +291,10 @@ export const dppPurposeContent = defineLessonContent({
           text: 'Finální písemná dohoda.',
         },
         {
+          id: 'invoice',
+          text: 'Faktura zaměstnance jako jediný podklad.',
+        },
+        {
           id: 'reward',
           text: 'Ujednání o odměně.',
         },
@@ -302,10 +306,6 @@ export const dppPurposeContent = defineLessonContent({
           id: 'hours',
           text: 'Evidence skutečně odpracovaných hodin.',
         },
-        {
-          id: 'invoice',
-          text: 'Faktura zaměstnance jako jediný podklad.',
-        },
       ],
       correctOptionIds: ['agreement', 'reward', 'schedule', 'hours'],
       skillIds: ['dpp-document-review', 'dpp-payroll-setup'],
@@ -315,46 +315,25 @@ export const dppPurposeContent = defineLessonContent({
     },
     {
       id: 'dpp-purpose-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu DPP před první výplatou.',
-      steps: [
+      type: 'single_choice',
+      prompt: 'Kterou kontrolu je nutné u DPP průběžně provádět?',
+      options: [
         {
-          id: 'document',
-          text: 'Ověřit písemnou dohodu a její obsah.',
+          id: 'a',
+          text: 'Sledovat zákonný rozsah práce u daného zaměstnavatele.',
         },
+        { id: 'b', text: 'Považovat každý měsíc za nový vztah bez kumulace.' },
+        { id: 'c', text: 'Neevidovat odpracovaný čas.' },
         {
-          id: 'relations',
-          text: 'Zjistit další DPP stejné osoby u zaměstnavatele.',
-        },
-        {
-          id: 'limit',
-          text: 'Zkontrolovat roční hodinový limit.',
-        },
-        {
-          id: 'schedule',
-          text: 'Ověřit rozvrh a evidenci pracovní doby.',
-        },
-        {
-          id: 'reward',
-          text: 'Vypočítat odměnu a příplatky.',
-        },
-        {
-          id: 'tax-insurance',
-          text: 'Vyhodnotit daňové a pojistné vstupy.',
+          id: 'd',
+          text: 'Automaticky převést DPP na pracovní poměr po první směně.',
         },
       ],
-      correctOrder: [
-        'document',
-        'relations',
-        'limit',
-        'schedule',
-        'reward',
-        'tax-insurance',
-      ],
+      correctOptionId: 'a',
       skillIds: ['dpp-document-review', 'dpp-payroll-setup'],
       explanation:
-        'Odměna a odvody se řeší až po ověření vztahu, limitu a skutečné práce.',
-      commonMistake: 'Začít výpočtem odměny bez kontroly platné dohody.',
+        'DPP vyžaduje průběžnou evidenci skutečně odpracovaného rozsahu.',
+      commonMistake: 'Sledovat pouze vyplacenou odměnu a ignorovat dobu práce.',
     },
     {
       id: 'dpp-purpose-exercise-04',

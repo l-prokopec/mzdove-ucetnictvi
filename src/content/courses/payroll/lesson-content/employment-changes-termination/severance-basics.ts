@@ -307,6 +307,10 @@ export const severanceBasicsContent = defineLessonContent({
           text: 'Skutečný důvod skončení.',
         },
         {
+          id: 'label',
+          text: 'Pouze název položky v systému.',
+        },
+        {
           id: 'duration',
           text: 'Délka pracovního poměru.',
         },
@@ -318,10 +322,6 @@ export const severanceBasicsContent = defineLessonContent({
           id: 'rules',
           text: 'Kolektivní smlouva nebo vnitřní pravidla.',
         },
-        {
-          id: 'label',
-          text: 'Pouze název položky v systému.',
-        },
       ],
       correctOptionIds: ['reason', 'duration', 'average', 'rules'],
       skillIds: ['severance-entitlement', 'severance-amount'],
@@ -331,46 +331,22 @@ export const severanceBasicsContent = defineLessonContent({
     },
     {
       id: 'severance-basics-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup posouzení výstupního plnění.',
-      steps: [
+      type: 'single_choice',
+      prompt: 'Jak má být odstupné v poslední mzdě základně zachyceno?',
+      options: [
         {
-          id: 'termination',
-          text: 'Ověřit způsob a důvod skončení.',
+          id: 'a',
+          text: 'Jako samostatně doložené plnění navázané na právní důvod skončení.',
         },
-        {
-          id: 'classify',
-          text: 'Určit, zda jde o odstupné, jednorázovou náhradu nebo jiné plnění.',
-        },
-        {
-          id: 'duration',
-          text: 'Ověřit délku zaměstnání a zvláštní podmínky.',
-        },
-        {
-          id: 'average',
-          text: 'Zkontrolovat průměrný měsíční výdělek.',
-        },
-        {
-          id: 'amount',
-          text: 'Stanovit násobek a částku.',
-        },
-        {
-          id: 'treatment',
-          text: 'Určit daňové, pojistné a výplatní zpracování.',
-        },
+        { id: 'b', text: 'Jako cestovní náhrada.' },
+        { id: 'c', text: 'Jako odpracované přesčasové hodiny.' },
+        { id: 'd', text: 'Bez vazby na dokument o skončení.' },
       ],
-      correctOrder: [
-        'termination',
-        'classify',
-        'duration',
-        'average',
-        'amount',
-        'treatment',
-      ],
+      correctOptionId: 'a',
       skillIds: ['severance-entitlement', 'termination-payment-classification'],
       explanation:
-        'Nejdříve se určuje právní titul a teprve poté výše a odvody.',
-      commonMistake: 'Začít násobením průměru bez ověření nároku.',
+        'Odstupné vyžaduje samostatný právní titul, výpočet a kontrolní stopu.',
+      commonMistake: 'Sloučit odstupné s běžnou mzdou bez identifikace.',
     },
     {
       id: 'severance-basics-exercise-04',

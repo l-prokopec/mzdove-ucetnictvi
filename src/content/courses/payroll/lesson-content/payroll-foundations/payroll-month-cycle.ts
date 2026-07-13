@@ -186,27 +186,21 @@ export const payrollMonthCycleContent = defineLessonContent({
   exercises: [
     {
       id: 'payroll-month-cycle-exercise-01',
-      type: 'ordering',
-      prompt: 'Seřaď základní fáze mzdového měsíce.',
-      steps: [
-        { id: 'inputs', text: 'Převzít a zkontrolovat vstupy.' },
-        { id: 'calculate', text: 'Provést předběžný výpočet.' },
-        { id: 'control', text: 'Provést individuální a souhrnné kontroly.' },
-        { id: 'approve', text: 'Schválit výsledky.' },
-        { id: 'outputs', text: 'Vytvořit platby, podání a další výstupy.' },
-        { id: 'archive', text: 'Uzavřít období a archivovat podklady.' },
+      type: 'multiple_choice',
+      prompt:
+        'Které kroky musí proběhnout po prvním výpočtu mezd a před definitivním uzavřením období?',
+      options: [
+        { id: 'a', text: 'Okamžitě smazat zdrojové podklady.' },
+        { id: 'b', text: 'Provést věcné a součtové kontroly.' },
+        { id: 'c', text: 'Archivovat období bez řešení odchylek.' },
+        { id: 'd', text: 'Vyřešit zjištěné odchylky a znovu ověřit výstupy.' },
+        { id: 'e', text: 'Považovat první výpočet za automaticky schválený.' },
       ],
-      correctOrder: [
-        'inputs',
-        'calculate',
-        'control',
-        'approve',
-        'outputs',
-        'archive',
-      ],
+      correctOptionIds: ['b', 'd'],
       skillIds: ['payroll-cycle-sequence'],
-      explanation: 'Každá fáze navazuje na ověřený výsledek fáze předchozí.',
-      commonMistake: 'Odeslat výstupy před dokončením kontrol a schválení.',
+      explanation:
+        'První výpočet je pracovní výstup, který musí projít kontrolou a vypořádáním odchylek.',
+      commonMistake: 'Přeskočit kontrolní fázi a zaměnit výpočet za uzávěrku.',
     },
     {
       id: 'payroll-month-cycle-exercise-02',
@@ -232,10 +226,10 @@ export const payrollMonthCycleContent = defineLessonContent({
       prompt: 'Které kroky následují po výpočtu a před uzavřením období?',
       options: [
         { id: 'individual', text: 'Individuální kontroly zaměstnanců.' },
+        { id: 'guess', text: 'Domyšlení chybějících vstupů.' },
         { id: 'summary', text: 'Souhrnné kontroly organizace.' },
         { id: 'approval', text: 'Schválení výsledků.' },
         { id: 'payments', text: 'Příprava plateb a povinných výstupů.' },
-        { id: 'guess', text: 'Domyšlení chybějících vstupů.' },
       ],
       correctOptionIds: ['individual', 'summary', 'approval', 'payments'],
       skillIds: ['payroll-cycle-sequence', 'payroll-output-control'],

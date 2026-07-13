@@ -242,20 +242,20 @@ export const employmentContractContent = defineLessonContent({
           text: 'Druh práce.',
         },
         {
-          id: 'place',
-          text: 'Místo nebo místa výkonu práce.',
-        },
-        {
-          id: 'start',
-          text: 'Den nástupu do práce.',
-        },
-        {
           id: 'bank',
           text: 'Číslo bankovního účtu.',
         },
         {
+          id: 'place',
+          text: 'Místo nebo místa výkonu práce.',
+        },
+        {
           id: 'salary',
           text: 'Vždy konkrétní částka mzdy.',
+        },
+        {
+          id: 'start',
+          text: 'Den nástupu do práce.',
         },
       ],
       correctOptionIds: ['work', 'place', 'start'],
@@ -295,36 +295,22 @@ export const employmentContractContent = defineLessonContent({
     },
     {
       id: 'employment-contract-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu pracovní smlouvy před založením zaměstnance.',
-      steps: [
-        {
-          id: 'final',
-          text: 'Ověřit, že jde o finální písemný dokument.',
-        },
-        {
-          id: 'parties',
-          text: 'Ověřit zaměstnavatele, zaměstnance a oprávnění podpisů.',
-        },
-        {
-          id: 'essentials',
-          text: 'Zkontrolovat tři povinné náležitosti.',
-        },
-        {
-          id: 'other',
-          text: 'Zkontrolovat další ujednání s mzdovým dopadem.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Porovnat smlouvu s personálními a mzdovými podklady.',
-        },
+      type: 'multiple_choice',
+      prompt:
+        'Které údaje patří mezi povinné obsahové náležitosti pracovní smlouvy?',
+      options: [
+        { id: 'a', text: 'Rodné číslo vedoucího.' },
+        { id: 'b', text: 'Druh práce.' },
+        { id: 'c', text: 'Místo nebo místa výkonu práce.' },
+        { id: 'd', text: 'Den nástupu do práce.' },
+        { id: 'e', text: 'Číslo bankovního účtu zaměstnance.' },
       ],
-      correctOrder: ['final', 'parties', 'essentials', 'other', 'reconcile'],
+      correctOptionIds: ['b', 'c', 'd'],
       skillIds: ['employment-contract-review'],
       explanation:
-        'Nejprve se ověří dokument a účastníci, poté obsah a návazné podklady.',
+        'Pracovní smlouva musí obsahovat druh práce, místo výkonu práce a den nástupu.',
       commonMistake:
-        'Začít zadávat zaměstnance do systému ještě před ověřením finální smlouvy.',
+        'Zaměnit praktické mzdové údaje za povinné náležitosti smlouvy.',
     },
     {
       id: 'employment-contract-exercise-04',

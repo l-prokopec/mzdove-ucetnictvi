@@ -324,6 +324,10 @@ export const dpcPurposeContent = defineLessonContent({
           text: 'Dobu trvání dohody.',
         },
         {
+          id: 'dpp-limit',
+          text: 'Samostatný roční limit 300 hodin jako hlavní limit DPČ.',
+        },
+        {
           id: 'hours',
           text: 'Skutečně odpracované hodiny.',
         },
@@ -334,10 +338,6 @@ export const dpcPurposeContent = defineLessonContent({
         {
           id: 'reward',
           text: 'Odměnu a příplatky.',
-        },
-        {
-          id: 'dpp-limit',
-          text: 'Samostatný roční limit 300 hodin jako hlavní limit DPČ.',
         },
       ],
       correctOptionIds: ['duration', 'hours', 'average', 'reward'],
@@ -352,46 +352,20 @@ export const dpcPurposeContent = defineLessonContent({
     },
     {
       id: 'dpc-purpose-exercise-04',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu DPČ před výplatou.',
-      steps: [
-        {
-          id: 'document',
-          text: 'Ověřit písemnou dohodu a sjednaný rozsah.',
-        },
-        {
-          id: 'period',
-          text: 'Určit období pro kontrolu průměru.',
-        },
-        {
-          id: 'schedule',
-          text: 'Ověřit rozvrh směn.',
-        },
-        {
-          id: 'hours',
-          text: 'Zkontrolovat skutečně odpracované hodiny a průměr.',
-        },
-        {
-          id: 'reward',
-          text: 'Vypočítat odměnu a příplatky.',
-        },
-        {
-          id: 'tax-insurance',
-          text: 'Posoudit daň a pojištění.',
-        },
+      type: 'single_choice',
+      prompt: 'Který údaj je klíčový pro kontrolu rozsahu práce na DPČ?',
+      options: [
+        { id: 'a', text: 'Průměrný rozsah práce ve vyrovnávacím období.' },
+        { id: 'b', text: 'Pouze nejdelší jednotlivá směna.' },
+        { id: 'c', text: 'Počet vystavených výplatních pásek.' },
+        { id: 'd', text: 'Soukromý rozvrh zaměstnance mimo vztah.' },
       ],
-      correctOrder: [
-        'document',
-        'period',
-        'schedule',
-        'hours',
-        'reward',
-        'tax-insurance',
-      ],
+      correctOptionId: 'a',
       skillIds: ['dpc-document-review', 'dpc-payroll-setup'],
       explanation:
-        'Výpočet odměny navazuje na platnou dohodu a kontrolu rozsahu práce.',
-      commonMistake: 'Kontrolovat průměr až po skončení dohody.',
+        'DPČ se kontroluje podle zákonného průměrného rozsahu v příslušném období.',
+      commonMistake:
+        'Posoudit DPČ jen podle jednoho týdne bez vyrovnávacího období.',
     },
     {
       id: 'dpc-purpose-exercise-05',

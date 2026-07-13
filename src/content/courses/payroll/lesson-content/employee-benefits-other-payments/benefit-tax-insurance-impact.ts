@@ -346,6 +346,10 @@ export const benefitTaxInsuranceImpactContent = defineLessonContent({
           text: 'Vstup do základu daně.',
         },
         {
+          id: 'ignore',
+          text: 'Benefit z evidence odstranit.',
+        },
+        {
           id: 'social',
           text: 'Vstup do sociálního vyměřovacího základu.',
         },
@@ -357,10 +361,6 @@ export const benefitTaxInsuranceImpactContent = defineLessonContent({
           id: 'month',
           text: 'Rozhodný měsíc.',
         },
-        {
-          id: 'ignore',
-          text: 'Benefit z evidence odstranit.',
-        },
       ],
       correctOptionIds: ['tax', 'social', 'health', 'month'],
       skillIds: ['benefit-tax-base-impact', 'benefit-insurance-base-impact'],
@@ -369,46 +369,28 @@ export const benefitTaxInsuranceImpactContent = defineLessonContent({
     },
     {
       id: 'benefit-tax-insurance-impact-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď posouzení dopadu benefitu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které kroky patří do posouzení daňového a pojistného dopadu benefitu?',
+      options: [
         {
-          id: 'value',
-          text: 'Určit hodnotu příjmu.',
+          id: 'a',
+          text: 'Určit, zda jde o zdanitelný, osvobozený nebo nezdaňovaný příjem.',
         },
+        { id: 'd', text: 'Sloučit všechny limity do jednoho.' },
+        { id: 'b', text: 'Ověřit příslušný roční limit a kumulaci.' },
+        { id: 'e', text: 'Ignorovat benefit v evidenci, pokud je osvobozený.' },
         {
-          id: 'category',
-          text: 'Přiřadit daňovou kategorii.',
-        },
-        {
-          id: 'limit',
-          text: 'Zkontrolovat roční kumulaci.',
-        },
-        {
-          id: 'split',
-          text: 'Rozdělit osvobozenou a zdanitelnou část.',
-        },
-        {
-          id: 'insurance',
-          text: 'Ověřit oba pojistné základy.',
-        },
-        {
-          id: 'report',
-          text: 'Zapsat měsíc a vykázání.',
+          id: 'c',
+          text: 'Posoudit vstup zdanitelné části do pojistných základů.',
         },
       ],
-      correctOrder: [
-        'value',
-        'category',
-        'limit',
-        'split',
-        'insurance',
-        'report',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['benefit-tax-base-impact', 'benefit-limit-tracking'],
       explanation:
-        'Pojistné a vykázání vycházejí ze správně oceněné a rozdělené částky.',
-      commonMistake: 'Vypočítat pojistné před určením zdanitelné části.',
+        'Daň, pojistné a evidence jsou navazující, ale samostatné kontroly.',
+      commonMistake:
+        'Považovat osvobození od daně za automatické vyřazení ze všech evidencí.',
     },
     {
       id: 'benefit-tax-insurance-impact-exercise-04',

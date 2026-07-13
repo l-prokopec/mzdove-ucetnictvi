@@ -362,6 +362,10 @@ export const nonWageBenefitsContent = defineLessonContent({
           text: 'Cestovní náhrada.',
         },
         {
+          id: 'commission',
+          text: 'Provize za dosažený pracovní výsledek.',
+        },
+        {
           id: 'remote',
           text: 'Náhrada nákladů při práci na dálku.',
         },
@@ -373,10 +377,6 @@ export const nonWageBenefitsContent = defineLessonContent({
           id: 'damage',
           text: 'Náhrada škody.',
         },
-        {
-          id: 'commission',
-          text: 'Provize za dosažený pracovní výsledek.',
-        },
       ],
       correctOptionIds: ['travel', 'remote', 'severance', 'damage'],
       skillIds: ['non-wage-payment-classification'],
@@ -385,46 +385,20 @@ export const nonWageBenefitsContent = defineLessonContent({
     },
     {
       id: 'non-wage-benefits-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď klasifikaci nové zaměstnanecké položky.',
-      steps: [
-        {
-          id: 'purpose',
-          text: 'Zjistit skutečný účel plnění.',
-        },
-        {
-          id: 'document',
-          text: 'Dohledat právní a interní podklad.',
-        },
-        {
-          id: 'work',
-          text: 'Určit, zda jde o odměnu za práci.',
-        },
-        {
-          id: 'type',
-          text: 'Přiřadit mzdu, náhradu, benefit nebo jinou kategorii.',
-        },
-        {
-          id: 'treatment',
-          text: 'Posoudit daňové, pojistné a mzdové dopady.',
-        },
-        {
-          id: 'record',
-          text: 'Založit správný kód a kontrolní stopu.',
-        },
+      type: 'multiple_choice',
+      prompt: 'Která plnění se nemají automaticky zařadit jako mzda za práci?',
+      options: [
+        { id: 'a', text: 'Výkonový bonus.' },
+        { id: 'b', text: 'Náhrada prokázaných cestovních výdajů.' },
+        { id: 'c', text: 'Příplatek za přesčas.' },
+        { id: 'd', text: 'Náhrada nákladů při práci na dálku.' },
+        { id: 'e', text: 'Mimořádná odměna za pracovní výsledek.' },
       ],
-      correctOrder: [
-        'purpose',
-        'document',
-        'work',
-        'type',
-        'treatment',
-        'record',
-      ],
+      correctOptionIds: ['b', 'd'],
       skillIds: ['payment-purpose-substance', 'benefit-document-control'],
       explanation:
-        'Technický kód vzniká až po určení skutečného právního obsahu.',
-      commonMistake: 'Rozhodnout jen podle názvu v požadavku vedoucího.',
+        'Náhrady výdajů nejsou odměnou za práci jen proto, že jsou vyplaceny zaměstnavatelem.',
+      commonMistake: 'Klasifikovat plnění pouze podle toho, že je peněžní.',
     },
     {
       id: 'non-wage-benefits-exercise-04',

@@ -306,6 +306,10 @@ export const workingTimeConceptsContent = defineLessonContent({
           text: 'Plánovanou směnu.',
         },
         {
+          id: 'same',
+          text: 'Všechny uvedené údaje sloučit do jednoho času přítomnosti.',
+        },
+        {
           id: 'actual',
           text: 'Skutečně odpracovanou dobu.',
         },
@@ -317,10 +321,6 @@ export const workingTimeConceptsContent = defineLessonContent({
           id: 'standby-work',
           text: 'Výkon práce během pohotovosti.',
         },
-        {
-          id: 'same',
-          text: 'Všechny uvedené údaje sloučit do jednoho času přítomnosti.',
-        },
       ],
       correctOptionIds: ['shift', 'actual', 'standby', 'standby-work'],
       skillIds: ['working-time-terminology', 'working-time-boundaries'],
@@ -329,46 +329,30 @@ export const workingTimeConceptsContent = defineLessonContent({
     },
     {
       id: 'working-time-concepts-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď základní posouzení časového záznamu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Která tvrzení správně rozlišují pracovní dobu, směnu a dobu odpočinku?',
+      options: [
         {
-          id: 'schedule',
-          text: 'Zjistit platný rozvrh směny.',
+          id: 'a',
+          text: 'Směna je část týdenní pracovní doby předem rozvržená k výkonu práce.',
         },
         {
-          id: 'actual',
-          text: 'Zjistit skutečný začátek a konec práce.',
+          id: 'd',
+          text: 'Každá fyzická přítomnost v budově je pracovní dobou.',
         },
         {
-          id: 'breaks',
-          text: 'Oddělit nezapočitatelné přestávky.',
+          id: 'b',
+          text: 'Pracovní doba zahrnuje dobu, kdy zaměstnanec pracuje nebo je na pracovišti připraven podle pokynů.',
         },
-        {
-          id: 'categories',
-          text: 'Určit noční, víkendové a jiné časové kategorie.',
-        },
-        {
-          id: 'outside',
-          text: 'Posoudit práci mimo rozvrh.',
-        },
-        {
-          id: 'payroll',
-          text: 'Předat klasifikované údaje do mzdy.',
-        },
+        { id: 'e', text: 'Směna a pracovní režim jsou vždy totožný pojem.' },
+        { id: 'c', text: 'Doba odpočinku je doba, která není pracovní dobou.' },
       ],
-      correctOrder: [
-        'schedule',
-        'actual',
-        'breaks',
-        'categories',
-        'outside',
-        'payroll',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['shift-classification'],
       explanation:
-        'Klasifikace vychází nejprve z rozvrhu a skutečného průběhu.',
-      commonMistake: 'Začít mzdovým výpočtem bez časové klasifikace.',
+        'Pojmy se překrývají jen v zákonem vymezeném rozsahu a nesmějí se zaměňovat.',
+      commonMistake: 'Odvozovat pracovní dobu jen z průchodu turniketem.',
     },
     {
       id: 'working-time-concepts-exercise-04',

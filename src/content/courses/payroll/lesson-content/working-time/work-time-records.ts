@@ -322,6 +322,10 @@ export const workTimeRecordsContent = defineLessonContent({
           text: 'Začátek a konec odpracované směny.',
         },
         {
+          id: 'salary-only',
+          text: 'Pouze výsledná čistá mzda.',
+        },
+        {
           id: 'overtime',
           text: 'Začátek a konec práce přesčas.',
         },
@@ -332,10 +336,6 @@ export const workTimeRecordsContent = defineLessonContent({
         {
           id: 'standby',
           text: 'Začátek a konec pracovní pohotovosti.',
-        },
-        {
-          id: 'salary-only',
-          text: 'Pouze výsledná čistá mzda.',
         },
       ],
       correctOptionIds: ['shift', 'overtime', 'night', 'standby'],
@@ -374,45 +374,22 @@ export const workTimeRecordsContent = defineLessonContent({
     },
     {
       id: 'work-time-records-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď měsíční uzávěrku evidence pracovní doby.',
-      steps: [
-        {
-          id: 'schedule',
-          text: 'Načíst platný rozvrh.',
-        },
-        {
-          id: 'actual',
-          text: 'Načíst skutečné časové záznamy.',
-        },
-        {
-          id: 'differences',
-          text: 'Vyhledat rozdíly, mezery a překryvy.',
-        },
-        {
-          id: 'classify',
-          text: 'Klasifikovat jednotlivé odchylky.',
-        },
-        {
-          id: 'approve',
-          text: 'Ověřit podklady a schválení.',
-        },
-        {
-          id: 'close',
-          text: 'Uzavřít období a předat mzdové vstupy.',
-        },
+      type: 'multiple_choice',
+      prompt:
+        'Které údaje musí evidence pracovní doby zachytit v kontrolovatelném rozsahu?',
+      options: [
+        { id: 'a', text: 'Začátek a konec odpracované směny.' },
+        { id: 'e', text: 'Pouze měsíční součet bez denních vazeb.' },
+        { id: 'b', text: 'Práci přesčas.' },
+        { id: 'f', text: 'Soukromý čas zaměstnance mimo vztah.' },
+        { id: 'c', text: 'Noční práci.' },
+        { id: 'd', text: 'Pracovní pohotovost a výkon v ní.' },
       ],
-      correctOrder: [
-        'schedule',
-        'actual',
-        'differences',
-        'classify',
-        'approve',
-        'close',
-      ],
+      correctOptionIds: ['a', 'b', 'c', 'd'],
       skillIds: ['work-time-records-audit-trail'],
-      explanation: 'Evidence se uzavírá až po porovnání a schválení rozdílů.',
-      commonMistake: 'Předat do mzdy syrové záznamy bez klasifikace.',
+      explanation:
+        'Evidence musí umožnit rozlišit jednotlivé právní režimy práce.',
+      commonMistake: 'Uchovat jen souhrnný počet hodin bez časových kategorií.',
     },
     {
       id: 'work-time-records-exercise-04',

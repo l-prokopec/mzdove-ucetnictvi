@@ -222,23 +222,31 @@ export const payrollRolesContent = defineLessonContent({
     },
     {
       id: 'payroll-roles-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď správný postup při neschválené odměně.',
-      steps: [
-        { id: 'record', text: 'Zaznamenat přijatý požadavek.' },
+      type: 'multiple_choice',
+      prompt:
+        'Které činnosti odpovídají správnému rozdělení rolí v mzdovém procesu?',
+      options: [
         {
-          id: 'verify',
-          text: 'Ověřit zaměstnance, období a chybějící schválení.',
+          id: 'a',
+          text: 'IT administrátor rozhoduje o přiznání osobního ohodnocení.',
         },
-        { id: 'escalate', text: 'Vyžádat rozhodnutí oprávněné osoby.' },
-        { id: 'process', text: 'Po schválení položku mzdově zpracovat.' },
-        { id: 'retain', text: 'Uchovat podklad a kontrolní stopu.' },
+        {
+          id: 'b',
+          text: 'Vedoucí nebo jiná oprávněná osoba schvaluje variabilní odměnu.',
+        },
+        { id: 'c', text: 'Mzdová účetní si domyslí neúplný podklad.' },
+        {
+          id: 'd',
+          text: 'Mzdová účetní ověří formální a výpočetní správnost schváleného vstupu.',
+        },
+        { id: 'e', text: 'Zaměstnanec včas oznamuje rozhodné osobní změny.' },
       ],
-      correctOrder: ['record', 'verify', 'escalate', 'process', 'retain'],
+      correctOptionIds: ['b', 'd', 'e'],
       skillIds: ['payroll-escalation'],
-      explanation: 'Položka se zpracuje až po ověření a oprávněném rozhodnutí.',
+      explanation:
+        'Rozhodovací, oznamovací, kontrolní a technické role musí zůstat oddělené.',
       commonMistake:
-        'Nejprve položku vyplatit a schválení doplňovat až zpětně.',
+        'Přenést schvalovací pravomoc na osobu, která pouze zpracovává mzdu.',
     },
     {
       id: 'payroll-roles-exercise-04',

@@ -227,20 +227,20 @@ export const taxInsuranceOnboardingContent = defineLessonContent({
           text: 'Prohlášení poplatníka.',
         },
         {
-          id: 'discounts',
-          text: 'Doklady k uplatňovaným slevám.',
-        },
-        {
-          id: 'children',
-          text: 'Doklady k daňovému zvýhodnění.',
-        },
-        {
           id: 'insurer',
           text: 'Kód zdravotní pojišťovny.',
         },
         {
+          id: 'discounts',
+          text: 'Doklady k uplatňovaným slevám.',
+        },
+        {
           id: 'regzec',
           text: 'Technický identifikátor podání REGZEC.',
+        },
+        {
+          id: 'children',
+          text: 'Doklady k daňovému zvýhodnění.',
         },
       ],
       correctOptionIds: ['declaration', 'discounts', 'children'],
@@ -282,39 +282,28 @@ export const taxInsuranceOnboardingContent = defineLessonContent({
     },
     {
       id: 'tax-insurance-onboarding-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu daňových a pojistných podkladů.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Při nástupu chybí údaj o zdravotní pojišťovně. Jaký je správný postup?',
+      options: [
+        { id: 'a', text: 'Pojišťovnu náhodně vybrat.' },
         {
-          id: 'identity',
-          text: 'Ověřit identitu a konkrétní pracovní vztah.',
+          id: 'b',
+          text: 'Údaj označit jako chybějící, vyžádat ověření a neodesílat neověřenou informaci.',
         },
-        {
-          id: 'tax',
-          text: 'Zkontrolovat Prohlášení a daňové doklady.',
-        },
-        {
-          id: 'health',
-          text: 'Ověřit zdravotní pojišťovnu a pojistný status.',
-        },
-        {
-          id: 'social',
-          text: 'Připravit údaje pro evidenci zaměstnance a REGZEC.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Porovnat data, účinnost a odstranit rozpory.',
-        },
+        { id: 'c', text: 'Zaměstnance založit u všech pojišťoven.' },
+        { id: 'd', text: 'Přepsat pojišťovnu z jiného zaměstnance.' },
       ],
-      correctOrder: ['identity', 'tax', 'health', 'social', 'reconcile'],
+      correctOptionId: 'b',
       skillIds: [
         'onboarding-tax-documents',
         'onboarding-health-documents',
         'onboarding-social-documents',
       ],
       explanation:
-        'Všechny oblasti se vážou na ověřenou osobu a pracovní vztah a na konci se vzájemně porovnají.',
-      commonMistake: 'Zpracovat každou oblast s jiným datem nástupu.',
+        'Chybějící pojistný údaj se musí aktivně dořešit a nesmí být nahrazen odhadem.',
+      commonMistake:
+        'Upřednostnit rychlost založení před správností registrace.',
     },
     {
       id: 'tax-insurance-onboarding-exercise-04',

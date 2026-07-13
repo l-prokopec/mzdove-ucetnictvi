@@ -326,20 +326,20 @@ export const wageSalaryAgreementContent = defineLessonContent({
           text: 'Mzda.',
         },
         {
-          id: 'salary',
-          text: 'Plat.',
-        },
-        {
-          id: 'agreement',
-          text: 'Odměna z dohody.',
-        },
-        {
           id: 'travel',
           text: 'Náhrada prokázaných cestovních výdajů.',
         },
         {
+          id: 'salary',
+          text: 'Plat.',
+        },
+        {
           id: 'severance',
           text: 'Odstupné.',
+        },
+        {
+          id: 'agreement',
+          text: 'Odměna z dohody.',
         },
       ],
       correctOptionIds: ['wage', 'salary', 'agreement'],
@@ -350,46 +350,20 @@ export const wageSalaryAgreementContent = defineLessonContent({
     },
     {
       id: 'wage-salary-agreement-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď rozhodování o správném názvu odměny.',
-      steps: [
-        {
-          id: 'relationship',
-          text: 'Určit pracovněprávní vztah.',
-        },
-        {
-          id: 'agreement-check',
-          text: 'Zjistit, zda jde o DPP nebo DPČ.',
-        },
-        {
-          id: 'employer',
-          text: 'U pracovního poměru ověřit typ zaměstnavatele.',
-        },
-        {
-          id: 'classify',
-          text: 'Přiřadit mzdu, plat nebo odměnu z dohody.',
-        },
-        {
-          id: 'purpose',
-          text: 'Ověřit, zda konkrétní položka skutečně náleží za práci.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat právní titul do mzdové evidence.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec pracuje pro soukromou obchodní společnost v pracovním poměru. Jak se základně označuje jeho odměna za práci?',
+      options: [
+        { id: 'a', text: 'Mzda.' },
+        { id: 'b', text: 'Plat.' },
+        { id: 'c', text: 'Cestovní náhrada.' },
+        { id: 'd', text: 'Odměna z DPP bez ohledu na smlouvu.' },
       ],
-      correctOrder: [
-        'relationship',
-        'agreement-check',
-        'employer',
-        'classify',
-        'purpose',
-        'record',
-      ],
+      correctOptionId: 'a',
       skillIds: ['remuneration-type-classification', 'work-payment-boundaries'],
       explanation:
-        'Nejdříve se určuje vztah a zaměstnavatel, potom konkrétní povaha plnění.',
-      commonMistake: 'Rozhodnout pouze podle názvu položky v systému.',
+        'Soukromý zaměstnavatel mimo platovou sféru odměňuje zaměstnance mzdou.',
+      commonMistake: 'Určovat název plnění jen podle pracovní pozice.',
     },
     {
       id: 'wage-salary-agreement-exercise-04',

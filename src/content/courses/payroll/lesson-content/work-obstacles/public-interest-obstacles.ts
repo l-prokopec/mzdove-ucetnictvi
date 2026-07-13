@@ -363,20 +363,20 @@ export const publicInterestObstaclesContent = defineLessonContent({
           text: 'Předvolání svědka k soudu.',
         },
         {
-          id: 'first-aid',
-          text: 'Poskytnutí první pomoci.',
-        },
-        {
-          id: 'fire',
-          text: 'Povinná osobní pomoc při požáru.',
-        },
-        {
           id: 'board',
           text: 'Běžné zasedání představenstva soukromé společnosti.',
         },
         {
+          id: 'first-aid',
+          text: 'Poskytnutí první pomoci.',
+        },
+        {
           id: 'vacation',
           text: 'Soukromá účast na kulturním festivalu.',
+        },
+        {
+          id: 'fire',
+          text: 'Povinná osobní pomoc při požáru.',
         },
       ],
       correctOptionIds: ['court', 'first-aid', 'fire'],
@@ -387,46 +387,27 @@ export const publicInterestObstaclesContent = defineLessonContent({
     },
     {
       id: 'public-interest-obstacles-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování překážky z důvodu obecného zájmu.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec doloží činnost v obecném zájmu, která zasáhla do směny. Co musí mzdová účetní ověřit před přiznáním náhrady?',
+      options: [
         {
-          id: 'schedule',
-          text: 'Ověřit zásah do rozvržené směny.',
+          id: 'a',
+          text: 'Konkrétní právní titul náhrady a případného plátce nebo refundace.',
         },
+        { id: 'b', text: 'Pouze to, že činnost působí společensky užitečně.' },
+        { id: 'c', text: 'Barvu potvrzení.' },
         {
-          id: 'category',
-          text: 'Určit veřejnou funkci, občanskou povinnost nebo jiný úkon.',
-        },
-        {
-          id: 'legal-title',
-          text: 'Dohledat konkrétní právní titul a limit.',
-        },
-        {
-          id: 'document',
-          text: 'Zkontrolovat potvrzení a rozsah.',
-        },
-        {
-          id: 'compensation',
-          text: 'Určit náhradu a případnou refundaci.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat překážku a refundaci odděleně.',
+          id: 'd',
+          text: 'Zda zaměstnanec čerpá dovolenou u jiného zaměstnavatele.',
         },
       ],
-      correctOrder: [
-        'schedule',
-        'category',
-        'legal-title',
-        'document',
-        'compensation',
-        'record',
-      ],
+      correctOptionId: 'a',
       skillIds: ['public-interest-documentation'],
-      explanation: 'Refundace se řeší až po potvrzení nároku zaměstnance.',
+      explanation:
+        'Pracovní volno a náhrada jsou samostatné otázky a náhrada není automatická.',
       commonMistake:
-        'Odmítnout volno jen proto, že není jasný plátce refundace.',
+        'Přiznat náhradu jen podle obecného označení veřejně prospěšné činnosti.',
     },
     {
       id: 'public-interest-obstacles-exercise-04',

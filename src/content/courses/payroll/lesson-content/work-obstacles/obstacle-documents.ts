@@ -358,6 +358,10 @@ export const obstacleDocumentsContent = defineLessonContent({
           text: 'Rozvržená směna.',
         },
         {
+          id: 'diagnosis',
+          text: 'Vždy úplná diagnóza zaměstnance.',
+        },
+        {
           id: 'reason',
           text: 'Právní důvod.',
         },
@@ -369,10 +373,6 @@ export const obstacleDocumentsContent = defineLessonContent({
           id: 'approval',
           text: 'Schvalující osoba.',
         },
-        {
-          id: 'diagnosis',
-          text: 'Vždy úplná diagnóza zaměstnance.',
-        },
       ],
       correctOptionIds: ['schedule', 'reason', 'duration', 'approval'],
       skillIds: ['obstacle-audit-trail'],
@@ -382,45 +382,22 @@ export const obstacleDocumentsContent = defineLessonContent({
     },
     {
       id: 'obstacle-documents-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď proces od oznámení po mzdu.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Potvrzení o návštěvě lékaře obsahuje datum a čas, ale nikoli diagnózu. Jaký je správný základní postup?',
+      options: [
+        { id: 'a', text: 'Automaticky doklad odmítnout.' },
         {
-          id: 'notice',
-          text: 'Přijmout oznámení nebo žádost.',
+          id: 'b',
+          text: 'Použít potřebné údaje k posouzení času a nároku; diagnózu bez potřeby nevyžadovat.',
         },
-        {
-          id: 'schedule',
-          text: 'Načíst platný rozvrh.',
-        },
-        {
-          id: 'document',
-          text: 'Ověřit doklad a podmínky.',
-        },
-        {
-          id: 'classify',
-          text: 'Určit právní a placený režim.',
-        },
-        {
-          id: 'attendance',
-          text: 'Zapsat docházkové kódy.',
-        },
-        {
-          id: 'payroll',
-          text: 'Zpracovat mzdu a uložit auditní stopu.',
-        },
+        { id: 'c', text: 'Zapsat diagnózu odhadem.' },
+        { id: 'd', text: 'Rozeslat doklad všem vedoucím.' },
       ],
-      correctOrder: [
-        'notice',
-        'schedule',
-        'document',
-        'classify',
-        'attendance',
-        'payroll',
-      ],
+      correctOptionId: 'b',
       skillIds: ['obstacle-attendance-link', 'obstacle-audit-trail'],
-      explanation: 'Mzdová položka vzniká až po kontrole rozvrhu a dokumentu.',
-      commonMistake: 'Začít mzdovým kódem jen podle předmětu e-mailu.',
+      explanation: 'Pro mzdové posouzení se zpracovávají jen nezbytné údaje.',
+      commonMistake: 'Požadovat citlivý zdravotní údaj bez právního účelu.',
     },
     {
       id: 'obstacle-documents-exercise-04',

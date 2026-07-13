@@ -223,10 +223,10 @@ export const payrollInputsContent = defineLessonContent({
       prompt: 'Které údaje patří do kontroly mzdového vstupu?',
       options: [
         { id: 'employee', text: 'Správný zaměstnanec a pracovní vztah.' },
+        { id: 'guess', text: 'Osobní odhad mzdové účetní.' },
         { id: 'period', text: 'Mzdové období a datum účinnosti.' },
         { id: 'approval', text: 'Oprávněný původ a schválení.' },
         { id: 'consistency', text: 'Soulad s dalšími evidencemi.' },
-        { id: 'guess', text: 'Osobní odhad mzdové účetní.' },
       ],
       correctOptionIds: ['employee', 'period', 'approval', 'consistency'],
       skillIds: ['payroll-input-validation'],
@@ -236,20 +236,23 @@ export const payrollInputsContent = defineLessonContent({
     },
     {
       id: 'payroll-inputs-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup při pozdním vstupu po uzávěrce.',
-      steps: [
-        { id: 'identify', text: 'Určit zaměstnance, vztah a období.' },
-        { id: 'validate', text: 'Ověřit úplnost a oprávněnost podkladu.' },
-        { id: 'phase', text: 'Zjistit aktuální fázi mzdového procesu.' },
-        { id: 'decide', text: 'Zvolit standardní nebo opravný postup.' },
-        { id: 'document', text: 'Aktualizovat výstupy a zaznamenat změnu.' },
+      type: 'single_choice',
+      prompt:
+        'Po uzávěrce dorazí podepsaný dokument s účinností v již zpracovaném období. Co má mzdová účetní udělat jako první?',
+      options: [
+        { id: 'a', text: 'Dokument ignorovat, protože přišel po uzávěrce.' },
+        { id: 'b', text: 'Změnit datum účinnosti na den doručení.' },
+        {
+          id: 'c',
+          text: 'Zaevidovat podklad, ověřit jeho účinnost a určit řízený opravný postup.',
+        },
+        { id: 'd', text: 'Přepsat mzdu bez schválení a bez auditní stopy.' },
       ],
-      correctOrder: ['identify', 'validate', 'phase', 'decide', 'document'],
+      correctOptionId: 'c',
       skillIds: ['payroll-input-cutoff'],
       explanation:
-        'Nejprve se ověří podklad a teprve podle fáze procesu se určí způsob zpracování.',
-      commonMistake: 'Okamžitě přepsat mzdu bez kontroly navazujících výstupů.',
+        'Pozdní vstup se nejdříve identifikuje a právně i časově ověří; následná oprava musí být dohledatelná.',
+      commonMistake: 'Považovat datum doručení automaticky za datum účinnosti.',
     },
     {
       id: 'payroll-inputs-exercise-04',

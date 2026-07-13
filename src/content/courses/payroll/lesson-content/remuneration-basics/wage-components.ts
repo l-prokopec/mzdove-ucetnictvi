@@ -360,6 +360,10 @@ export const wageComponentsContent = defineLessonContent({
           text: 'Základní mzda.',
         },
         {
+          id: 'travel',
+          text: 'Náhrada cestovních výdajů.',
+        },
+        {
           id: 'commission',
           text: 'Provize.',
         },
@@ -371,10 +375,6 @@ export const wageComponentsContent = defineLessonContent({
           id: 'weekend',
           text: 'Příplatek za práci v sobotu a v neděli.',
         },
-        {
-          id: 'travel',
-          text: 'Náhrada cestovních výdajů.',
-        },
       ],
       correctOptionIds: ['base', 'commission', 'bonus', 'weekend'],
       skillIds: ['wage-component-classification'],
@@ -383,45 +383,22 @@ export const wageComponentsContent = defineLessonContent({
     },
     {
       id: 'wage-components-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování pohyblivé mzdové složky.',
-      steps: [
-        {
-          id: 'source',
-          text: 'Dohledat účinný právní zdroj.',
-        },
-        {
-          id: 'period',
-          text: 'Určit hodnocené období.',
-        },
-        {
-          id: 'data',
-          text: 'Načíst měřitelné výsledky.',
-        },
-        {
-          id: 'conditions',
-          text: 'Vyhodnotit splnění podmínek.',
-        },
-        {
-          id: 'approval',
-          text: 'Ověřit potřebné schválení.',
-        },
-        {
-          id: 'payroll',
-          text: 'Zúčtovat složku a uložit kontrolní stopu.',
-        },
+      type: 'multiple_choice',
+      prompt:
+        'Které položky mohou být mzdovými složkami odměňujícími pracovní výkon?',
+      options: [
+        { id: 'a', text: 'Cestovní náhrada skutečných výdajů.' },
+        { id: 'b', text: 'Základní mzda.' },
+        { id: 'c', text: 'Výkonová prémie.' },
+        { id: 'd', text: 'Mimořádná odměna za práci.' },
+        { id: 'e', text: 'Náhrada výdajů při práci na dálku.' },
+        { id: 'f', text: 'Vrácení zaměstnancovy zálohy.' },
       ],
-      correctOrder: [
-        'source',
-        'period',
-        'data',
-        'conditions',
-        'approval',
-        'payroll',
-      ],
+      correctOptionIds: ['b', 'c', 'd'],
       skillIds: ['variable-component-entitlement'],
-      explanation: 'Výplata navazuje na pravidla, data a schválení.',
-      commonMistake: 'Zadávat částku podle neověřené tabulky.',
+      explanation:
+        'Mzdové složky odměňují práci; náhrady výdajů mají jiný právní titul.',
+      commonMistake: 'Zařadit každé peněžní plnění od zaměstnavatele do mzdy.',
     },
     {
       id: 'wage-components-exercise-04',

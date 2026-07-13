@@ -83,6 +83,108 @@ describe('vyhodnocení cvičení', () => {
     ).toBe(true)
   })
 
+  it('udrží choice pořadí stabilní v pokusu a po reset generation je změní', async () => {
+    const user = userEvent.setup()
+    const exercise = {
+      id: 'choice-shuffle',
+      type: 'single_choice' as const,
+      prompt: 'Vyberte odpověď',
+      options: [
+        { id: 'a', text: 'A' },
+        { id: 'b', text: 'B' },
+        { id: 'c', text: 'C' },
+      ],
+      correctOptionId: 'b',
+      skillIds: ['test'],
+      explanation: 'Správně',
+      commonMistake: 'Chyba',
+    }
+    const random = vi
+      .fn<() => number>()
+      .mockReturnValueOnce(0.999)
+      .mockReturnValueOnce(0.999)
+      .mockReturnValue(0)
+    const onChange = vi.fn()
+    const view = render(
+      <ExerciseField
+        exercise={exercise}
+        lessonId="lesson-a"
+        value={undefined}
+        onChange={onChange}
+        revealed={false}
+        attemptId={0}
+        choiceRandom={random}
+      />,
+    )
+    const optionOrder = () =>
+      screen
+        .getAllByRole('radio')
+        .map((input) => (input as HTMLInputElement).value)
+    const firstOrder = optionOrder()
+
+    await user.click(screen.getAllByRole('radio')[0])
+    view.rerender(
+      <ExerciseField
+        exercise={exercise}
+        lessonId="lesson-a"
+        value="b"
+        onChange={onChange}
+        revealed
+        locked
+        attemptId={0}
+        choiceRandom={random}
+      />,
+    )
+    expect(optionOrder()).toEqual(firstOrder)
+    expect(random).toHaveBeenCalledTimes(1)
+
+    view.rerender(
+      <ExerciseField
+        exercise={exercise}
+        lessonId="lesson-a"
+        value={undefined}
+        onChange={onChange}
+        revealed={false}
+        attemptId={1}
+        choiceRandom={random}
+      />,
+    )
+    expect(optionOrder()).not.toEqual(firstOrder)
+    expect(
+      screen
+        .getAllByRole('radio')
+        .every((input) => !input.hasAttribute('checked')),
+    ).toBe(true)
+  })
+
+  it('nepoužije nekompatibilní starý ordering draft jako choice odpověď', () => {
+    render(
+      <ExerciseField
+        exercise={{
+          id: 'migrated-choice',
+          type: 'single_choice',
+          prompt: 'Vyberte odpověď',
+          options: [
+            { id: 'a', text: 'A' },
+            { id: 'b', text: 'B' },
+          ],
+          correctOptionId: 'b',
+          skillIds: ['test'],
+          explanation: 'Správně',
+          commonMistake: 'Chyba',
+        }}
+        value={['old-step-a', 'old-step-b']}
+        onChange={() => undefined}
+        revealed={false}
+      />,
+    )
+    expect(
+      screen
+        .getAllByRole('radio')
+        .every((input) => !(input as HTMLInputElement).checked),
+    ).toBe(true)
+  })
+
   it('udrží ordering možnosti stabilní v pokusu a při novém pokusu je promíchá znovu', async () => {
     const user = userEvent.setup()
     const exercise = {
@@ -220,7 +322,7 @@ describe('izolace pokusu mezi lekcemi', () => {
     expect(saveProgress.mutateAsync).not.toHaveBeenCalled()
   })
 
-  it('Resetovat test vyčistí ordering volbu v aktuální lekci', async () => {
+  it('Resetovat test vyčistí choice volbu v aktuální lekci', async () => {
     const user = userEvent.setup()
     render(
       <MemoryRouter initialEntries={['/course/lesson/payroll-purpose']}>
@@ -230,12 +332,15 @@ describe('izolace pokusu mezi lekcemi', () => {
       </MemoryRouter>,
     )
 
-    const select = screen.getAllByRole('combobox')[0]
-    const selectable = select.querySelectorAll('option')[1].value
-    await user.selectOptions(select, selectable)
-    expect(select).toHaveValue(selectable)
+    const radio = screen.getAllByRole('radio')[0]
+    await user.click(radio)
+    expect(radio).toBeChecked()
     await user.click(screen.getByRole('button', { name: 'Resetovat test' }))
-    expect(screen.getAllByRole('combobox')[0]).toHaveValue('')
+    expect(
+      screen
+        .getAllByRole('radio')
+        .every((input) => !(input as HTMLInputElement).checked),
+    ).toBe(true)
   })
 
   it('po přechodu do další lekce nepřenese odpovědi ani vyhodnocení', async () => {

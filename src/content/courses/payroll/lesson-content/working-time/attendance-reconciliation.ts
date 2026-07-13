@@ -418,6 +418,10 @@ export const attendanceReconciliationContent = defineLessonContent({
           text: 'Běžné odpracované hodiny.',
         },
         {
+          id: 'raw',
+          text: 'Nevysvětlený rozdíl bez kategorie jako konečný mzdový vstup.',
+        },
+        {
           id: 'overtime',
           text: 'Schválený přesčas.',
         },
@@ -429,10 +433,6 @@ export const attendanceReconciliationContent = defineLessonContent({
           id: 'vacation',
           text: 'Dovolená.',
         },
-        {
-          id: 'raw',
-          text: 'Nevysvětlený rozdíl bez kategorie jako konečný mzdový vstup.',
-        },
       ],
       correctOptionIds: ['ordinary', 'overtime', 'obstacle', 'vacation'],
       skillIds: ['attendance-payroll-handoff'],
@@ -441,46 +441,20 @@ export const attendanceReconciliationContent = defineLessonContent({
     },
     {
       id: 'attendance-reconciliation-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup kontroly jedné odchylky.',
-      steps: [
-        {
-          id: 'identify',
-          text: 'Identifikovat zaměstnance, vztah a datum.',
-        },
-        {
-          id: 'schedule',
-          text: 'Ověřit platný rozvrh.',
-        },
-        {
-          id: 'actual',
-          text: 'Zjistit skutečný průběh.',
-        },
-        {
-          id: 'document',
-          text: 'Dohledat důvod a schválení.',
-        },
-        {
-          id: 'classify',
-          text: 'Přiřadit mzdovou kategorii.',
-        },
-        {
-          id: 'handoff',
-          text: 'Schválit opravu a předat vstup do mzdy.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Turniket eviduje přítomnost do 18:00, ale schválený výkon práce skončil v 16:00 a zaměstnanec poté zůstal soukromě. Co se má převést do mzdového vstupu?',
+      options: [
+        { id: 'a', text: 'Celá přítomnost do 18:00.' },
+        { id: 'b', text: 'Pouze skutečně potvrzená pracovní doba do 16:00.' },
+        { id: 'c', text: 'Automaticky dvě hodiny přesčasu.' },
+        { id: 'd', text: 'Celý den jako pracovní pohotovost.' },
       ],
-      correctOrder: [
-        'identify',
-        'schedule',
-        'actual',
-        'document',
-        'classify',
-        'handoff',
-      ],
+      correctOptionId: 'b',
       skillIds: ['attendance-schedule-reconciliation'],
       explanation:
-        'Klasifikace vzniká až po porovnání plánu, skutečnosti a podkladu.',
-      commonMistake: 'Začít přiřazením mzdové položky bez zjištění důvodu.',
+        'Přítomnost je podpůrný údaj, nikoli automatický důkaz práce.',
+      commonMistake: 'Zaměnit čas v budově za schválený výkon práce.',
     },
     {
       id: 'attendance-reconciliation-exercise-04',

@@ -224,13 +224,13 @@ export const labourRelationsContent = defineLessonContent({
       prompt: 'Které údaje musí evidence rozlišit u každého pracovního vztahu?',
       options: [
         { id: 'type', text: 'Typ vztahu.' },
-        { id: 'dates', text: 'Datum vzniku a skončení.' },
-        { id: 'work', text: 'Sjednanou práci a podmínky odměny.' },
-        { id: 'identifier', text: 'Identifikátor konkrétního zaměstnání.' },
         {
           id: 'favorite-color',
           text: 'Oblíbenou barvu zaměstnance bez mzdového účelu.',
         },
+        { id: 'dates', text: 'Datum vzniku a skončení.' },
+        { id: 'work', text: 'Sjednanou práci a podmínky odměny.' },
+        { id: 'identifier', text: 'Identifikátor konkrétního zaměstnání.' },
       ],
       correctOptionIds: ['type', 'dates', 'work', 'identifier'],
       skillIds: ['parallel-relations-control'],
@@ -241,42 +241,31 @@ export const labourRelationsContent = defineLessonContent({
     },
     {
       id: 'labour-relations-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kroky při přechodu z DPČ do pracovního poměru.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Která tvrzení správně rozlišují pracovní poměr a dohody mimo pracovní poměr?',
+      options: [
+        { id: 'a', text: 'DPP i DPČ jsou pracovním poměrem.' },
         {
-          id: 'documents',
-          text: 'Získat dokumentaci ke skončení nebo změně DPČ a vzniku pracovního poměru.',
+          id: 'b',
+          text: 'Pracovní poměr vzniká pracovní smlouvou nebo zákonem uznaným jmenováním.',
         },
         {
-          id: 'dates',
-          text: 'Ověřit přesná data obou právních událostí.',
+          id: 'c',
+          text: 'DPP a DPČ jsou základní pracovněprávní vztahy mimo pracovní poměr.',
         },
+        { id: 'd', text: 'U dohod se nikdy neeviduje pracovní doba.' },
         {
-          id: 'records',
-          text: 'Založit nebo upravit evidenci obou zaměstnání.',
-        },
-        {
-          id: 'notifications',
-          text: 'Provést potřebné registrační a ohlašovací kroky.',
-        },
-        {
-          id: 'payroll',
-          text: 'Zpracovat mzdu podle vztahu účinného v daném období.',
+          id: 'e',
+          text: 'Název dokumentu vždy převáží nad jeho skutečným obsahem.',
         },
       ],
-      correctOrder: [
-        'documents',
-        'dates',
-        'records',
-        'notifications',
-        'payroll',
-      ],
+      correctOptionIds: ['b', 'c'],
       skillIds: ['labour-relation-selection'],
       explanation:
-        'Mzdová a registrační změna musí vycházet z doložených právních událostí a dat.',
+        'Pracovní poměr a dohody jsou různé základní pracovněprávní vztahy s odlišnými pravidly.',
       commonMistake:
-        'Nejprve změnit typ v systému a dokumentaci doplnit až následně.',
+        'Považovat všechny pracovněprávní vztahy za jeden totožný režim.',
     },
     {
       id: 'labour-relations-exercise-04',

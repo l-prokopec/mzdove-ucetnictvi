@@ -355,45 +355,23 @@ export const onCallDutyContent = defineLessonContent({
     },
     {
       id: 'on-call-duty-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování pracovní pohotovosti.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Během pracovní pohotovosti začne zaměstnanec skutečně řešit incident. Jak se tento čas eviduje?',
+      options: [
+        { id: 'a', text: 'Nadále jen jako neaktivní pohotovost.' },
         {
-          id: 'agreement',
-          text: 'Ověřit dohodu a místo pohotovosti.',
+          id: 'b',
+          text: 'Jako pracovní doba s příslušnou mzdou nebo platem a případnými příplatky.',
         },
-        {
-          id: 'interval',
-          text: 'Zjistit celkový interval pohotovosti.',
-        },
-        {
-          id: 'work',
-          text: 'Vyjmout úseky skutečného výkonu práce.',
-        },
-        {
-          id: 'standby-pay',
-          text: 'Vypočítat odměnu za neaktivní dobu.',
-        },
-        {
-          id: 'work-pay',
-          text: 'Zpracovat mzdu nebo plat za zásahy.',
-        },
-        {
-          id: 'overlap',
-          text: 'Přidat přesčasové a časové příznaky.',
-        },
+        { id: 'c', text: 'Jako dovolená.' },
+        { id: 'd', text: 'Současně celý jako pohotovost i výkon práce.' },
       ],
-      correctOrder: [
-        'agreement',
-        'interval',
-        'work',
-        'standby-pay',
-        'work-pay',
-        'overlap',
-      ],
+      correctOptionId: 'b',
       skillIds: ['standby-work-distinction', 'standby-callout-overlap'],
-      explanation: 'Neaktivní doba a výkon se musí nejprve časově oddělit.',
-      commonMistake: 'Vypočítat 10 % z celého intervalu bez odečtení zásahů.',
+      explanation:
+        'Skutečný zásah se z neaktivní pohotovosti vyjme a posuzuje jako práce.',
+      commonMistake: 'Dvojitě zaplatit tentýž čas jako pohotovost i výkon.',
     },
     {
       id: 'on-call-duty-exercise-04',

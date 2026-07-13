@@ -243,6 +243,10 @@ export const employeePersonalDataContent = defineLessonContent({
           text: 'Omezení účelu.',
         },
         {
+          id: 'collect-all',
+          text: 'Shromáždit všechny možné údaje pro případ budoucí potřeby.',
+        },
+        {
           id: 'minimum',
           text: 'Minimalizace údajů.',
         },
@@ -253,10 +257,6 @@ export const employeePersonalDataContent = defineLessonContent({
         {
           id: 'access',
           text: 'Omezení přístupu.',
-        },
-        {
-          id: 'collect-all',
-          text: 'Shromáždit všechny možné údaje pro případ budoucí potřeby.',
         },
       ],
       correctOptionIds: ['purpose', 'minimum', 'accuracy', 'access'],
@@ -296,36 +296,21 @@ export const employeePersonalDataContent = defineLessonContent({
     },
     {
       id: 'employee-personal-data-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup převzetí nástupního údaje.',
-      steps: [
-        {
-          id: 'purpose',
-          text: 'Určit účel a potřebnost údaje.',
-        },
-        {
-          id: 'source',
-          text: 'Získat údaj z oprávněného zdroje.',
-        },
-        {
-          id: 'verify',
-          text: 'Ověřit správnost a vazbu na osobu.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat údaj do správné evidence.',
-        },
-        {
-          id: 'protect',
-          text: 'Omezit přístup a zachovat kontrolní stopu.',
-        },
+      type: 'multiple_choice',
+      prompt:
+        'Které údaje jsou typicky potřebné pro založení zaměstnance v mzdové evidenci?',
+      options: [
+        { id: 'a', text: 'Oblíbená barva.' },
+        { id: 'b', text: 'Identifikační údaje zaměstnance.' },
+        { id: 'c', text: 'Adresa a kontaktní údaje v potřebném rozsahu.' },
+        { id: 'd', text: 'Údaje nutné pro výplatu mzdy.' },
+        { id: 'e', text: 'Soukromé politické názory.' },
       ],
-      correctOrder: ['purpose', 'source', 'verify', 'record', 'protect'],
+      correctOptionIds: ['b', 'c', 'd'],
       skillIds: ['employee-data-minimisation', 'employee-data-validation'],
       explanation:
-        'Zpracování začíná účelem a končí bezpečným uložením a dohledatelností.',
-      commonMistake:
-        'Nejprve údaj uložit a teprve potom zjišťovat, zda je potřebný.',
+        'Mzdová evidence má obsahovat pouze údaje potřebné pro pracovněprávní a zákonné účely.',
+      commonMistake: 'Sbírat údaje bez konkrétního účelu.',
     },
     {
       id: 'employee-personal-data-exercise-04',

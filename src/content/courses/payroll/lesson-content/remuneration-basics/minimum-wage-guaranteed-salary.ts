@@ -386,6 +386,10 @@ export const minimumWageGuaranteedSalaryContent = defineLessonContent({
           text: 'Mzda za práci přesčas.',
         },
         {
+          id: 'base',
+          text: 'Základní mzda za práci.',
+        },
+        {
           id: 'night',
           text: 'Příplatek za noční práci.',
         },
@@ -397,10 +401,6 @@ export const minimumWageGuaranteedSalaryContent = defineLessonContent({
           id: 'travel',
           text: 'Cestovní náhrada.',
         },
-        {
-          id: 'base',
-          text: 'Základní mzda za práci.',
-        },
       ],
       correctOptionIds: ['overtime', 'night', 'weekend', 'travel'],
       skillIds: ['minimum-wage-control'],
@@ -410,50 +410,25 @@ export const minimumWageGuaranteedSalaryContent = defineLessonContent({
     },
     {
       id: 'minimum-wage-guaranteed-salary-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu minimální mzdy nebo zaručeného platu.',
-      steps: [
-        {
-          id: 'sphere',
-          text: 'Určit mzdovou nebo platovou sféru.',
-        },
-        {
-          id: 'year',
-          text: 'Načíst částky platné pro rok.',
-        },
-        {
-          id: 'hours',
-          text: 'Určit stanovenou a kratší pracovní dobu.',
-        },
-        {
-          id: 'group',
-          text: 'U platové sféry určit skupinu prací.',
-        },
-        {
-          id: 'included',
-          text: 'Sestavit započitatelnou odměnu.',
-        },
-        {
-          id: 'supplement',
-          text: 'Porovnat hranici a vypočítat doplatek.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnancova započitatelná odměna za posuzované období nedosáhne příslušného minima. Co musí mzdové zpracování prověřit?',
+      options: [
+        { id: 'a', text: 'Nárok na doplatek do příslušné minimální úrovně.' },
+        { id: 'b', text: 'Automatické snížení pracovního úvazku.' },
+        { id: 'c', text: 'Převedení rozdílu na cestovní náhradu.' },
+        { id: 'd', text: 'Smazání odpracovaných hodin.' },
       ],
-      correctOrder: [
-        'sphere',
-        'year',
-        'hours',
-        'group',
-        'included',
-        'supplement',
-      ],
+      correctOptionId: 'a',
       skillIds: [
         'minimum-wage-control',
         'guaranteed-salary-control',
         'remuneration-floor-supplement',
       ],
       explanation:
-        'Hranice se určuje dříve než započitatelná částka a doplatek.',
-      commonMistake: 'Začít výpočtem z celé hrubé výplaty bez klasifikace.',
+        'Kontrola minima porovnává započitatelné plnění a případně vytváří doplatek.',
+      commonMistake:
+        'Zahrnout do porovnání položky, které se podle zákona nezapočítávají.',
     },
     {
       id: 'minimum-wage-guaranteed-salary-exercise-04',

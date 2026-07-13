@@ -333,6 +333,10 @@ export const agreementTimeRecordsContent = defineLessonContent({
           text: 'Práci v noci.',
         },
         {
+          id: 'only-total',
+          text: 'Pouze jeden celkový počet bez data.',
+        },
+        {
           id: 'weekend',
           text: 'Práci v sobotu a neděli.',
         },
@@ -344,10 +348,6 @@ export const agreementTimeRecordsContent = defineLessonContent({
           id: 'actual',
           text: 'Skutečný začátek a konec práce.',
         },
-        {
-          id: 'only-total',
-          text: 'Pouze jeden celkový počet bez data.',
-        },
       ],
       correctOptionIds: ['night', 'weekend', 'holiday', 'actual'],
       skillIds: ['agreement-hours-evidence'],
@@ -357,46 +357,23 @@ export const agreementTimeRecordsContent = defineLessonContent({
     },
     {
       id: 'agreement-time-records-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď měsíční kontrolu pracovní doby u dohody.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Které údaje má evidence práce na dohodu zachytit?',
+      options: [
+        { id: 'a', text: 'Skutečný začátek a konec výkonu práce.' },
+        { id: 'd', text: 'Pouze celkovou měsíční odměnu.' },
         {
-          id: 'schedule',
-          text: 'Ověřit platný písemný rozvrh.',
+          id: 'b',
+          text: 'Rozvrženou dobu nebo její oznámení podle použitého režimu.',
         },
-        {
-          id: 'actual',
-          text: 'Porovnat skutečně vykázané směny.',
-        },
-        {
-          id: 'limits',
-          text: 'Zkontrolovat délku směn, odpočinek a překryvy.',
-        },
-        {
-          id: 'agreement-limit',
-          text: 'Aktualizovat limit DPP nebo průměr DPČ.',
-        },
-        {
-          id: 'vacation',
-          text: 'Vyhodnotit dovolenou a překážky.',
-        },
-        {
-          id: 'approve',
-          text: 'Uzavřít schválený podklad pro mzdu.',
-        },
+        { id: 'e', text: 'Jen datum podpisu dohody.' },
+        { id: 'c', text: 'Přestávky a odpočinek v potřebném rozsahu.' },
       ],
-      correctOrder: [
-        'schedule',
-        'actual',
-        'limits',
-        'agreement-limit',
-        'vacation',
-        'approve',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['agreement-schedule-control', 'agreement-hours-evidence'],
       explanation:
-        'Podklad pro mzdu se uzavírá až po kontrole plánu, skutečnosti a zákonných limitů.',
-      commonMistake: 'Schválit součet bez kontroly konkrétních směn.',
+        'Odměna i kontrola limitů vycházejí ze skutečné a rozvržené práce.',
+      commonMistake: 'Nahradit evidenci času pouze výslednou částkou.',
     },
     {
       id: 'agreement-time-records-exercise-04',

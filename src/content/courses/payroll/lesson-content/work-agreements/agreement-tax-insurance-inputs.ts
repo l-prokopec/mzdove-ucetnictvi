@@ -366,12 +366,12 @@ export const agreementTaxInsuranceInputsContent = defineLessonContent({
           text: 'Více DPP mezi sebou.',
         },
         {
-          id: 'dpc-dpc',
-          text: 'Více DPČ mezi sebou.',
-        },
-        {
           id: 'dpp-dpc',
           text: 'DPP a DPČ vždy do jedné společné hranice.',
+        },
+        {
+          id: 'dpc-dpc',
+          text: 'Více DPČ mezi sebou.',
         },
         {
           id: 'different-employer',
@@ -386,50 +386,27 @@ export const agreementTaxInsuranceInputsContent = defineLessonContent({
     },
     {
       id: 'agreement-tax-insurance-inputs-exercise-04',
-      type: 'ordering',
-      prompt: 'Seřaď daňové a pojistné posouzení dohody.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Která kombinace údajů je nutná pro daňové a pojistné posouzení dohody v konkrétním měsíci?',
+      options: [
+        { id: 'a', text: 'Jen název dohody.' },
         {
-          id: 'type',
-          text: 'Určit druh dohody a zaměstnavatele.',
+          id: 'b',
+          text: 'Zúčtovaná odměna, typ vztahu, relevantní prohlášení a souběhy.',
         },
-        {
-          id: 'aggregate',
-          text: 'Sečíst příjmy dohod stejného druhu.',
-        },
-        {
-          id: 'insurance',
-          text: 'Porovnat příjem s pojistnou hranicí.',
-        },
-        {
-          id: 'declaration',
-          text: 'Ověřit Prohlášení poplatníka.',
-        },
-        {
-          id: 'tax',
-          text: 'Určit srážkový nebo zálohový režim.',
-        },
-        {
-          id: 'health',
-          text: 'Posoudit zdravotní minimum, registraci a podání.',
-        },
+        { id: 'c', text: 'Pouze věk vedoucího.' },
+        { id: 'd', text: 'Jen počet kalendářních dnů v měsíci.' },
       ],
-      correctOrder: [
-        'type',
-        'aggregate',
-        'insurance',
-        'declaration',
-        'tax',
-        'health',
-      ],
+      correctOptionId: 'b',
       skillIds: [
         'agreement-tax-regime',
         'agreement-insurance-thresholds',
         'agreement-income-aggregation',
       ],
       explanation:
-        'Správný režim vzniká až po identifikaci vztahu, součtu příjmů a kontrole podkladů.',
-      commonMistake: 'Začít daní bez součtu více dohod.',
+        'Posouzení závisí na konkrétním vztahu, měsíční odměně a dalších rozhodných skutečnostech.',
+      commonMistake: 'Rozhodovat pouze podle označení DPP nebo DPČ.',
     },
     {
       id: 'agreement-tax-insurance-inputs-exercise-05',

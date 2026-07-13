@@ -352,45 +352,26 @@ export const weekendWorkContent = defineLessonContent({
     },
     {
       id: 'weekend-work-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování víkendové směny.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Která tvrzení platí pro práci v sobotu a neděli?',
+      options: [
+        { id: 'a', text: 'Určuje se podle kalendářního data.' },
+        { id: 'd', text: 'Každá víkendová práce je automaticky přesčasem.' },
         {
-          id: 'actual',
-          text: 'Zjistit skutečný čas práce.',
+          id: 'b',
+          text: 'Příplatek může vzniknout i za předem rozvrženou víkendovou směnu.',
         },
         {
-          id: 'split',
-          text: 'Rozdělit směnu podle kalendářních dnů.',
+          id: 'e',
+          text: 'Rozhoduje pouze zaměstnancův den týdenního odpočinku.',
         },
-        {
-          id: 'break',
-          text: 'Odečíst nezapočitatelné přestávky.',
-        },
-        {
-          id: 'sphere',
-          text: 'Určit odměňovací sféru.',
-        },
-        {
-          id: 'calculate',
-          text: 'Vypočítat víkendový příplatek.',
-        },
-        {
-          id: 'overlap',
-          text: 'Zachytit souběžné režimy.',
-        },
+        { id: 'c', text: 'Může se překrývat s noční nebo sváteční prací.' },
       ],
-      correctOrder: [
-        'actual',
-        'split',
-        'break',
-        'sphere',
-        'calculate',
-        'overlap',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['weekend-time-classification', 'weekend-overlap-control'],
-      explanation: 'Příplatek vychází ze skutečných hodin v sobotu a neděli.',
-      commonMistake: 'Použít celý plánovaný čas bez kalendářního rozdělení.',
+      explanation:
+        'Víkendový režim se váže na kalendářní sobotu a neděli a může se sčítat s jinými režimy.',
+      commonMistake: 'Zaměnit víkend, rozvrhové volno a přesčas.',
     },
     {
       id: 'weekend-work-exercise-04',

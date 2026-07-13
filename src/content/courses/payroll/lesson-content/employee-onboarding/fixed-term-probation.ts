@@ -260,6 +260,10 @@ export const fixedTermProbationContent = defineLessonContent({
           text: 'Jedno sjednání nejvýše na tři roky.',
         },
         {
+          id: 'unlimited',
+          text: 'Bez výjimky lze dobu určitou prodlužovat neomezeně.',
+        },
+        {
           id: 'two-repeats',
           text: 'Nejvýše dvě opakování.',
         },
@@ -270,10 +274,6 @@ export const fixedTermProbationContent = defineLessonContent({
         {
           id: 'nine-years',
           text: 'Běžná celková doba navazujících vztahů nejvýše devět let.',
-        },
-        {
-          id: 'unlimited',
-          text: 'Bez výjimky lze dobu určitou prodlužovat neomezeně.',
         },
       ],
       correctOptionIds: [
@@ -319,40 +319,27 @@ export const fixedTermProbationContent = defineLessonContent({
     },
     {
       id: 'fixed-term-probation-exercise-04',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu doby určité a zkušební doby.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Kdy musí být zkušební doba sjednána, aby mohla platně vzniknout?',
+      options: [
+        { id: 'a', text: 'Kdykoli během prvního roku.' },
         {
-          id: 'duration',
-          text: 'Zjistit písemně sjednanou dobu trvání vztahu.',
+          id: 'b',
+          text: 'Nejpozději v den vzniku pracovního poměru a písemně.',
         },
-        {
-          id: 'history',
-          text: 'Prověřit předchozí doby určité a prodloužení.',
-        },
-        {
-          id: 'exception',
-          text: 'Ověřit případný právní podklad výjimky.',
-        },
-        {
-          id: 'probation',
-          text: 'Zkontrolovat formu a maximální délku zkušební doby.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat data a nastavit kontrolní upozornění.',
-        },
+        { id: 'c', text: 'Až po první mzdové uzávěrce.' },
+        { id: 'd', text: 'Pouze ústně po skončení směny.' },
       ],
-      correctOrder: ['duration', 'history', 'exception', 'probation', 'record'],
+      correctOptionId: 'b',
       skillIds: [
         'fixed-term-control',
         'probation-period-control',
         'employment-duration-records',
       ],
       explanation:
-        'Kontrola vychází z aktuálního dokumentu, historie, výjimek a teprve poté z nastavení evidence.',
-      commonMistake:
-        'Zkontrolovat pouze aktuální smlouvu bez historie předchozích vztahů.',
+        'Zkušební doba musí být písemně sjednána nejpozději v den vzniku pracovního poměru.',
+      commonMistake: 'Doplňovat zkušební dobu zpětně.',
     },
     {
       id: 'fixed-term-probation-exercise-05',

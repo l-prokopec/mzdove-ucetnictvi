@@ -322,6 +322,10 @@ export const agreementComparisonContent = defineLessonContent({
           text: 'Písemný rozvrh pracovní doby.',
         },
         {
+          id: 'no-rights',
+          text: 'Úplná absence pracovněprávní ochrany.',
+        },
+        {
           id: 'records',
           text: 'Evidence skutečně odpracované doby.',
         },
@@ -333,10 +337,6 @@ export const agreementComparisonContent = defineLessonContent({
           id: 'supplements',
           text: 'Příplatky podle povahy práce.',
         },
-        {
-          id: 'no-rights',
-          text: 'Úplná absence pracovněprávní ochrany.',
-        },
       ],
       correctOptionIds: ['schedule', 'records', 'vacation', 'supplements'],
       skillIds: ['agreement-risk-identification'],
@@ -346,47 +346,28 @@ export const agreementComparisonContent = defineLessonContent({
     },
     {
       id: 'agreement-comparison-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď rozhodování o vhodném pracovněprávním vztahu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Která tvrzení správně popisují rozdíly mezi pracovním poměrem, DPP a DPČ?',
+      options: [
+        { id: 'a', text: 'Všechny tři vztahy mají vždy totožný rozsah práce.' },
         {
-          id: 'work',
-          text: 'Určit skutečný druh a způsob práce.',
+          id: 'b',
+          text: 'Pracovní poměr má pracovní dobu sjednanou nebo stanovenou v jeho režimu.',
         },
+        { id: 'c', text: 'DPP má vlastní zákonný limit rozsahu práce.' },
+        { id: 'd', text: 'DPČ se posuzuje podle průměrného rozsahu práce.' },
+        { id: 'e', text: 'U dohod se nikdy nepoužívají pravidla odpočinku.' },
         {
-          id: 'scope',
-          text: 'Odhadnout rozsah a dobu trvání.',
-        },
-        {
-          id: 'parallel',
-          text: 'Prověřit další vztahy stejné osoby.',
-        },
-        {
-          id: 'limits',
-          text: 'Porovnat DPP, DPČ a pracovní poměr se zákonnými limity.',
-        },
-        {
-          id: 'document',
-          text: 'Zvolit a uzavřít odpovídající písemný vztah.',
-        },
-        {
-          id: 'records',
-          text: 'Nastavit oddělenou evidenci a mzdové zpracování.',
+          id: 'f',
+          text: 'Název vztahu ruší povinnost evidovat skutečnou práci.',
         },
       ],
-      correctOrder: [
-        'work',
-        'scope',
-        'parallel',
-        'limits',
-        'document',
-        'records',
-      ],
+      correctOptionIds: ['b', 'c', 'd'],
       skillIds: ['agreement-type-selection', 'parallel-relations-control'],
       explanation:
-        'Výběr vztahu musí vycházet ze skutečné práce a rozsahu, nikoli z technického nastavení.',
-      commonMistake:
-        'Nejprve založit nejlevnější typ a až potom zjišťovat skutečný rozsah.',
+        'Každý vztah má vlastní rozsahová pravidla, ale skutečná práce se eviduje.',
+      commonMistake: 'Považovat dohody za vztahy bez pracovněprávních limitů.',
     },
     {
       id: 'agreement-comparison-exercise-04',

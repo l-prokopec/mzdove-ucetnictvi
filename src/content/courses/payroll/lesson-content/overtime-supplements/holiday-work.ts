@@ -364,46 +364,26 @@ export const holidayWorkContent = defineLessonContent({
     },
     {
       id: 'holiday-work-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování svátku.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Která tvrzení platí při práci ve svátek ve mzdové sféře?',
+      options: [
+        { id: 'a', text: 'Zaměstnanci náleží dosažená mzda.' },
+        { id: 'c', text: 'Sváteční práce je vždy automaticky přesčasem.' },
         {
-          id: 'calendar',
-          text: 'Určit kalendářní hranici svátku.',
+          id: 'b',
+          text: 'Přednostně se poskytuje náhradní volno v rozsahu sváteční práce.',
         },
+        { id: 'd', text: 'Náhradní volno je vždy neplacené.' },
         {
-          id: 'schedule',
-          text: 'Ověřit rozvrženou směnu.',
-        },
-        {
-          id: 'actual',
-          text: 'Zjistit skutečně odpracované hodiny.',
-        },
-        {
-          id: 'sphere',
-          text: 'Určit mzdovou, platovou nebo dohodovou sféru.',
-        },
-        {
-          id: 'settlement',
-          text: 'Ověřit náhradní volno nebo dohodnutý příplatek.',
-        },
-        {
-          id: 'overlap',
-          text: 'Zachytit souběh dalších režimů.',
+          id: 'e',
+          text: 'Příplatek místo volna lze použít bez jakékoli dohody.',
         },
       ],
-      correctOrder: [
-        'calendar',
-        'schedule',
-        'actual',
-        'sphere',
-        'settlement',
-        'overlap',
-      ],
+      correctOptionIds: ['a', 'b'],
       skillIds: ['holiday-schedule-classification', 'holiday-time-splitting'],
       explanation:
-        'Výpočet vychází z kalendářního času, rozvrhu a skutečnosti.',
-      commonMistake: 'Použít celý údaj směny bez rozdělení přes půlnoc.',
+        'Práce ve svátek má vlastní vypořádání a přesčas se posuzuje samostatně.',
+      commonMistake: 'Sloučit sváteční a přesčasový režim.',
     },
     {
       id: 'holiday-work-exercise-04',

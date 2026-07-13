@@ -355,45 +355,21 @@ export const weeklyHoursContent = defineLessonContent({
     },
     {
       id: 'weekly-hours-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď určení měsíčního fondu pracovní doby.',
-      steps: [
-        {
-          id: 'regime',
-          text: 'Určit pracovní režim a zákonnou týdenní dobu.',
-        },
-        {
-          id: 'shortening',
-          text: 'Ověřit zkrácenou nebo kratší pracovní dobu.',
-        },
-        {
-          id: 'distribution',
-          text: 'Určit způsob rozvržení a vyrovnávací období.',
-        },
-        {
-          id: 'schedule',
-          text: 'Načíst platný měsíční rozvrh.',
-        },
-        {
-          id: 'sum',
-          text: 'Sečíst čisté rozvržené hodiny.',
-        },
-        {
-          id: 'changes',
-          text: 'Oddělit změny účinné v průběhu měsíce.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec má individuálně sjednaný úvazek 30 hodin, zatímco stanovená týdenní pracovní doba jeho režimu je 40 hodin. Jak se označuje jeho režim?',
+      options: [
+        { id: 'a', text: 'Kratší pracovní doba.' },
+        { id: 'b', text: 'Zkrácená stanovená pracovní doba.' },
+        { id: 'c', text: 'Pracovní pohotovost.' },
+        { id: 'd', text: 'Automatická práce přesčas.' },
       ],
-      correctOrder: [
-        'regime',
-        'shortening',
-        'distribution',
-        'schedule',
-        'sum',
-        'changes',
-      ],
+      correctOptionId: 'a',
       skillIds: ['work-fund-calculation'],
-      explanation: 'Fond vychází z právního rozsahu i konkrétního rozvrhu.',
-      commonMistake: 'Použít univerzální fond bez kontroly zaměstnance.',
+      explanation:
+        'Individuálně sjednaný nižší úvazek je kratší pracovní dobou.',
+      commonMistake:
+        'Zaměnit individuální úvazek se zákonným zkrácením stanovené doby.',
     },
     {
       id: 'weekly-hours-exercise-04',

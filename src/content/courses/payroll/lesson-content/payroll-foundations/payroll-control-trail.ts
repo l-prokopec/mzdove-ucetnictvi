@@ -224,10 +224,10 @@ export const payrollControlTrailContent = defineLessonContent({
       prompt: 'Co má obsahovat dostatečná kontrolní stopa?',
       options: [
         { id: 'source', text: 'Zdrojový podklad.' },
+        { id: 'rumour', text: 'Neověřenou ústní informaci bez záznamu.' },
         { id: 'period', text: 'Zaměstnance a období.' },
         { id: 'processor', text: 'Zpracovatele a kontrolu.' },
         { id: 'result', text: 'Výsledek a případnou opravu.' },
-        { id: 'rumour', text: 'Neověřenou ústní informaci bez záznamu.' },
       ],
       correctOptionIds: ['source', 'period', 'processor', 'result'],
       skillIds: ['payroll-control-trail'],
@@ -238,29 +238,27 @@ export const payrollControlTrailContent = defineLessonContent({
     },
     {
       id: 'payroll-control-trail-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup při zjištění neobvykle vysoké výplaty.',
-      steps: [
-        { id: 'stop', text: 'Pozastavit dotčený výplatní výstup.' },
-        { id: 'source', text: 'Dohledat zdrojové podklady a změny.' },
-        { id: 'control', text: 'Provést věcnou a aritmetickou kontrolu.' },
-        { id: 'verify', text: 'Ověřit schválení a bankovní instrukci.' },
-        { id: 'second', text: 'Zajistit druhou kontrolu rizikových bodů.' },
-        { id: 'release', text: 'Zdokumentovat výsledek a uvolnit platbu.' },
+      type: 'single_choice',
+      prompt:
+        'Kontrola odhalí neobvykle vysokou čistou mzdu. Který postup nejlépe zachová princip čtyř očí a auditní stopu?',
+      options: [
+        { id: 'a', text: 'Částku ručně snížit bez záznamu.' },
+        { id: 'b', text: 'Výplatu ihned odeslat a kontrolu dokončit později.' },
+        {
+          id: 'c',
+          text: 'Pozastavit dotčený výstup, dohledat vstupy, zdokumentovat opravu a nechat ji nezávisle ověřit.',
+        },
+        {
+          id: 'd',
+          text: 'Smazat původní výpočet a vytvořit nový bez historie.',
+        },
       ],
-      correctOrder: [
-        'stop',
-        'source',
-        'control',
-        'verify',
-        'second',
-        'release',
-      ],
+      correctOptionId: 'c',
       skillIds: ['payroll-exception-control', 'payroll-four-eyes'],
       explanation:
-        'Platba se uvolní až po vysvětlení výjimky a doložené kontrole.',
+        'Kontrolovaná oprava musí být dohledatelná a odděleně ověřená.',
       commonMistake:
-        'Neobvyklou částku nejprve odeslat a kontrolovat až následně.',
+        'Opravit částku bez zachování původního stavu a schválení.',
     },
     {
       id: 'payroll-control-trail-exercise-04',

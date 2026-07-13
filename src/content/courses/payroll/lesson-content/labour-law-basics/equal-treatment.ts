@@ -245,13 +245,13 @@ export const equalTreatmentContent = defineLessonContent({
       prompt: 'Které okolnosti mohou být chráněnými důvody?',
       options: [
         { id: 'age', text: 'Věk.' },
-        { id: 'sex', text: 'Pohlaví.' },
-        { id: 'disability', text: 'Zdravotní postižení.' },
-        { id: 'religion', text: 'Náboženské vyznání nebo víra.' },
         {
           id: 'performance',
           text: 'Doložený rozdíl v pracovním výkonu.',
         },
+        { id: 'sex', text: 'Pohlaví.' },
+        { id: 'disability', text: 'Zdravotní postižení.' },
+        { id: 'religion', text: 'Náboženské vyznání nebo víra.' },
       ],
       correctOptionIds: ['age', 'sex', 'disability', 'religion'],
       skillIds: ['discrimination-risk'],
@@ -262,42 +262,24 @@ export const equalTreatmentContent = defineLessonContent({
     },
     {
       id: 'equal-treatment-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu nevysvětleného rozdílu v odměně.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Dva zaměstnanci vykonávají srovnatelnou práci za srovnatelných podmínek, ale rozdíl v odměně nemá doložené věcné kritérium. Co je hlavní riziko?',
+      options: [
         {
-          id: 'compare',
-          text: 'Vymezit srovnatelnou situaci a konkrétní rozdíl.',
+          id: 'a',
+          text: 'Porušení zásady rovného zacházení a rovného odměňování.',
         },
-        {
-          id: 'criterion',
-          text: 'Dohledat kritérium, podle kterého rozdíl vznikl.',
-        },
-        {
-          id: 'consistency',
-          text: 'Ověřit konzistentní použití kritéria.',
-        },
-        {
-          id: 'protected',
-          text: 'Prověřit vazbu na chráněný důvod.',
-        },
-        {
-          id: 'record',
-          text: 'Výsledek doložit nebo případ eskalovat.',
-        },
+        { id: 'b', text: 'Automatický vznik práce přesčas.' },
+        { id: 'c', text: 'Neplatnost evidence pracovní doby.' },
+        { id: 'd', text: 'Vznik cestovní náhrady.' },
       ],
-      correctOrder: [
-        'compare',
-        'criterion',
-        'consistency',
-        'protected',
-        'record',
-      ],
+      correctOptionId: 'a',
       skillIds: ['pay-difference-documentation'],
       explanation:
-        'Kontrola začíná srovnáním, pokračuje důvodem a jeho použitím a končí doložením nebo eskalací.',
+        'Rozdíl musí být opřen o transparentní a věcně obhajitelné kritérium.',
       commonMistake:
-        'Uzavřít případ jen na základě tvrzení, že rozdíl schválil vedoucí.',
+        'Považovat libovolné manažerské rozhodnutí za dostatečné odůvodnění.',
     },
     {
       id: 'equal-treatment-exercise-04',

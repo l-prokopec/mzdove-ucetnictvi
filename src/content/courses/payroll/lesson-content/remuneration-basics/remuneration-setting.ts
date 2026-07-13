@@ -334,6 +334,10 @@ export const remunerationSettingContent = defineLessonContent({
           text: 'Právní zdroj a typ dokumentu.',
         },
         {
+          id: 'overwrite',
+          text: 'Možnost bez záznamu přepsat historii.',
+        },
+        {
           id: 'authority',
           text: 'Oprávnění autora.',
         },
@@ -344,10 +348,6 @@ export const remunerationSettingContent = defineLessonContent({
         {
           id: 'effective',
           text: 'Datum účinnosti.',
-        },
-        {
-          id: 'overwrite',
-          text: 'Možnost bez záznamu přepsat historii.',
         },
       ],
       correctOptionIds: ['source', 'authority', 'delivery', 'effective'],
@@ -360,45 +360,24 @@ export const remunerationSettingContent = defineLessonContent({
     },
     {
       id: 'remuneration-setting-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu nové mzdové složky.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které způsoby mohou založit výši odměny za práci podle použitého režimu?',
+      options: [
+        { id: 'a', text: 'Sjednání ve smlouvě.' },
+        { id: 'd', text: 'Neformální odhad mzdové účetní.' },
+        { id: 'b', text: 'Stanovení vnitřním předpisem v přípustném režimu.' },
+        { id: 'e', text: 'Automatické převzetí částky jiného zaměstnance.' },
         {
-          id: 'relationship',
-          text: 'Určit vztah a druh odměny.',
-        },
-        {
-          id: 'source',
-          text: 'Dohledat smlouvu, vnitřní předpis nebo výměr.',
-        },
-        {
-          id: 'authority',
-          text: 'Ověřit oprávněnou osobu.',
-        },
-        {
-          id: 'effective',
-          text: 'Ověřit předání a datum účinnosti.',
-        },
-        {
-          id: 'conditions',
-          text: 'Vyhodnotit podmínky vzniku nároku.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat složku se zachováním historie.',
+          id: 'c',
+          text: 'Určení mzdovým nebo platovým výměrem podle zákonných pravidel.',
         },
       ],
-      correctOrder: [
-        'relationship',
-        'source',
-        'authority',
-        'effective',
-        'conditions',
-        'record',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['remuneration-document-control'],
-      explanation: 'Technické zadání následuje až po právní a věcné kontrole.',
-      commonMistake: 'Nejprve zadat částku a dokumentaci dohledat později.',
+      explanation:
+        'Způsob založení odměny musí odpovídat mzdové nebo platové sféře a dokumentaci.',
+      commonMistake: 'Považovat technický údaj v systému za právní titul.',
     },
     {
       id: 'remuneration-setting-exercise-04',

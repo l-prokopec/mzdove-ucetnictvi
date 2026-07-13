@@ -230,15 +230,15 @@ export const dependentWorkContent = defineLessonContent({
       prompt: 'Které okolnosti jsou typickými znaky závislé práce?',
       options: [
         { id: 'instructions', text: 'Práce podle pokynů zaměstnavatele.' },
+        {
+          id: 'free-substitution',
+          text: 'Neomezená možnost poslat místo sebe libovolnou osobu.',
+        },
         { id: 'personal', text: 'Osobní výkon práce.' },
         { id: 'employer-name', text: 'Práce jménem zaměstnavatele.' },
         {
           id: 'subordination',
           text: 'Vztah nadřízenosti a podřízenosti.',
-        },
-        {
-          id: 'free-substitution',
-          text: 'Neomezená možnost poslat místo sebe libovolnou osobu.',
         },
       ],
       correctOptionIds: [
@@ -255,36 +255,27 @@ export const dependentWorkContent = defineLessonContent({
     },
     {
       id: 'dependent-work-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď postup při podezření na zastřenou závislou práci.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Které znaky podporují závěr, že jde o závislou práci?',
+      options: [
         {
-          id: 'reality',
-          text: 'Zjistit skutečný způsob výkonu a organizace práce.',
+          id: 'a',
+          text: 'Dodavatel může bez omezení poslat libovolného zástupce.',
         },
+        { id: 'b', text: 'Práci vykonává fyzická osoba osobně.' },
+        { id: 'c', text: 'Práce probíhá podle pokynů druhé strany.' },
         {
-          id: 'compare',
-          text: 'Porovnat zjištění se znaky závislé práce.',
+          id: 'd',
+          text: 'Osoba vystupuje vlastním jménem a nese plné podnikatelské riziko.',
         },
-        {
-          id: 'documents',
-          text: 'Ověřit smluvní a evidenční dokumentaci.',
-        },
-        {
-          id: 'escalate',
-          text: 'Zaznamenat nesoulad a předat jej oprávněné osobě.',
-        },
-        {
-          id: 'process',
-          text: 'Mzdově zpracovat vztah podle doloženého rozhodnutí.',
-        },
+        { id: 'e', text: 'Práce je vykonávána jménem zaměstnavatele.' },
       ],
-      correctOrder: ['reality', 'compare', 'documents', 'escalate', 'process'],
+      correctOptionIds: ['b', 'c', 'e'],
       skillIds: ['dependent-work-classification', 'illegal-work-risk'],
       explanation:
-        'Nejprve se zjišťuje skutečnost, poté se právně posoudí a až následně mzdově zpracuje.',
+        'Závislá práce se posuzuje podle souboru zákonných znaků, nikoli podle názvu smlouvy.',
       commonMistake:
-        'Změnit evidenci dříve, než je vztah řádně posouzen a rozhodnut.',
+        'Rozhodnout pouze podle toho, zda osoba vystavuje fakturu.',
     },
     {
       id: 'dependent-work-exercise-04',

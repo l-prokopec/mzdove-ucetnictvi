@@ -286,6 +286,10 @@ export const terminationMethodsContent = defineLessonContent({
           text: 'Písemnou formu.',
         },
         {
+          id: 'oral',
+          text: 'Pouze ústní souhlas vedoucího.',
+        },
+        {
           id: 'reason',
           text: 'Zákonný a nezaměnitelně popsaný důvod.',
         },
@@ -297,10 +301,6 @@ export const terminationMethodsContent = defineLessonContent({
           id: 'protection',
           text: 'Případnou ochrannou dobu.',
         },
-        {
-          id: 'oral',
-          text: 'Pouze ústní souhlas vedoucího.',
-        },
       ],
       correctOptionIds: ['written', 'reason', 'delivery', 'protection'],
       skillIds: ['termination-document-review', 'protected-period-risk'],
@@ -311,47 +311,24 @@ export const terminationMethodsContent = defineLessonContent({
     },
     {
       id: 'termination-methods-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu dokumentu o skončení pracovního poměru.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které způsoby mohou podle zákoníku práce vést ke skončení pracovního poměru?',
+      options: [
+        { id: 'a', text: 'Dohoda stran.' },
+        { id: 'd', text: 'Pouhé neformální sdělení kolegovi.' },
+        { id: 'b', text: 'Výpověď.' },
         {
-          id: 'method',
-          text: 'Určit způsob skončení.',
+          id: 'e',
+          text: 'Automatické skončení kvůli jedné absenci bez právního jednání.',
         },
-        {
-          id: 'form',
-          text: 'Ověřit písemnou formu a oprávnění.',
-        },
-        {
-          id: 'reason',
-          text: 'Ověřit důvod, pokud je požadován nebo ovlivňuje nároky.',
-        },
-        {
-          id: 'delivery',
-          text: 'Ověřit doručení nebo sjednaný den.',
-        },
-        {
-          id: 'protection',
-          text: 'Vyhodnotit ochrannou dobu a další omezení.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat potvrzený výsledek do evidence.',
-        },
+        { id: 'c', text: 'Okamžité zrušení při splnění podmínek.' },
       ],
-      correctOrder: [
-        'method',
-        'form',
-        'reason',
-        'delivery',
-        'protection',
-        'record',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['termination-document-review'],
       explanation:
-        'Konečný den a nároky lze určit až po kontrole právního jednání.',
-      commonMistake:
-        'Nejdříve uzavřít zaměstnance v systému a dokument ověřit později.',
+        'Způsob skončení musí odpovídat zákonnému institutu a jeho podmínkám.',
+      commonMistake: 'Považovat faktické ukončení docházky za právní skončení.',
     },
     {
       id: 'termination-methods-exercise-04',

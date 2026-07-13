@@ -365,6 +365,10 @@ export const overtimeCompensationContent = defineLessonContent({
           text: 'Musí být dohodnuto.',
         },
         {
+          id: 'automatic',
+          text: 'Zaměstnavatel jím může příplatek jednostranně nahradit.',
+        },
+        {
           id: 'same-hours',
           text: 'Poskytuje se v rozsahu přesčasu.',
         },
@@ -376,10 +380,6 @@ export const overtimeCompensationContent = defineLessonContent({
           id: 'deadline',
           text: 'Bez jiné dohody se poskytuje do tří měsíců.',
         },
-        {
-          id: 'automatic',
-          text: 'Zaměstnavatel jím může příplatek jednostranně nahradit.',
-        },
       ],
       correctOptionIds: ['agreement', 'same-hours', 'wage', 'deadline'],
       skillIds: ['overtime-leave-settlement'],
@@ -389,45 +389,20 @@ export const overtimeCompensationContent = defineLessonContent({
     },
     {
       id: 'overtime-compensation-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď mzdové vypořádání přesčasu.',
-      steps: [
-        {
-          id: 'confirm',
-          text: 'Potvrdit právní přesčas.',
-        },
-        {
-          id: 'sphere',
-          text: 'Určit mzdovou nebo platovou sféru.',
-        },
-        {
-          id: 'included',
-          text: 'Ověřit zahrnutí přesčasu v odměně.',
-        },
-        {
-          id: 'leave',
-          text: 'Ověřit dohodu o náhradním volnu.',
-        },
-        {
-          id: 'calculate',
-          text: 'Vypočítat mzdu nebo plat a příplatek.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat čerpání a roční kumulaci.',
-        },
+      type: 'single_choice',
+      prompt:
+        'Zaměstnanec ve mzdové sféře se dohodl na náhradním volnu za přesčas. Co toto volno standardně nahrazuje?',
+      options: [
+        { id: 'a', text: 'Dosaženou mzdu za vykonanou práci.' },
+        { id: 'b', text: 'Přesčasový příplatek.' },
+        { id: 'c', text: 'Noční příplatek.' },
+        { id: 'd', text: 'Evidenci přesčasových hodin.' },
       ],
-      correctOrder: [
-        'confirm',
-        'sphere',
-        'included',
-        'leave',
-        'calculate',
-        'record',
-      ],
+      correctOptionId: 'b',
       skillIds: ['overtime-wage-calculation', 'overtime-leave-settlement'],
-      explanation: 'Způsob výpočtu závisí na právním režimu a dokumentech.',
-      commonMistake: 'Začít výpočtem 25 % u každého záznamu.',
+      explanation: 'Dosažená mzda zůstává; náhradní volno nahrazuje příplatek.',
+      commonMistake:
+        'Považovat náhradní volno za náhradu celé odměny za přesčas.',
     },
     {
       id: 'overtime-compensation-exercise-04',

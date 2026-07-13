@@ -76,6 +76,67 @@ const availableLessonIds = [
   'obstacle-compensation',
 ]
 
+const replacedOrderingExerciseIds = [
+  'payroll-purpose-exercise-03',
+  'payroll-roles-exercise-03',
+  'payroll-inputs-exercise-03',
+  'payroll-month-cycle-exercise-01',
+  'payroll-control-trail-exercise-03',
+  'dependent-work-exercise-03',
+  'employment-parties-exercise-03',
+  'labour-relations-exercise-03',
+  'equal-treatment-exercise-03',
+  'legal-acts-form-exercise-03',
+  'employment-contract-exercise-03',
+  'fixed-term-probation-exercise-04',
+  'employee-personal-data-exercise-03',
+  'tax-insurance-onboarding-exercise-03',
+  'onboarding-notifications-exercise-03',
+  'onboarding-checklist-exercise-03',
+  'employment-data-changes-exercise-03',
+  'employment-transfer-exercise-03',
+  'termination-methods-exercise-03',
+  'termination-date-exercise-04',
+  'severance-basics-exercise-03',
+  'offboarding-process-exercise-03',
+  'dpp-purpose-exercise-03',
+  'dpc-purpose-exercise-04',
+  'agreement-comparison-exercise-03',
+  'agreement-time-records-exercise-03',
+  'agreement-tax-insurance-inputs-exercise-04',
+  'agreement-lifecycle-exercise-03',
+  'working-time-concepts-exercise-03',
+  'weekly-hours-exercise-03',
+  'shift-patterns-exercise-03',
+  'rest-breaks-exercise-03',
+  'work-time-records-exercise-03',
+  'attendance-reconciliation-exercise-03',
+  'wage-salary-agreement-exercise-03',
+  'remuneration-setting-exercise-03',
+  'wage-components-exercise-03',
+  'minimum-wage-guaranteed-salary-exercise-03',
+  'non-wage-benefits-exercise-03',
+  'payday-payment-exercise-03',
+  'benefit-classification-exercise-03',
+  'non-cash-benefits-exercise-03',
+  'benefit-tax-insurance-impact-exercise-03',
+  'employer-retirement-contributions-exercise-03',
+  'hazardous-work-mandatory-contribution-exercise-03',
+  'benefits-payroll-case-exercise-03',
+  'overtime-identification-exercise-03',
+  'overtime-compensation-exercise-03',
+  'holiday-work-exercise-03',
+  'night-work-exercise-03',
+  'weekend-work-exercise-03',
+  'on-call-duty-exercise-03',
+  'supplement-overlap-exercise-03',
+  'employee-obstacles-exercise-03',
+  'public-interest-obstacles-exercise-03',
+  'employer-obstacles-exercise-03',
+  'obstacle-documents-exercise-03',
+  'obstacle-compensation-exercise-03',
+] as const
+
 const outlineWithOnlyFirstAvailable = () => {
   const outline = cloneOutline()
   for (const module of outline.modules) {
@@ -273,6 +334,79 @@ describe('registr plného obsahu', () => {
     )
     expect(new Set(flashcardIds).size).toBe(flashcardIds.length)
     expect(new Set(exerciseIds).size).toBe(exerciseIds.length)
+  })
+
+  it('nahrazuje právě jedno ordering cvičení ve všech 58 publikovaných lekcích', () => {
+    const contents = availableLessonIds.map(
+      (lessonId) => lessonContentRegistry[lessonId],
+    )
+    expect(contents).toHaveLength(58)
+    expect(contents.every(Boolean)).toBe(true)
+    expect(contents.every((content) => content.exercises.length === 6)).toBe(
+      true,
+    )
+    expect(
+      contents
+        .flatMap((content) => content.exercises)
+        .some((exercise) => exercise.type === 'ordering'),
+    ).toBe(false)
+
+    const exercises = contents.flatMap((content) => content.exercises)
+    const replacements = replacedOrderingExerciseIds.map((id) =>
+      exercises.find((exercise) => exercise.id === id),
+    )
+    expect(replacements).toHaveLength(58)
+    expect(replacements.every(Boolean)).toBe(true)
+    expect(new Set(replacedOrderingExerciseIds).size).toBe(58)
+    expect(
+      replacements.every(
+        (exercise) =>
+          exercise?.type === 'single_choice' ||
+          exercise?.type === 'multiple_choice',
+      ),
+    ).toBe(true)
+  })
+
+  it('udržuje choice odpovědi platné a multiple-choice zdrojové pořadí bez správného prefixu', () => {
+    const replacements = new Set<string>(replacedOrderingExerciseIds)
+    const multipleChoice = availableLessonIds.flatMap((lessonId) =>
+      lessonContentRegistry[lessonId].exercises.filter(
+        (exercise) => exercise.type === 'multiple_choice',
+      ),
+    )
+    const signatures = new Set<string>()
+    const newCorrectCounts = new Map<number, number>()
+
+    for (const exercise of multipleChoice) {
+      if (exercise.type !== 'multiple_choice') continue
+      const optionIds = exercise.options.map((option) => option.id)
+      const correctIds = exercise.correctOptionIds
+      expect(new Set(optionIds).size).toBe(optionIds.length)
+      expect(new Set(correctIds).size).toBe(correctIds.length)
+      expect(correctIds.length).toBeGreaterThan(0)
+      expect(correctIds.length).toBeLessThan(optionIds.length)
+      expect(correctIds.every((id) => optionIds.includes(id))).toBe(true)
+
+      const correct = new Set(correctIds)
+      const positions = optionIds
+        .map((id, index) => (correct.has(id) ? index : -1))
+        .filter((index) => index >= 0)
+      signatures.add(positions.join(','))
+      expect(positions.every((position, index) => position === index)).toBe(
+        false,
+      )
+      if (replacements.has(exercise.id)) {
+        newCorrectCounts.set(
+          correctIds.length,
+          (newCorrectCounts.get(correctIds.length) ?? 0) + 1,
+        )
+      }
+    }
+
+    expect(signatures.size).toBeGreaterThan(3)
+    expect(newCorrectCounts.get(2)).toBeGreaterThanOrEqual(5)
+    expect(newCorrectCounts.get(3)).toBeGreaterThanOrEqual(10)
+    expect(newCorrectCounts.get(4)).toBeGreaterThanOrEqual(3)
   })
 
   it('validuje odkazy správných odpovědí a pořadí kroků', () => {

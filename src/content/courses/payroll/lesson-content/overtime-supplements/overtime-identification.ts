@@ -350,6 +350,10 @@ export const overtimeIdentificationContent = defineLessonContent({
           text: 'Platný rozvrh směn.',
         },
         {
+          id: 'turnstile',
+          text: 'Pouze pozdní odchod z turniketu.',
+        },
+        {
           id: 'actual',
           text: 'Skutečný výkon práce.',
         },
@@ -361,10 +365,6 @@ export const overtimeIdentificationContent = defineLessonContent({
           id: 'limits',
           text: 'Kontrola zákonných limitů.',
         },
-        {
-          id: 'turnstile',
-          text: 'Pouze pozdní odchod z turniketu.',
-        },
       ],
       correctOptionIds: ['schedule', 'actual', 'approval', 'limits'],
       skillIds: ['overtime-evidence-control'],
@@ -373,46 +373,26 @@ export const overtimeIdentificationContent = defineLessonContent({
     },
     {
       id: 'overtime-identification-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu přesčasové odchylky.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které podmínky musí být současně splněny, aby hodina mohla být prací přesčas?',
+      options: [
+        { id: 'a', text: 'Je na příkaz zaměstnavatele nebo s jeho souhlasem.' },
+        { id: 'd', text: 'Zaměstnanec jen odešel později z budovy.' },
         {
-          id: 'schedule',
-          text: 'Načíst platný rozvrh.',
+          id: 'b',
+          text: 'Je nad příslušnou stanovenou týdenní pracovní dobu.',
         },
         {
-          id: 'actual',
-          text: 'Zjistit skutečný čas výkonu práce.',
+          id: 'e',
+          text: 'Jde o každou hodinu nad individuální kratší úvazek.',
         },
-        {
-          id: 'weekly',
-          text: 'Ověřit stanovenou týdenní pracovní dobu.',
-        },
-        {
-          id: 'approval',
-          text: 'Dohledat příkaz nebo souhlas.',
-        },
-        {
-          id: 'limits',
-          text: 'Zkontrolovat týdenní a roční limity.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat uznaný přesčas do evidence.',
-        },
+        { id: 'c', text: 'Je mimo rámec předem stanoveného rozvrhu směn.' },
       ],
-      correctOrder: [
-        'schedule',
-        'actual',
-        'weekly',
-        'approval',
-        'limits',
-        'record',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['overtime-evidence-control'],
-      explanation:
-        'Klasifikace vzniká porovnáním plánu, skutečnosti, hranice a schválení.',
-      commonMistake: 'Začít mzdovým příplatkem bez ověření právního přesčasu.',
+      explanation: 'Práce přesčas je vymezena souběhem tří zákonných znaků.',
+      commonMistake: 'Použít jediný znak, například pozdní odchod.',
     },
     {
       id: 'overtime-identification-exercise-04',

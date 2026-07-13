@@ -420,20 +420,20 @@ export const benefitsPayrollCaseContent = defineLessonContent({
           text: 'Peněžní sportovní příspěvek 2 000 Kč.',
         },
         {
-          id: 'leisure-excess',
-          text: 'Nadlimitní volnočasová část 1 516,50 Kč.',
-        },
-        {
-          id: 'retirement-excess',
-          text: 'Nadlimitní příspěvek 1 000 Kč.',
-        },
-        {
           id: 'health',
           text: 'Celý zdravotní benefit 6 000 Kč.',
         },
         {
+          id: 'leisure-excess',
+          text: 'Nadlimitní volnočasová část 1 516,50 Kč.',
+        },
+        {
           id: 'travel',
           text: 'Řádná cestovní náhrada 1 200 Kč.',
+        },
+        {
+          id: 'retirement-excess',
+          text: 'Nadlimitní příspěvek 1 000 Kč.',
         },
       ],
       correctOptionIds: ['cash', 'leisure-excess', 'retirement-excess'],
@@ -445,46 +445,27 @@ export const benefitsPayrollCaseContent = defineLessonContent({
     },
     {
       id: 'benefits-payroll-case-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování komplexního benefitního případu.',
-      steps: [
+      type: 'single_choice',
+      prompt:
+        'Při měsíční kontrole se kombinují peněžní, nepeněžní a příspěvkové benefity. Jaký je správný první výpočetní krok?',
+      options: [
         {
-          id: 'documents',
-          text: 'Shromáždit podklady a kumulace.',
+          id: 'a',
+          text: 'Sečíst všechny hodnoty do jediné částky bez klasifikace.',
         },
         {
-          id: 'classify',
-          text: 'Klasifikovat každé plnění.',
+          id: 'b',
+          text: 'Každé plnění nejprve samostatně klasifikovat, ocenit a přiřadit k jeho limitu.',
         },
-        {
-          id: 'value',
-          text: 'Ocenit nepeněžní plnění.',
-        },
-        {
-          id: 'limits',
-          text: 'Použít samostatné roční limity.',
-        },
-        {
-          id: 'insurance',
-          text: 'Ověřit daňové a pojistné dopady.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Zapsat položky, vykázání a kontrolní stopu.',
-        },
+        { id: 'c', text: 'Považovat celý balíček za osvobozený.' },
+        { id: 'd', text: 'Použít jen nejvyšší z limitů.' },
       ],
-      correctOrder: [
-        'documents',
-        'classify',
-        'value',
-        'limits',
-        'insurance',
-        'reconcile',
-      ],
+      correctOptionId: 'b',
       skillIds: ['benefits-case-documentation'],
       explanation:
-        'Konečná rekapitulace vzniká až po klasifikaci, ocenění a limitech.',
-      commonMistake: 'Začít výpočtem čisté mzdy bez správných vstupů.',
+        'Teprve po samostatném posouzení kategorií lze sečíst jejich zdanitelné části.',
+      commonMistake:
+        'Smíchat oddělené limity a právní tituly do jednoho součtu.',
     },
     {
       id: 'benefits-payroll-case-exercise-04',

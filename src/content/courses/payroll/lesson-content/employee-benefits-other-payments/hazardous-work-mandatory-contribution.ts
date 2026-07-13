@@ -407,6 +407,10 @@ export const hazardousWorkMandatoryContributionContent = defineLessonContent({
           text: 'Práce ve třetí kategorii u vybraného faktoru.',
         },
         {
+          id: 'dip',
+          text: 'Příspěvek musí směřovat na DIP.',
+        },
+        {
           id: 'claim',
           text: 'Zaměstnanec dříve uplatnil právo.',
         },
@@ -418,10 +422,6 @@ export const hazardousWorkMandatoryContributionContent = defineLessonContent({
           id: 'shifts',
           text: 'Alespoň tři směny rizikové práce.',
         },
-        {
-          id: 'dip',
-          text: 'Příspěvek musí směřovat na DIP.',
-        },
       ],
       correctOptionIds: ['category', 'claim', 'product', 'shifts'],
       skillIds: ['hazardous-work-entitlement'],
@@ -430,45 +430,31 @@ export const hazardousWorkMandatoryContributionContent = defineLessonContent({
     },
     {
       id: 'hazardous-work-mandatory-contribution-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď zpracování povinného příspěvku.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Které podmínky patří do kontroly povinného příspěvku při vybrané rizikové práci?',
+      options: [
         {
-          id: 'classification',
-          text: 'Ověřit kategorii a rizikový faktor.',
+          id: 'a',
+          text: 'Způsobilé zařazení práce do vymezené rizikové kategorie.',
         },
+        { id: 'd', text: 'Libovolné rozhodnutí mzdové účetní bez podkladu.' },
         {
-          id: 'claim',
-          text: 'Ověřit uplatnění práva a produkt.',
+          id: 'b',
+          text: 'Uplatnění práva zaměstnancem a určení způsobilého produktu.',
         },
+        { id: 'e', text: 'Platba na jakýkoli účet zaměstnance v hotovosti.' },
         {
-          id: 'shifts',
-          text: 'Vyhodnotit a sečíst rizikové směny.',
+          id: 'c',
+          text: 'Dosažení potřebného počtu kvalifikovaných směn v měsíci.',
         },
-        {
-          id: 'base',
-          text: 'Načíst sociální vyměřovací základ.',
-        },
-        {
-          id: 'calculate',
-          text: 'Vypočítat 4 % a daňový limit.',
-        },
-        {
-          id: 'pay',
-          text: 'Zaplatit, potvrdit a vykázat.',
-        },
+        { id: 'f', text: 'Automatické použití DIP jako jediného produktu.' },
       ],
-      correctOrder: [
-        'classification',
-        'claim',
-        'shifts',
-        'base',
-        'calculate',
-        'pay',
-      ],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: ['mandatory-contribution-processing'],
-      explanation: 'Výpočet následuje po ověření nároku a evidence směn.',
-      commonMistake: 'Počítat příspěvek bez ověření tří směn.',
+      explanation:
+        'Nárok stojí na rizikové práci, uplatnění zaměstnance, směnách a způsobilém produktu.',
+      commonMistake: 'Vyplatit příspěvek bez rozhodných evidenčních vstupů.',
     },
     {
       id: 'hazardous-work-mandatory-contribution-exercise-04',

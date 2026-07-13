@@ -312,6 +312,10 @@ export const offboardingProcessContent = defineLessonContent({
           text: 'Uzavření docházky.',
         },
         {
+          id: 'delete',
+          text: 'Okamžité smazání všech údajů zaměstnance.',
+        },
+        {
           id: 'payroll',
           text: 'Kontrola poslední mzdy.',
         },
@@ -322,10 +326,6 @@ export const offboardingProcessContent = defineLessonContent({
         {
           id: 'notifications',
           text: 'Odhlášení ČSSZ a zdravotní pojišťovny.',
-        },
-        {
-          id: 'delete',
-          text: 'Okamžité smazání všech údajů zaměstnance.',
         },
       ],
       correctOptionIds: [
@@ -371,51 +371,29 @@ export const offboardingProcessContent = defineLessonContent({
     },
     {
       id: 'offboarding-process-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď výstupní mzdový proces.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Které kroky patří do úplného výstupního mzdového checklistu?',
+      options: [
+        { id: 'a', text: 'Ověřit právní den skončení.' },
+        { id: 'e', text: 'Smazat historii pracovního vztahu.' },
+        { id: 'b', text: 'Uzavřít poslední docházku a mzdové podklady.' },
         {
-          id: 'legal',
-          text: 'Ověřit právní titul a rozhodný den.',
+          id: 'f',
+          text: 'Automaticky změnit důvod skončení podle výše poslední mzdy.',
         },
-        {
-          id: 'attendance',
-          text: 'Uzavřít docházku a vstupní podklady.',
-        },
-        {
-          id: 'payroll',
-          text: 'Zpracovat a zkontrolovat poslední mzdu a plnění.',
-        },
-        {
-          id: 'documents',
-          text: 'Vydat a připravit výstupní potvrzení.',
-        },
-        {
-          id: 'notifications',
-          text: 'Provést REGZEC a pojistná oznámení.',
-        },
-        {
-          id: 'archive',
-          text: 'Zkontrolovat přijetí, uzavřít přístupy a archivovat.',
-        },
+        { id: 'c', text: 'Připravit zákonná potvrzení a odhlášky.' },
+        { id: 'd', text: 'Zachovat auditní a archivační stopu.' },
       ],
-      correctOrder: [
-        'legal',
-        'attendance',
-        'payroll',
-        'documents',
-        'notifications',
-        'archive',
-      ],
+      correctOptionIds: ['a', 'b', 'c', 'd'],
       skillIds: [
         'offboarding-documentation',
         'offboarding-notifications',
         'final-payroll-reconciliation',
       ],
       explanation:
-        'Výstup začíná právním podkladem a končí kontrolou podání a archivací.',
+        'Výstup propojuje právní titul, poslední mzdu, potvrzení, oznámení a archivaci.',
       commonMistake:
-        'Odhlásit zaměstnance před potvrzením správného dne skončení.',
+        'Soustředit se jen na odhlášku a vynechat poslední mzdové vypořádání.',
     },
     {
       id: 'offboarding-process-exercise-04',

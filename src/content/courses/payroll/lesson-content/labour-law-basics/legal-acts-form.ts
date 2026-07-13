@@ -257,13 +257,13 @@ export const legalActsFormContent = defineLessonContent({
         'Které položky má mzdová účetní ověřit u pracovněprávního dokumentu?',
       options: [
         { id: 'author', text: 'Kdo dokument učinil nebo podepsal.' },
-        { id: 'authority', text: 'Oprávnění jednající osoby.' },
-        { id: 'effective', text: 'Datum účinnosti.' },
-        { id: 'delivery', text: 'Potřebný způsob a výsledek doručení.' },
         {
           id: 'font',
           text: 'Zda je dokument napsán oblíbeným fontem zaměstnance.',
         },
+        { id: 'authority', text: 'Oprávnění jednající osoby.' },
+        { id: 'effective', text: 'Datum účinnosti.' },
+        { id: 'delivery', text: 'Potřebný způsob a výsledek doručení.' },
       ],
       correctOptionIds: ['author', 'authority', 'effective', 'delivery'],
       skillIds: [
@@ -278,40 +278,31 @@ export const legalActsFormContent = defineLessonContent({
     },
     {
       id: 'legal-acts-form-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď kontrolu dokumentu před změnou mzdové evidence.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Které kontroly jsou důležité u pracovněprávní písemnosti?',
+      options: [
+        { id: 'a', text: 'Zda byla zachována požadovaná forma.' },
+        { id: 'd', text: 'Zda má vždy barevné firemní logo.' },
+        { id: 'b', text: 'Zda ji podepsala nebo učinila oprávněná osoba.' },
         {
-          id: 'complete',
-          text: 'Ověřit úplnost a identitu dokumentu.',
+          id: 'e',
+          text: 'Zda byla účinnost automaticky posunuta na datum archivace.',
         },
         {
-          id: 'authority',
-          text: 'Ověřit podpis a oprávnění jednající osoby.',
-        },
-        {
-          id: 'form',
-          text: 'Ověřit vyžadovanou formu.',
-        },
-        {
-          id: 'date',
-          text: 'Určit datum účinnosti a mzdové období.',
-        },
-        {
-          id: 'delivery',
-          text: 'Ověřit potřebné doručení a uložit kontrolní stopu.',
+          id: 'c',
+          text: 'Zda byla doručena způsobem odpovídajícím jejímu typu.',
         },
       ],
-      correctOrder: ['complete', 'authority', 'form', 'date', 'delivery'],
+      correctOptionIds: ['a', 'b', 'c'],
       skillIds: [
         'legal-act-form',
         'effective-date-control',
         'document-delivery-control',
       ],
       explanation:
-        'Dokument se nejprve identifikuje a právně ověří, až poté se určí jeho účinek a zpracování.',
+        'Forma, oprávnění, doručení a účinnost jsou samostatné kontrolní otázky.',
       commonMistake:
-        'Nejprve změnit mzdu a teprve následně zjišťovat, zda byl dokument platně učiněn.',
+        'Kontrolovat jen vzhled dokumentu a přehlédnout jeho právní účinky.',
     },
     {
       id: 'legal-acts-form-exercise-04',

@@ -380,6 +380,10 @@ export const benefitClassificationContent = defineLessonContent({
           text: 'Účel plnění.',
         },
         {
+          id: 'marketing',
+          text: 'Pouze obchodní název balíčku.',
+        },
+        {
           id: 'form',
           text: 'Peněžní nebo nepeněžní forma.',
         },
@@ -391,10 +395,6 @@ export const benefitClassificationContent = defineLessonContent({
           id: 'limit',
           text: 'Roční kumulace a limit.',
         },
-        {
-          id: 'marketing',
-          text: 'Pouze obchodní název balíčku.',
-        },
       ],
       correctOptionIds: ['purpose', 'form', 'source', 'limit'],
       skillIds: ['benefit-tax-classification'],
@@ -404,46 +404,34 @@ export const benefitClassificationContent = defineLessonContent({
     },
     {
       id: 'benefit-classification-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď klasifikaci nového zaměstnaneckého plnění.',
-      steps: [
+      type: 'multiple_choice',
+      prompt:
+        'Která tvrzení správně popisují základní klasifikaci zaměstnaneckých plnění?',
+      options: [
         {
-          id: 'purpose',
-          text: 'Zjistit skutečný účel a vazbu na výkon.',
+          id: 'a',
+          text: 'Peněžní odměna vázaná na výkon je zdanitelným příjmem.',
+        },
+        { id: 'b', text: 'Každé nepeněžní plnění je automaticky osvobozené.' },
+        {
+          id: 'c',
+          text: 'Vybrané nepeněžní benefity mohou být při splnění podmínek osvobozené.',
         },
         {
-          id: 'form',
-          text: 'Určit peněžní nebo nepeněžní formu.',
+          id: 'd',
+          text: 'Plnění mimo předmět daně se posuzuje odděleně od osvobození.',
         },
         {
-          id: 'category',
-          text: 'Přiřadit daňovou kategorii.',
+          id: 'e',
+          text: 'Rodinnému příslušníkovi poskytnutý benefit se nikdy nevztahuje k zaměstnanci.',
         },
-        {
-          id: 'conditions',
-          text: 'Ověřit zákonné podmínky a zdroj.',
-        },
-        {
-          id: 'limit',
-          text: 'Zkontrolovat roční kumulaci.',
-        },
-        {
-          id: 'record',
-          text: 'Zapsat osvobozenou a zdanitelnou část s právní verzí.',
-        },
+        { id: 'f', text: 'Forma benefitní karty sama rozhoduje o osvobození.' },
       ],
-      correctOrder: [
-        'purpose',
-        'form',
-        'category',
-        'conditions',
-        'limit',
-        'record',
-      ],
+      correctOptionIds: ['a', 'c', 'd'],
       skillIds: ['benefit-tax-classification', 'benefit-rule-versioning'],
-      explanation: 'Limit se kontroluje až po určení správné právní kategorie.',
+      explanation: 'Nejprve se určuje právní kategorie, forma a účel plnění.',
       commonMistake:
-        'Nejprve použít číselný limit a až potom zjišťovat druh plnění.',
+        'Považovat nepeněžní formu za jedinou podmínku osvobození.',
     },
     {
       id: 'benefit-classification-exercise-04',

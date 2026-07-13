@@ -352,6 +352,10 @@ export const shiftPatternsContent = defineLessonContent({
           text: 'Písemná verze změny.',
         },
         {
+          id: 'retroactive',
+          text: 'Zpětné přepsání bez záznamu.',
+        },
+        {
           id: 'effective',
           text: 'Datum účinnosti.',
         },
@@ -363,10 +367,6 @@ export const shiftPatternsContent = defineLessonContent({
           id: 'history',
           text: 'Zachování původního rozvrhu.',
         },
-        {
-          id: 'retroactive',
-          text: 'Zpětné přepsání bez záznamu.',
-        },
       ],
       correctOptionIds: ['written', 'effective', 'notice', 'history'],
       skillIds: ['schedule-change-control'],
@@ -375,46 +375,29 @@ export const shiftPatternsContent = defineLessonContent({
     },
     {
       id: 'shift-patterns-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď určení směnného režimu a rozvrhu.',
-      steps: [
+      type: 'multiple_choice',
+      prompt: 'Která tvrzení platí pro nerovnoměrné rozvržení pracovní doby?',
+      options: [
+        { id: 'a', text: 'Každý týden musí mít přesně stejný počet hodin.' },
         {
-          id: 'operation',
-          text: 'Zjistit provozní dobu a potřebu provozu.',
+          id: 'b',
+          text: 'Délka týdnů se může lišit podle předem stanoveného rozvrhu.',
         },
         {
-          id: 'rotation',
-          text: 'Ověřit pravidelné střídání zaměstnanců.',
+          id: 'c',
+          text: 'Průměr musí v zákonném vyrovnávacím období odpovídat příslušné týdenní pracovní době.',
         },
+        { id: 'd', text: 'Dlouhý týden je vždy celý přesčas.' },
         {
-          id: 'regime',
-          text: 'Určit směnný režim.',
-        },
-        {
-          id: 'weekly',
-          text: 'Přiřadit stanovenou týdenní pracovní dobu.',
-        },
-        {
-          id: 'distribution',
-          text: 'Určit způsob rozvržení a vyrovnávací období.',
-        },
-        {
-          id: 'schedule',
-          text: 'Zkontrolovat konkrétní písemný rozvrh.',
+          id: 'e',
+          text: 'Rozvrh lze zpětně přepsat podle docházky bez auditní stopy.',
         },
       ],
-      correctOrder: [
-        'operation',
-        'rotation',
-        'regime',
-        'weekly',
-        'distribution',
-        'schedule',
-      ],
+      correctOptionIds: ['b', 'c'],
       skillIds: ['shift-regime-classification', 'schedule-reading'],
       explanation:
-        'Nejdříve se klasifikuje skutečný provoz a následně konkrétní rozvrh.',
-      commonMistake: 'Určit režim jen podle délky jedné směny.',
+        'Nerovnoměrnost se vyrovnává v období a sama nevytváří přesčas.',
+      commonMistake: 'Považovat každý týden nad průměrem za přesčas.',
     },
     {
       id: 'shift-patterns-exercise-04',

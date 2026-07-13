@@ -8,8 +8,10 @@ import {
 import {
   calculateScore,
   evaluateExercise,
+  normalizeExerciseAnswer,
   scoreBand,
   scoreLabel,
+  shuffleOptions,
   shuffleOrderingOptions,
   type ExerciseAnswer,
 } from '../../lib/exercises'
@@ -207,7 +209,9 @@ export function ExerciseField({
   onChange,
   revealed,
   locked = revealed,
+  lessonId = 'standalone',
   attemptId = 0,
+  choiceRandom = Math.random,
   orderingRandom = Math.random,
 }: {
   exercise: Exercise
@@ -215,9 +219,45 @@ export function ExerciseField({
   onChange: (value: ExerciseAnswer) => void
   revealed: boolean
   locked?: boolean
+  lessonId?: string
   attemptId?: number
+  choiceRandom?: () => number
   orderingRandom?: () => number
 }) {
+  const [choiceSeed] = useState(choiceRandom)
+  const choiceOptions = useMemo(() => {
+    if (
+      exercise.type !== 'single_choice' &&
+      exercise.type !== 'multiple_choice'
+    )
+      return []
+    const presentationIdentity = `${lessonId}:${exercise.id}`
+    let identityHash = 2166136261
+    for (const character of presentationIdentity) {
+      identityHash ^= character.charCodeAt(0)
+      identityHash = Math.imul(identityHash, 16777619)
+    }
+    let avoidOrder = exercise.options.map((option) => option.id)
+    let options = exercise.options.map((option) => ({ ...option }))
+    for (let generation = 0; generation <= attemptId; generation += 1) {
+      let state =
+        (Math.floor(choiceSeed * 0xffffffff) ^
+          identityHash ^
+          Math.imul(generation + 1, 0x9e3779b9)) >>>
+        0
+      const random = () => {
+        state = (state + 0x6d2b79f5) >>> 0
+        let value = state
+        value = Math.imul(value ^ (value >>> 15), value | 1)
+        value ^= value + Math.imul(value ^ (value >>> 7), value | 61)
+        return ((value ^ (value >>> 14)) >>> 0) / 0x100000000
+      }
+      options = shuffleOptions(exercise.options, random, avoidOrder)
+      avoidOrder = options.map((option) => option.id)
+    }
+    return options
+  }, [attemptId, choiceSeed, exercise, lessonId])
+  const normalizedValue = normalizeExerciseAnswer(exercise, value)
   const optionClass = (correct: boolean, selected: boolean) => {
     if (!revealed) return 'option'
     if (correct) return 'option option--correct'
@@ -227,14 +267,15 @@ export function ExerciseField({
     return (
       <fieldset>
         <legend>{exercise.prompt}</legend>
-        {exercise.options.map((option) => {
-          const selected = value === option.id
+        {choiceOptions.map((option) => {
+          const selected = normalizedValue === option.id
           const correct = option.id === exercise.correctOptionId
           return (
             <label className={optionClass(correct, selected)} key={option.id}>
               <input
                 type="radio"
                 name={exercise.id}
+                value={option.id}
                 checked={selected}
                 disabled={locked}
                 onChange={() => onChange(option.id)}
@@ -250,17 +291,18 @@ export function ExerciseField({
       </fieldset>
     )
   if (exercise.type === 'multiple_choice') {
-    const selected = Array.isArray(value) ? value : []
+    const selected = Array.isArray(normalizedValue) ? normalizedValue : []
     return (
       <fieldset>
         <legend>{exercise.prompt}</legend>
-        {exercise.options.map((option) => {
+        {choiceOptions.map((option) => {
           const isSelected = selected.includes(option.id)
           const correct = exercise.correctOptionIds.includes(option.id)
           return (
             <label className={optionClass(correct, isSelected)} key={option.id}>
               <input
                 type="checkbox"
+                value={option.id}
                 checked={isSelected}
                 disabled={locked}
                 onChange={(event) =>
@@ -321,7 +363,9 @@ export function ExerciseField({
       />
     )
   const objectValue =
-    typeof value === 'object' && !Array.isArray(value) ? value : { text: '' }
+    typeof normalizedValue === 'object' && !Array.isArray(normalizedValue)
+      ? normalizedValue
+      : { text: '' }
   return (
     <div>
       <label>
@@ -488,7 +532,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
           exercise.id,
           evaluateExercise(
             exercise,
-            answers[exercise.id] ??
+            normalizeExerciseAnswer(exercise, answers[exercise.id]) ??
               (exercise.type === 'multiple_choice' ||
               exercise.type === 'ordering'
                 ? []
@@ -518,7 +562,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
     event.preventDefault()
     setError('')
     const missing = lesson.exercises.some((exercise) => {
-      const answer = answers[exercise.id]
+      const answer = normalizeExerciseAnswer(exercise, answers[exercise.id])
       return (
         answer == null ||
         answer === '' ||
@@ -547,7 +591,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
             lessonId: lesson.id,
             exerciseId: exercise.id,
             type: exercise.type,
-            answer: answers[exercise.id],
+            answer: normalizeExerciseAnswer(exercise, answers[exercise.id])!,
             score: evaluations[exercise.id].score,
             correct: evaluations[exercise.id].correct,
           }),
@@ -682,6 +726,7 @@ function LessonPageContent({ lessonId }: { lessonId: string }) {
                   <div className="exercise__number">{index + 1}</div>
                   <ExerciseField
                     exercise={exercise}
+                    lessonId={lesson.id}
                     value={answers[exercise.id]}
                     onChange={(value) => {
                       setAnswers((old) => ({ ...old, [exercise.id]: value }))

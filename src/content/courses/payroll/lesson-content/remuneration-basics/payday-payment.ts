@@ -362,6 +362,10 @@ export const paydayPaymentContent = defineLessonContent({
           text: 'Porovnat součet s mzdovou rekapitulací.',
         },
         {
+          id: 'send-only',
+          text: 'Po odeslání už nekontrolovat výsledek.',
+        },
+        {
           id: 'accounts',
           text: 'Prověřit nové nebo změněné účty.',
         },
@@ -373,10 +377,6 @@ export const paydayPaymentContent = defineLessonContent({
           id: 'approval',
           text: 'Provést nezávislé schválení.',
         },
-        {
-          id: 'send-only',
-          text: 'Po odeslání už nekontrolovat výsledek.',
-        },
       ],
       correctOptionIds: ['sum', 'accounts', 'duplicates', 'approval'],
       skillIds: ['payroll-payment-process'],
@@ -386,45 +386,23 @@ export const paydayPaymentContent = defineLessonContent({
     },
     {
       id: 'payday-payment-exercise-03',
-      type: 'ordering',
-      prompt: 'Seřaď výplatní proces.',
-      steps: [
+      type: 'single_choice',
+      prompt: 'Co má mzdová účetní ověřit před uvolněním výplaty?',
+      options: [
         {
-          id: 'close',
-          text: 'Uzavřít a zkontrolovat mzdové vstupy.',
+          id: 'a',
+          text: 'Shodu schválené mzdy, srážek, platebních údajů a výplatního dokladu.',
         },
-        {
-          id: 'calculate',
-          text: 'Vypočítat hrubé položky, srážky a částku k výplatě.',
-        },
-        {
-          id: 'payslip',
-          text: 'Vytvořit výplatní doklad a rekapitulaci.',
-        },
-        {
-          id: 'bank',
-          text: 'Vytvořit a nezávisle zkontrolovat bankovní soubor.',
-        },
-        {
-          id: 'send',
-          text: 'Odeslat platby s včasným datem.',
-        },
-        {
-          id: 'reconcile',
-          text: 'Zkontrolovat přijetí a vrácené platby.',
-        },
+        { id: 'b', text: 'Jen barvu výplatní pásky.' },
+        { id: 'c', text: 'Pouze počet zaměstnanců.' },
+        { id: 'd', text: 'Zda každý zaměstnanec používá stejnou banku.' },
       ],
-      correctOrder: [
-        'close',
-        'calculate',
-        'payslip',
-        'bank',
-        'send',
-        'reconcile',
-      ],
+      correctOptionId: 'a',
       skillIds: ['payroll-payment-process', 'payslip-reconciliation'],
-      explanation: 'Výplata je dokončena až po následné bankovní kontrole.',
-      commonMistake: 'Generovat platby před uzavřením vstupů.',
+      explanation:
+        'Výplata musí navazovat na schválený výpočet, správné srážky a správný způsob úhrady.',
+      commonMistake:
+        'Považovat vytvoření bankovního souboru za jedinou kontrolu.',
     },
     {
       id: 'payday-payment-exercise-04',
